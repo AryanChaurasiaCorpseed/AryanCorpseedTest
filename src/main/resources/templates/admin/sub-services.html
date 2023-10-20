@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+<div class="container-fluid" th:fragment="corpseedBodyContent">
+                <!-- info row-->
+                <div class="row">
+                    <div class="col-lg-12 grid-margin card-stretch">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+<!--                                     <h4>Filter <a href="javascript:void(0)" onclick="filter()"><i class="las la-filter"></i></a></h4> -->
+									<h3 class="mb-0 card-title">Manage Sub-Services</h3>
+                                    <a th:href="@{|/admin/services/subservice/${uuid}/add|}" class="btn btn-sm btn-info">Add New</a>
+                                </div>
+<!--                                <div class="filter-select"><select class="form-control" onchange="filterByCategory(this.value)">-->
+<!--                                <option th:value="@{/admin/services/filter/all/}">All Category</option>-->
+<!--                                <option th:each="cat:${category}" th:value="@{|/admin/services/filter/${cat.uuid}/|}" th:selected="${cat.uuid==filterUuid}" th:text="${cat.subCategoryName}">Start Company</option>-->
+<!--                               	-->
+<!--                                </select>-->
+<!--								</div>-->
+                                <div class="table-responsive">
+									<table id="dataTable" class="table table-striped table-hover mb-0">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>Service</th>
+                                        	<th>Status</th>
+                                        	<th>Posted on</th>
+                                        	<th align="center">Action</th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="s, sn : ${services}" th:with="service=${s.services}">
+                                        		<td th:text="${sn.index+1}"></td>
+                                        		<td th:text="${service.serviceName}" data-toggle="tooltip" th:title="${service.serviceName}"></td>
+												<td th:text="${s.displayStatus==1} ? 'Enable' : 'Disbale'" th:classappend="${s.displayStatus==1} ? 'text-info' : 'text-danger'"></td>
+												<td th:text="${s.postDate}"></td>
+												<td>
+													<a th:href="@{|/admin/services/subservice/${uuid}/edit/${s.id}|}"><i class="las la-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i></a>
+													<span th:if="${session.role=='ROLE_ADMIN'}"><a class="pointer" th:attr="onclick='deleteSubService(\''+${s.id}+'\',\''+${s.parentServiceUuid}+'\')'"> | <i class="las la-trash"  data-toggle="tooltip" data-placement="left" title="Delete"></i></a></span>
+												</td>
+											</tr>
+                                    	</tbody>
+                                	</table>
+                            	</div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <!-- Modal -->
+                <div class="modal fade-in" id="WarningDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to delete this Sub-Service ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				        <input type="hidden" id="SubServiceId">
+						<input type="hidden" id="SubServiceUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return deleteSubService('NA','NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+                 <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                function deleteSubService(id,uuid){
+			    	 if(id!="NA"){
+			    		 $("#SubServiceId").val(id);
+						 $("#SubServiceUuid").val(uuid);
+			    		 $("#WarningDelete").modal("show");
+			    	 }else{
+			    		 $("#WarningDelete").modal("hide");
+			    		 let subServiceId=$("#SubServiceId").val();
+						 uuid=$("#SubServiceUuid").val();
+			    		 
+			    		 $.ajax({
+			     			type : "POST",
+			     			url : "/admin/services/subservice/"+uuid+"/delete/"+subServiceId,
+			     			dataType : "HTML",
+			     			data : {},
+			     			success : function(response){
+			     				if(response=="pass") {
+									location.reload();
+								}else{
+			     					alert("Something went-wrong !! ")
+			     				}
+			     			}
+			     		});
+			    	 }
+			     }
+			     </script> 
+            </div>
+</body>
+</html>

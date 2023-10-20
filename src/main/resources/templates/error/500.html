@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+    <main th:fragment="corpseedBodyContent">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 col-lg-7 col-md-9 col-sm-11 mx-auto">
+                    <div class="error-404 text-center">
+                        <h1 class="display-1 mb-1 text-primary">500</h1>
+                        <h2 class=" h1 font-weight-bolder text-uppercase mb-4">Internal Server Error</h2>
+
+                        <div class="p-3 shadow-sm border">
+                            <picture>
+                                <img th:src="@{/assets/svg/undraw_back_home_nl5c.svg}" alt="404 not found" class="img-fluid mb-5">
+                            </picture>
+                            <p class="text-muted">
+                                The page you were looking for doesn't exist. Make sure you entered the correct URL. 
+                                <br> If the problem still exist please contact us. 
+                                <div class="d-flex justify-content-between mb-n3">
+                                    <a th:href="@{/contact-us}" class="btn btn-secondary btn-lg rounded-lg">Contact Us</a>
+                                    <a th:href="@{/}" class="btn rounded-lg btn-primary btn-lg">Go back Home</a>
+                                </div>
+                            </p>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="users/includes/footer :: footer"></div>
+        <div th:replace="users/includes/javascript :: javascript"></div>
+    </main>   
+</body>
+
+</html>

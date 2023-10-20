@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+    <main th:fragment="corpseedBodyContent">
+        <section class="career">
+            <div class="container">
+                <div class="row job-cat">
+                    <div class="col-12">
+                        <div class="text-center py-5 border-bottom mb-4">
+                            <h1 class="display-4 mb-0">Career@<span class="text-primary">Corpseed</span> </h1>
+                        </div>
+                    </div>
+
+                    <!--- first career categories -->
+                    <div class="col-lg-4">
+                        <div class="card rounded-lg">
+                            <div class="card-body" onclick="filterJob('sales')">
+                                <h4 class="text-primary mb-3">
+                                   Sales
+                                </h4>
+                                <p class="mb-0 f-16 t-grey">
+                                    Be a legal advisor to customers and help them to transform, develope, & boost their
+                                    businesses .
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- card end here -->
+                    <div class="col-lg-4">
+                        <div class="card rounded-lg">
+                            <div class="card-body" onclick="filterJob('delivery')">
+                                <h4 class="text-primary mb-3">
+                                    Operations
+                                </h4>
+                                <p class="mb-0 f-16 t-grey">
+                                    Stand at the fore front of making business accessible. Every interaction is an
+                                    opportunity to make a difference.
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- card end here -->
+                    <div class="col-lg-4">
+                        <div class="card rounded-lg">
+                            <div class="card-body" onclick="filterJob('hr')">
+                                <h4 class="text-primary mb-3">
+                                    HR & Admin
+                                </h4>
+                                <p class="mb-0 f-16 t-grey">
+                                    Do you enjoy bringing people together? We are at the center of identifying top
+                                    talent, delivering rewarding benefits, and creating tools to make it easy for our
+                                    employees.
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- card end here -->
+                    <div class="col-lg-4">
+                        <div class="card rounded-lg">
+                            <div class="card-body" onclick="filterJob('marketing')">
+                                <h4 class="text-primary mb-3">
+                                    Marketing
+                                </h4>
+                                <p class="mb-0 f-16 t-grey">
+                                    Connecting our soltuion driven mission, world-class brands and customers.
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- card end here -->
+                    <div class="col-lg-4">
+                        <div class="card rounded-lg">
+                            <div class="card-body" onclick="filterJob('it')">
+                                <h4 class="text-primary mb-3">
+                                    IT
+                                </h4>
+                                <p class="mb-0 f-16 t-grey">
+                                    Build products from conception to launch. Thrive AI product strategy to deliver the
+                                    next wave of dynamic legal services. </p>
+                            </div>
+                        </div>
+                    </div><!-- card end here -->
+                    <div class="col-lg-4">
+                        <div class="card rounded-lg">
+                            <div class="card-body" onclick="filterJob('legal')">
+                                <h4 class="text-primary mb-3">
+                                    Legal
+                                </h4>
+                                <p class="mb-0 f-16 t-grey">
+                                    Manage vital business relationships and troubleshoot complex legal problems for our
+                                    valuable customers.
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- card end here -->
+                    <div class="col-12">
+                        <div class="pb-3 pt-3 border-bottom mb-4">
+                            <nav class="nav job-cat-links nav-pills nav-justified">
+                                <button class="nav-link btn rounded-pill active" data-filter="*">All</button>
+                                <button class="nav-link btn rounded-pill" id="Sales-Job" data-filter=".sales">Sales</button>
+                                <button class="nav-link btn rounded-pill" id="Delivery-Job" data-filter=".delivery">Operations</button>
+                                <button class="nav-link btn rounded-pill" id="HR-Job" data-filter=".hr">HR & Admin</button>
+                                <button class="nav-link btn rounded-pill" id="Marketing-Job" data-filter=".marketing">Marketing</button>
+                                <button class="nav-link btn rounded-pill" id="It-Job" data-filter=".it">IT</button>
+                                <button class="nav-link btn rounded-pill" id="Legal-Job" data-filter=".legal">Legal</button>
+                            </nav>
+                        </div>
+                    </div>
+                </div><!-- ./row -->
+                <div id="job-filter" class="row grid">
+                    <div th:each="job : ${jobs}" class="col-lg-6 grid-item" th:classappend="${job.jobTitle}">
+                        <div class="card rounded-lg job-card">
+                            <div class="card-body">
+                                <h4 class="text-dark text-uppercase mb-3 card_text1" th:text="${job.title}"> PHP DEVELOPER</h4>
+                                <div class="career-details card-text4" th:utext="${job.description}">Summary</div>
+                            </div>
+                            <div class="card-footer bg-white border-0 rounded-lg">
+                                <div class="d-flex justify-content-between">
+                                    <a th:href="@{|/join-our-team/${job.slug}|}" class="btn btn-light rounded">Explore</a>
+                                    <a th:href="@{|/join-our-team/${job.slug}|}" class="btn btn-primary rounded"> Apply</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+        <div th:replace="users/includes/javascript :: javascript"></div>
+        <script type="application/ld+json" th:each="job:${jobs}">
+        {
+          "@context" : "https://schema.org/",
+          "@type" : "JobPosting",
+          "title" : "[[${job.title}]]",
+          "description" : "<p>[[${job.description}]]</p>",
+          
+          "datePosted" : "[[${job.postDate}]]",
+          "validThrough" : "[[${job.expireDate}]]",
+          "employmentType" : "PRIVATE",
+          "hiringOrganization" : {
+            "@type" : "Organization",
+            "name" : "Corpseed",
+            "sameAs" : "http://www.corpseed.com",
+            "logo" : "http://www.corpseed.com/assets/img/corpseed_logo.png"
+          },
+          "jobLocation": {
+          "@type": "Place",
+            "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "A-43",
+            "addressLocality": "A Block, Sector 63,Noida",
+            "addressRegion": "Uttar Pradesh",
+            "postalCode": "201301",
+            "addressCountry": "INDIA"
+            }
+          },
+          "baseSalary": {
+            "@type": "MonetaryAmount",
+            "currency": "INR",
+            "value": {
+              "@type": "QuantitativeValue",
+              "value": [[${job.salary}]],
+              "unitText": "MONTH"
+            }
+          }
+        }
+        </script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('.job-cat-links').on('click', 'button', function () {
+            var filterValue = $(this).attr('data-filter');
+            $grid.isotope({ filter: filterValue });
+        });
+        // init Isotope
+        var $grid = $('.grid').isotope({
+            itemSelector: '.grid-item',
+            percentPosition: true,
+            masonry: {
+                columnWidth: '.grid-item',
+            }
+        });
+        $('.job-cat-links .nav-link').click(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        });
+    })
+    </script>
+     </main>
+</body>
+</html>

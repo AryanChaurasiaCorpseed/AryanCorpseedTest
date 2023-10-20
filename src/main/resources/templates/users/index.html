@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="users/base::layout(~{::corpseedBodyContent})">
+<body>
+    <main th:fragment="corpseedBodyContent">
+        <section id="home" class=" home pt-100  overflow-hidden">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 px-0 order-lg-2">
+                        <div class="hero-img d-none d-md-block wow">
+                            <img th:src="@{/assets/img/business_compliance.webp}" class="img-fluid slide-up-down" width="1000" height="1200" alt="Compliance and services"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <div class="d-flex justify-content-center align-items-center h-100">
+                            <div class="hero-text text-center text-lg-left">
+                                <div class="astnc mb-2">
+									<a th:if="${contact}" th:href="|tel:${contact.mobile}|">call for free consultation
+									<svg class="svg-phone" width="20" height="20" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+						                <path d="M6.34417 10.3404C7.72417 13.0525 9.9475 15.2662 12.6596 16.6558L14.7679 14.5475C15.0267 14.2887 15.41 14.2025 15.7454 14.3175C16.8188 14.6721 17.9783 14.8637 19.1667 14.8637C19.6938 14.8637 20.125 15.295 20.125 15.8221V19.1667C20.125 19.6938 19.6938 20.125 19.1667 20.125C10.1679 20.125 2.875 12.8321 2.875 3.83333C2.875 3.30625 3.30625 2.875 3.83333 2.875H7.1875C7.71458 2.875 8.14583 3.30625 8.14583 3.83333C8.14583 5.03125 8.3375 6.18125 8.69208 7.25458C8.7975 7.59 8.72083 7.96375 8.4525 8.23208L6.34417 10.3404Z" fill="white"></path>
+						            </svg>
+									</a>
+									<a th:unless="${contact}" href="tel:9999008018">call for free consultation
+									<svg class="svg-phone" width="20" height="20" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+						                <path d="M6.34417 10.3404C7.72417 13.0525 9.9475 15.2662 12.6596 16.6558L14.7679 14.5475C15.0267 14.2887 15.41 14.2025 15.7454 14.3175C16.8188 14.6721 17.9783 14.8637 19.1667 14.8637C19.6938 14.8637 20.125 15.295 20.125 15.8221V19.1667C20.125 19.6938 19.6938 20.125 19.1667 20.125C10.1679 20.125 2.875 12.8321 2.875 3.83333C2.875 3.30625 3.30625 2.875 3.83333 2.875H7.1875C7.71458 2.875 8.14583 3.30625 8.14583 3.83333C8.14583 5.03125 8.3375 6.18125 8.69208 7.25458C8.7975 7.59 8.72083 7.96375 8.4525 8.23208L6.34417 10.3404Z" fill="white"></path>
+						            </svg>
+									</a>
+								</div>
+                                <h1>Tailored Solutions<br />
+                                For Your Business
+<!--                                     <span class="cut">Tax For Business</span> -->
+<!--                                     <span class="t-primary font-weight-bold">Partner</span> -->
+                                </h1>
+                                <p class="lead"><span class="text-primary">CA, CS, Environment & Legal Compliance Advisory</span> Platform For Individuals, SME & Enterprise.</p>
+                                <!-- search form -->
+                                <div class="form-search px-3 px-md-0">
+                                    <form action="#">
+                                        <div class="search-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M14.965 14.2549H15.755L20.745 19.2549L19.255 20.7449L14.255 15.7549V14.9649L13.985 14.6849C12.845 15.6649 11.365 16.2549 9.755 16.2549C6.165 16.2549 3.255 13.3449 3.255 9.75488C3.255 6.16488 6.165 3.25488 9.755 3.25488C13.345 3.25488 16.255 6.16488 16.255 9.75488C16.255 11.3649 15.665 12.8449 14.685 13.9849L14.965 14.2549ZM5.255 9.75488C5.255 12.2449 7.265 14.2549 9.755 14.2549C12.245 14.2549 14.255 12.2449 14.255 9.75488C14.255 7.26488 12.245 5.25488 9.755 5.25488C7.265 5.25488 5.255 7.26488 5.255 9.75488Z"
+                                                    fill="black" fill-opacity="0.54" />
+                                            </svg>
+                                            <input type="search" th:autocomplete="off" onsearch="$('#homesearch').html('');" id="home-search" name="search" class="form-control w-100 rounded-pill"
+                                                placeholder=""/>
+                                        </div>
+                                        <input type="submit" value="search" class="invisible"/>
+                                    </form>
+									<span id="homesearch"></span>
+                                </div>
+                                <div class="hot-tags justify-content-center justify-content-md-start">
+                                    <span class="mr-2">
+                                        Popular:
+                                    </span>
+                                    <span class="tag" th:each="tag:${hotTags}"><a th:href="@{|/service/${tag.services.slug}|}" th:text="${tag.name}">S Corp</a></span>
+                                </div>
+                                <div class="star-rating">
+                                    <div class="starts">
+                                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M9.5 14.0938L4.08594 17.375L5.52148 11.2227L0.763672 7.08008L7.03906 6.54688L9.5 0.763672L11.9609 6.54688L18.2363 7.08008L13.4785 11.2227L14.9141 17.375L9.5 14.0938Z"
+                                                fill="#FFC20F" />
+                                        </svg>
+                                        <small>[Rated <b>4.8 stars</b> ratings by 5000+ Customers like you]</small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12 order-3">
+                        <section class="brand-icon media-brand-padding position-relative">
+                            <div class="container">
+                                <div class="brands middle-item owl-carousel ico">
+                                    <div class="brand-box">
+                                        <img class="item" th:src="@{/assets/img/brands/ACCORD-PRIVATE-LIMITED.webp}"
+                                             alt="ACCORD-PRIVATE-LIMITED" data-toggle="tooltip" data-placement="top"
+                                             data-original-title="ACCORD-PRIVATE-LIMITED">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/AMZETTA-TECHNOLOGIES.webp}"
+                                                                alt="AMZETTA-TECHNOLOGIES" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="AMZETTA-TECHNOLOGIES">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/BARBEQUE-NATION.webp}"
+                                                                alt="BARBEQUE-NATION" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="BARBEQUE-NATION">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/BP-CORPORATION-LIMITED.webp}"
+                                                                alt="BP-CORPORATION-LIMITED" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="BP-CORPORATION-LIMITED">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/CAPGEMINI-TECHNOLOGY.webp}"
+                                                                alt="CAPGEMINI-TECHNOLOGY" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="CAPGEMINI-TECHNOLOGY">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/CHUMBAK-DESIGN.webp}"
+                                                                alt="CHUMBAK-DESIGN" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="CHUMBAK-DESIGN">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/CUBE-HIGHWAYS-LIMITED.webp}"
+                                                                alt="CUBE-HIGHWAYS-LIMITED" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="CUBE-HIGHWAYS-LIMITED">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/DAIKIN-AIRCONDITIONIN-INDIA.webp}"
+                                                                alt="DAIKIN-AIRCONDITIONIN-INDIA" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="DAIKIN-AIRCONDITIONIN-INDIA">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/DELHI-AIRPORT-AUTHORITY.webp}"
+                                                                alt="DELHI-AIRPORT-AUTHORITY" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="DELHI-AIRPORT-AUTHORITY">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/DELIGHTFUL-GOURMET.webp}"
+                                                                alt="DELIGHTFUL-GOURMET" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="DELIGHTFUL-GOURMET">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/dentcare.webp}"
+                                                                alt="dentcare" data-toggle="tooltip"
+                                                                data-placement="top" data-original-title="dentcare">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/Eli-Lilly-and-Company.webp}"
+                                                                alt="Eli-Lilly-and-Company" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="Eli-Lilly-and-Company">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/Emerson-Automation-Solutions-India.webp}"
+                                                                alt="Emerson-Automation-Solutions-India"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                data-original-title="Emerson-Automation-Solutions-India">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/FRANKE-FABER-INDIA.webp}"
+                                                                alt="FRANKE-FABER-INDIA" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="FRANKE-FABER-INDIA">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/HP-CORPORATION.webp}"
+                                                                alt="HP-CORPORATION" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="HP-CORPORATION">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/ITC-Limited.webp}"
+                                                                alt="ITC-Limited" data-toggle="tooltip"
+                                                                data-placement="top" data-original-title="ITC-Limited">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/Larsen-Turbo.webp}"
+                                                                alt="Larsen-Turbo" data-toggle="tooltip"
+                                                                data-placement="top" data-original-title="Larsen-Turbo">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/MMTC-PAMP-INDIA.webp}"
+                                                                alt="MMTC-PAMP-INDIA" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="MMTC-PAMP-INDIA">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/Motorola-Solutions-India.webp}"
+                                                                alt="Motorola-Solutions-India" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="Motorola-Solutions-India">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/MUTHOOT-FINANCE.webp}"
+                                                                alt="MUTHOOT-FINANCE" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="MUTHOOT-FINANCE">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/NATIONAL-THERMAL-POWER-CORPORATION.webp}"
+                                                                alt="NATIONAL-THERMAL-POWER-CORPORATION"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                data-original-title="NATIONAL-THERMAL-POWER-CORPORATION">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/Ossur-India.webp}"
+                                                                alt="Ossur-India" data-toggle="tooltip"
+                                                                data-placement="top" data-original-title="Ossur-India">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/OYO-HOTELS-AND-HOMES.webp}"
+                                                                alt="OYO-HOTELS-AND-HOMES" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="OYO-HOTELS-AND-HOMES">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/Pentair-Water-India.webp}"
+                                                                alt="Pentair-Water-India" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="Pentair-Water-India">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/POWER-ONE-MICRO-SYSTEMS.webp}"
+                                                                alt="POWER-ONE-MICRO-SYSTEMS" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="POWER-ONE-MICRO-SYSTEMS">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/Pristyn-Care-India.webp}"
+                                                                alt="Pristyn-Care-India" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="Pristyn-Care-India">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/RADIO-DESIGN-INDIA.webp}"
+                                                                alt="RADIO-DESIGN-INDIA" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="RADIO-DESIGN-INDIA">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/radissioni.webp}"
+                                                                alt="radissioni" data-toggle="tooltip"
+                                                                data-placement="top" data-original-title="radissioni">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/RDP-Computers-India.webp}"
+                                                                alt="RDP-Computers-India" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="RDP-Computers-India">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/Sonova-Consumer-Hearing.webp}"
+                                                                alt="Sonova-Consumer-Hearing" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="Sonova-Consumer-Hearing">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/STARKEY-LABORATORIES-INDIA.webp}"
+                                                                alt="STARKEY-LABORATORIES-INDIA" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="STARKEY-LABORATORIES-INDIA">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/Tetra-Pak-India.webp}"
+                                                                alt="Tetra-Pak-India" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="Tetra-Pak-India">
+                                    </div>
+                                    <div class="brand-box"><img class="item"
+                                                                th:src="@{/assets/img/brands/TVS-ELECTRONICS-LTD.webp}"
+                                                                alt="TVS-ELECTRONICS-LTD" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                data-original-title="TVS-ELECTRONICS-LTD">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- <new service sec> -->
+        <section class="commonSec" id="servicesec">
+        <div class="loader" style="display:none"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h2 class="text-center">Our Exclusive Services</h2>
+                        <div class="tab text-center">
+                            <button th:each="sCat,sn:${cardCategory}" class="tablinks" th:classappend="${sn.index==0}?active" th:attr="onclick='openService(event,\''+${sCat.slug}+'\')'" th:text="${sCat.subCategoryName}">Start
+                                company</button>
+                        </div>
+						<div th:each="sCat,sn:${cardCategory}" th:id="${sCat.slug}" class="tabcontent" th:classappend="${sn.index==0}?'d-block'">
+                            <div class="owl-carousel service-sider owl-theme">
+							<div class="col mb-4" th:each="sCatService:${sCat.services}" th:if="${sCatService.displayStatus=='1' && sCatService.showHomeStatus=='1'}">
+                              <!-- card 1 -->
+                               <div class="card">
+                                   <div class="card-body">
+                                       <h5 class="card-title mb-3 line-2" th:text="${sCatService.title}"></h5>
+                                       <div class="card-text"><p th:utext="${sCatService.summary}"></p></div>
+                                   </div>
+                                   <div class="card-footer bg-white border-0 ">
+                                       <a th:href="@{|/service/${sCatService.slug}|}" class="btn btn-default">Explore more
+                                           <svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                               <path d="M1.5 7.5L4.5 4.5L1.5 1.5" stroke="blue" stroke-linecap="square"></path>
+                                           </svg>
+                                       </a>
+                                   </div>
+                                 </div>
+                              </div>
+                            </div>
+                            <div class="col-md-12 btn btn-default text-center all-service"> <a th:href="@{/category/all}">SEE ALL
+                                    SERVICES</a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- <end here> -->
+        <!-- <mobileview service> -->
+        <section class="commonSec" id="mobileservice">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-center">Service at your glance</h2>
+                        <div class="accordion" id="accordionExample">
+                            <div class="item" th:each="sCat,sn:${cardCategory}">
+                                <div class="item-header" th:id="|${sCat.slug}-${sn.index}|">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link" th:classappend="${sn.index!=0}?collapsed" type="button" data-toggle="collapse"
+                                            th:data-target="${'#collapse'+sCat.slug}" aria-expanded="true" th:aria-controls="|collapse${sCat.slug}|">
+                                            [[${sCat.subCategoryName}]]
+                                            <svg class="svg-plus" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="12" height="12" viewBox="0 0 172 172"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="500" font-size="none" text-anchor="end" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#000000"><path d="M85.83203,17.04323c-6.32845,0.09274 -11.38527,5.2949 -11.2987,11.62344v45.86667h-45.86667c-4.13529,-0.05848 -7.98173,2.11417 -10.06645,5.68601c-2.08471,3.57184 -2.08471,7.98948 0,11.56132c2.08471,3.57184 5.93115,5.74449 10.06645,5.68601h45.86667v45.86667c-0.05848,4.13529 2.11417,7.98173 5.68601,10.06645c3.57184,2.08471 7.98948,2.08471 11.56132,0c3.57184,-2.08471 5.74449,-5.93115 5.68601,-10.06645v-45.86667h45.86667c4.13529,0.05848 7.98173,-2.11417 10.06645,-5.68601c2.08471,-3.57184 2.08471,-7.98948 0,-11.56132c-2.08471,-3.57184 -5.93115,-5.74449 -10.06645,-5.68601h-45.86667v-45.86667c0.04237,-3.09747 -1.17017,-6.08033 -3.36168,-8.26973c-2.1915,-2.18939 -5.17553,-3.39907 -8.27296,-3.35371z"></path></g></g></svg>
+                                        	<svg class="svg-minus" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="12" height="12" viewBox="0 0 172 172"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="500" font-size="none" text-anchor="end" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#000000"><path d="M21.5,78.83333v14.33333h129v-14.33333z"></path></g></g></svg>
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div th:id="|collapse${sCat.slug}|" class="collapse" th:classappend="${sn.index==0}?show" th:aria-labelledby="|${sCat.slug}-${sn.index}|"
+                                    data-parent="#accordionExample">
+                                    <div class="owl-carousel mobile owl-theme">
+									<div class="col mb-4" th:each="sCatService:${sCat.services}">
+		                              <!-- card 1 -->
+		                               <div class="card">
+		                                   <div class="card-body">
+		                                       <h5 class="card-title mb-3" th:text="${sCatService.title}">Private Company Registration</h5>
+		                                       <div class="card-text"><p th:utext="${sCatService.summary}"></p></div>
+		                                   </div>
+		                                   <div class="card-footer bg-white border-0 ">
+		                                       <a th:href="@{|/service/${sCatService.slug}|}" class="btn btn-default">Explore more
+		                                           <svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+		                                               <path d="M1.5 7.5L4.5 4.5L1.5 1.5" stroke="black" stroke-linecap="square"></path>
+		                                           </svg>
+		                                       </a>
+		                                   </div>
+		                                 </div>
+		                              </div>
+
+                                    </div>
+                                    <div class="btn btn-default text-center all-service "> <a th:href="@{/category/all}">SEE ALL
+                                            SERVICES</a> </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- <end here> -->
+        <!-- better results -->
+        <section id="results" class="result">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- results card -->
+                        <div class="result-text">
+                            <h2 class="text-primary">A smarter platform for better results.</h2>
+                            <!-- card 1 -->
+                            <div class="result-card">
+                                <div class="icon pad-h5">
+
+                                    <svg width="45" height="45" viewBox="0 0 45 45" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22.5 45C34.9264 45 45 34.9264 45 22.5C45 10.0736 34.9264 0 22.5 0C10.0736 0 0 10.0736 0 22.5C0 34.9264 10.0736 45 22.5 45Z"
+                                            fill="#2b63f9" />
+                                        <path
+                                            d="M23.32 10.22C20.9466 10.22 18.6265 10.9238 16.6532 12.2423C14.6798 13.5609 13.1417 15.4351 12.2334 17.6278C11.3252 19.8205 11.0876 22.2333 11.5506 24.5611C12.0136 26.8888 13.1565 29.027 14.8347 30.7053C16.5129 32.3835 18.6511 33.5264 20.9789 33.9894C23.3067 34.4524 25.7195 34.2148 27.9122 33.3065C30.1049 32.3983 31.9791 30.8602 33.2976 28.8868C34.6162 26.9134 35.32 24.5933 35.32 22.22C35.32 19.0374 34.0557 15.9851 31.8053 13.7347C29.5548 11.4843 26.5026 10.22 23.32 10.22ZM23.32 31.79C21.4253 31.79 19.5731 31.2281 17.9976 30.1754C16.4222 29.1228 15.1943 27.6266 14.4692 25.8761C13.7441 24.1256 13.5544 22.1993 13.9241 20.341C14.2937 18.4827 15.2061 16.7757 16.5459 15.4359C17.8857 14.0961 19.5927 13.1837 21.451 12.814C23.3094 12.4444 25.2356 12.6341 26.9861 13.3592C28.7366 14.0843 30.2328 15.3122 31.2855 16.8876C32.3381 18.463 32.9 20.3152 32.9 22.21C32.8974 24.7473 31.8882 27.1799 30.0941 28.9741C28.2999 30.7682 25.8673 31.7773 23.33 31.78L23.32 31.79Z"
+                                            fill="white" />
+                                        <path d="M23.93 16.21H22.13V23.4L28.42 27.17L29.32 25.7L23.93 22.5V16.21Z"
+                                            fill="white" />
+                                    </svg>
+                               <h5>Legal built for you.</h5>
+                                </div>
+
+                                <p>
+                                    No complicated forms. No robots. Just answer some questions and we'll take care of
+                                    the paperwork & compliance for you.
+                                </p>
+                            </div>
+                            <!-- card 1 -->
+                            <div class="result-card">
+                                <div class="icon pad-h5">
+                                    <svg width="45" height="45" viewBox="0 0 45 45" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22.5 45C34.9264 45 45 34.9264 45 22.5C45 10.0736 34.9264 0 22.5 0C10.0736 0 0 10.0736 0 22.5C0 34.9264 10.0736 45 22.5 45Z"
+                                            fill="#2b63f9" />
+                                        <path
+                                            d="M11.73 28.48V30.87H18.91V28.48H11.73ZM11.73 14.12V16.51H23.73V14.12H11.73ZM23.73 33.26V30.88H33.3V28.48H23.7V26.09H21.3V33.27L23.73 33.26ZM16.52 18.91V21.3H11.73V23.7H16.52V26.09H18.91V18.91H16.52ZM33.27 23.7V21.3H21.27V23.7H33.27ZM26.09 18.91H28.48V16.52H33.27V14.12H28.48V11.73H26.09V18.91Z"
+                                            fill="white" />
+                                    </svg>
+									<h5>CA/CS in all 28 states.</h5>
+                                </div>
+
+                                <p>
+                                    No matter where you are in the country, an independent CA/CS who knows your state's
+                                    laws and business compliance is here to help.
+                                </p>
+                            </div>
+                            <!-- card 3 -->
+                            <div class="result-card">
+                                <div class="icon pad-h5">
+                                    <svg width="45" height="45" viewBox="0 0 45 45" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22.5 45C34.9264 45 45 34.9264 45 22.5C45 10.0736 34.9264 0 22.5 0C10.0736 0 0 10.0736 0 22.5C0 34.9264 10.0736 45 22.5 45Z"
+                                            fill="#2b63f9" />
+                                        <path
+                                            d="M26.75 21.5C27.3433 21.5 27.9234 21.3241 28.4167 20.9944C28.9101 20.6648 29.2946 20.1962 29.5216 19.6481C29.7487 19.0999 29.8081 18.4967 29.6924 17.9147C29.5766 17.3328 29.2909 16.7982 28.8713 16.3787C28.4518 15.9591 27.9172 15.6734 27.3353 15.5576C26.7533 15.4419 26.1501 15.5013 25.6019 15.7284C25.0538 15.9554 24.5852 16.3399 24.2556 16.8333C23.9259 17.3266 23.75 17.9067 23.75 18.5C23.75 19.2957 24.0661 20.0587 24.6287 20.6213C25.1913 21.1839 25.9544 21.5 26.75 21.5ZM18.75 21.5C19.3433 21.5 19.9234 21.3241 20.4167 20.9944C20.9101 20.6648 21.2946 20.1962 21.5216 19.6481C21.7487 19.0999 21.8081 18.4967 21.6924 17.9147C21.5766 17.3328 21.2909 16.7982 20.8713 16.3787C20.4518 15.9591 19.9172 15.6734 19.3353 15.5576C18.7533 15.4419 18.1501 15.5013 17.6019 15.7284C17.0538 15.9554 16.5852 16.3399 16.2556 16.8333C15.9259 17.3266 15.75 17.9067 15.75 18.5C15.75 19.2957 16.0661 20.0587 16.6287 20.6213C17.1913 21.1839 17.9544 21.5 18.75 21.5ZM18.75 23.5C16.42 23.5 11.75 24.67 11.75 27V29.5H25.75V27C25.75 24.67 21.08 23.5 18.75 23.5ZM26.75 23.5C26.46 23.5 26.13 23.5 25.75 23.55C26.3419 23.9156 26.8343 24.4219 27.1832 25.0239C27.5322 25.6258 27.7269 26.3046 27.75 27V29.5H33.75V27C33.75 24.67 29.08 23.5 26.75 23.5Z"
+                                            fill="white" />
+                                    </svg>
+									 <h5>Flat-fee pricing.</h5>
+                                </div>
+
+                                <p>
+                                    Whether you use a self-guided or CA/CS - supported service, you can always count us
+                                    to be upfront about pricing & financial.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="stick-img">
+                            <img th:src="@{/assets/img/compliance_updates.png}" width="100%" height="100%" alt="Compliance Updates"/>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--- testimonials-->
+        <section class="testimonial">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-xl-4 d-flex align-items-center">
+                        <div class="box mb-5 text-center text-lg-left mb-lg-0">
+                            <h3 class="h1 text-primary mb-4">
+                                Trusted by People Like You
+                            </h3>
+                            <p class="text-body mb-0 font18">
+                                At Corpseed  We Understand Our Responsibility To Drive Positive Outcomes For Better Results.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 pl-0 pl-md-4 col-xl-8">
+                        <div class="owl-carousel test-slider owl-theme">
+
+                            <div class="item" th:each="review : ${reviews}">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="thumb">
+                                            <img th:src="${@environment.getProperty('azure_path')+review.image}" width="42" height="42" th:alt="|Review of ${review.name}|"/>
+                                        </div>
+                                        <div class="card-text"><p th:utext="${review.summary}" data-toggle="tooltip" data-placement="right" th:title="${review.summary}">
+                                            </p></div>
+                                        <strong th:text="${review.name}">
+                                            Radhika Gupta
+                                        </strong>
+                                        <small class="text-muted review-text" th:text="${review.position}">
+                                            SEO at Google
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-lg-6 col-xl-5">
+                        <div class="inner d-flex align-items-center flex-column mb-5 mb-lg-0">
+                            <picture class="d-block mb-4">
+                                <img th:src="@{/assets/svg/calander.svg}" width="100%" height="100%" alt="book virtual meeting"/>
+                            </picture>
+                            <h4 class="h2 text-center text-black mb-3">Book a Virtual Meeting</h4>
+                            	<a th:href="@{/book-meeting}" class="btn rounded-lg btn-lg btn-blue btn-primary">
+                                   Book Now
+                               </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xl-5">
+                        <div class="button-box">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#StartUpModal" class="d-flex flex-column">
+                                <div class="d-flex align-items-center mb-1">
+                                    <svg width="14" class="mr-3" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 6H10V0H4V6H0L7 13L14 6ZM6 8V2H8V8H9.17L7 10.17L4.83 8H6ZM14 17V15H0V17H14Z" fill="#1A73E8"/>
+                                    </svg>
+                                    <strong>Start Up Guide</strong>
+                                </div>
+                                <span>Download your free legal guide Now</span>
+                            </a>
+<!--                             <a href="https://corpseeds-crm.azurewebsites.net/" target="_blank" class="d-flex flex-column"> -->
+								<a href="https://crm.corpseed.com/client_orders.html" class="d-flex flex-column" target="_blank">
+                                <div class="d-flex align-items-center mb-1">
+                                    <svg class="mr-3" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17 0H1C0.45 0 0 0.45 0 1V7C0 7.55 0.45 8 1 8H17C17.55 8 18 7.55 18 7V1C18 0.45 17.55 0 17 0ZM2 6H16V2H2V6ZM1 10H17C17.55 10 18 10.45 18 11V17C18 17.55 17.55 18 17 18H1C0.45 18 0 17.55 0 17V11C0 10.45 0.45 10 1 10ZM16 12H2V16H16V12ZM4 15.5C3.18 15.5 2.5 14.83 2.5 14C2.5 13.17 3.18 12.5 4 12.5C4.82 12.5 5.5 13.17 5.5 14C5.5 14.83 4.83 15.5 4 15.5ZM2.5 4C2.5 4.83 3.18 5.5 4 5.5C4.83 5.5 5.5 4.82 5.5 4C5.5 3.18 4.82 2.5 4 2.5C3.18 2.5 2.5 3.17 2.5 4Z" fill="#4285F4"/>
+                                    </svg>
+                                    <strong>Your Order</strong>
+                                </div>
+                                <span>Feel free to ask any query </span>
+                            </a>
+                            <a th:href="@{/partner}" class="d-flex flex-column">
+                                <div class="d-flex align-items-center mb-1">
+                                    <svg class="mr-3" width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M22 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H22C23.1 18 23.99 17.1 23.99 16L24 2C24 0.9 23.1 0 22 0ZM2 16V2H22V16H2ZM17.5 6.75L20 5V4L17.5 5.75L15 4V5L17.5 6.75ZM9 9C10.65 9 12 7.65 12 6C12 4.35 10.65 3 9 3C7.35 3 6 4.35 6 6C6 7.65 7.35 9 9 9ZM10 6C10 5.45 9.55 5 9 5C8.45 5 8 5.45 8 6C8 6.55 8.45 7 9 7C9.55 7 10 6.55 10 6ZM15 13.59C15 11.09 11.03 10.01 9 10.01C6.97 10.01 3 11.09 3 13.59V15H15V13.59ZM9 12C7.7 12 6.22 12.5 5.48 13H12.52C11.77 12.49 10.3 12 9 12Z" fill="#4285F4"/>
+                                    </svg>
+                                    <strong>Become a partner</strong>
+                                </div>
+                                <span>At Corpseed  we understand our responsibility</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="our-supporters">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 aside aside--left">
+                        <h2 class="text-left text-primary h1">Our Supporters</h2>
+                        <nav>
+                        <div class="list-group nav nav-tabs" id="nav-tab" role="tablist">
+                            <a href="#nav_investors" class="list-group-item active mb-2" role="tab" data-toggle="tab">Investor</a>
+                            <a href="#nav_partners" class="list-group-item mb-2" role="tab" data-toggle="tab">Management</a>
+                            <a href="#nav_advisors" class="list-group-item" role="tab" data-toggle="tab">Members</a>
+                        </div>
+                        </nav>
+                    </div>
+                    <div class="col-md-9 aside">
+                            <div class="tab-content" id="nav-tabContent">
+                            <div class="col-sm-12 tab-pane fade show active" id="nav_investors" role="tabpanel">
+                                <div class="brands  ico">
+                                    <div class="item gap-zero">
+                                        <div>
+                                        <img th:src="@{/assets/img/logo.png}" alt="Corpseed" data-toggle="tooltip" data-placement="top" title="" data-original-title="Corpseed">
+                                        </div>
+                                        <p class="text-center" style="color: black;font-size: 13px;">We are a bootstrap organization based on the direct support of our clients themselves. It enables us to independently make decisions for the welfare of our clients and provide quality service at affordable rates. Our self-reliance and financial discipline promote efficiency and stimulate creativity.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 tab-pane fade nav_icon" id="nav_partners" role="tabpanel">
+                                <div class="brands owl-carousel ico nav_partner">
+                                    <div class="item">
+                                        <div>
+                                        <img th:src="@{/assets/img/management/viresh.png}" alt="Viresh Oberoi - Director" data-toggle="tooltip" data-placement="top" title="" data-original-title="Viresh Oberoi - Director">
+                                        </div>
+                                            <p class="text-center" style="color: black;font-size: 13px;">
+                                            Mr. Viresh Oberoi is an exceptional entrepreneur and the driving force
+                                            behind mjunction services limited. As the Founder and CEO, he has
+                                            revolutionized India's largest eCommerce company and left an indelible
+                                            mark on Tata Steel's market-facing processes. He helps Corpseed in its
+                                            overall business growth with his unwavering determination and innovative
+                                            approach.
+                                        </p>
+                                    </div>
+                                    <div class="item">
+                                        <div>
+                                        <img th:src="@{/assets/img/management/vinay.png}" alt="Vinay Singh - Director & CTO" data-toggle="tooltip" data-placement="top" title="" data-original-title="Vinay Singh - Director & CTO">
+                                        </div>
+                                        <p class="text-center" style="color: black;font-size: 13px;">
+                                            With over fifteen years of experience in financial innovation and technology,
+                                            Mr. Vinay Singh advises and provides strategic guidance to our clients
+                                            about banking, finance, and tech trends. Corpseed is implementing
+                                            innovative digital finance solutions under his direction and evolving
+                                            continuously.
+                                        </p>
+                                    </div>
+                                    <div class="item">
+                                        <div>
+                                        <img th:src="@{/assets/img/management/vipan.png}" alt="Vipan Singh - Director & CEO" data-toggle="tooltip" data-placement="top" title="" data-original-title="Vipan Singh - Director & CEO">
+                                            </div>
+                                            <p>
+                                            Mr. Vipan Singh is the visionary founder and CEO of Corpseed ITES Pvt
+                                            Ltd. With his unbeatable passion, he advocates automation in compliance
+                                            management for businesses. Under his astute guidance, Corpseed has
+                                            become synonymous with excellence and efficiency. His unwavering focus
+                                            on delivering cutting-edge solutions has empowered countless businesses
+                                            to stay ahead of the curve.
+                                        </p>
+
+                                    </div>
+                                    <div class="item">
+                                        <div><img th:src="@{/assets/img/management/sakshi.png}" alt="Sakshi Jaggi - Chief People Officer" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sakshi Jaggi - Chief People Officer"></div>
+                                        <p class="text-center" style="color: black;font-size: 13px;">
+                                            Mrs. Sakshi Jaggi is a passionate and data-driven HR Expert who
+                                            revolutionises how Corpseed manages its human resources. With her
+                                            invaluable insights and expertise in recruitment, data analytics, and
+                                            operations, she brings a fresh perspective to the table. With her
+                                            unparalleled commitment and deep understanding of the HR landscape,
+                                            she has become an indispensable asset to Corpseed.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 tab-pane fade nav_icon" id="nav_advisors" role="tabpanel">
+                                <div class="brands owl-carousel ico nav_advisor">
+                                    <div class="item">
+                                        <div><img th:src="@{/assets/img/member/iso.png}" alt="ISO" data-toggle="tooltip" data-placement="top" title="" data-original-title="ISO"></div>
+                                        <p class="text-center" style="color: black;font-size: 13px;">
+                                            Corpseed is an ISO Certified Company for its Quality Management System,
+                                            demonstrating its adherence to globally recognized and highly esteemed
+                                            ISO standards. By aligning with these standards, Corpseed ensures the
+                                            delivery of quality services that consistently fulfil customer expectations.
+                                        </p>
+                                    </div>
+                                    <div class="item">
+                                    <div><img th:src="@{/assets/img/member/cii.png}" alt="CII" data-toggle="tooltip" data-placement="top" title="" data-original-title="CII"></div>
+                                        <p class="text-center" style="color: black;font-size: 13px;">
+                                            Corpseed is a member of CII - the Confederation of Indian Industry. CII
+                                            helps companies enhance their competitiveness, expand market reach,
+                                            and stay updated with industry trends and best practices. Its networking
+                                            and training have contributed to our excellence giving us an edge over the
+                                            competitors.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="press-release-section" th:if="${pressRelease!=null&&!pressRelease.isEmpty()}">
+            <div class="container">
+                <div class="press-release">
+                    <!-- press release -->
+                    <div id="carouselExampleIndicators" class="carousel slide box-press-shadow" data-ride="carousel" >
+                        <ol class="carousel-indicators press-indiacter">
+                            <li data-target="#carouselExampleIndicators" th:each="p,sn:${pressRelease}" th:data-slide-to="${sn.index}" th:classappend="${sn.index==0}?'active':''"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item" th:each="p,sn:${pressRelease}" th:classappend="${sn.index==0}?'active':''">
+                                <div class="press-release-content">
+                                    <div class="press-images">
+                                        <img th:src="${p.image!=null&&p.image!=''}?${@environment.getProperty('azure_path')+p.image}" alt="profile"
+                                             height="100%" width="100%">
+                                    </div>
+                                    <div class="press-content">
+                                        <div class="side-square"></div>
+                                        <span class="press-release-text">
+                                    Press release
+                                </span>
+                                        <h2 class="press-heading"><a th:href="@{|/press-release/${p.slug}|}" th:text="${p.title}"></a> </h2>
+                                        <div class="press-inner-content">
+                                            <p th:text="${p.summary}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="in-news">
+                                        <h2>In The News</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="index-blog">
+            <div class="container">
+                <div class="legal-cards">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-12">
+                            <div class="clearfix m-width">
+                                <h3 class="mb-4 mb-md-4 s-title"><span class="bg-primary text-white padding-5-10">Latest</span> Articles</h3>
+                            </div>
+                            <!-- slider start -->
+                            <div class="owl-carousel owl-theme blog-slider home_blog" id="blog-slider">
+                                <div class="card" th:each="blogDt, sn : ${blogs}">
+                                    <div class="card-body">
+                                        <a class="text-black" th:href="@{|/knowledge-centre/${blogDt.slug}|}">
+                                            <img class="card-bodyImg card-img-top" th:src="${blogDt.image!=null && blogDt.image!=''} ? ${@environment.getProperty('azure_path')+blogDt.image}" th:alt="${blogDt.image==null}?'blog image':${blogDt.image}"/>
+                                        </a>
+                                        <div class="post-meta">
+                                            <a class="post-category cat-2" th:href="@{|/knowledge-centre?size=6&page=1&filter=${blogDt.category.slug}|}" th:text="${blogDt.category.subCategoryName}">JavaScript</a>
+                                            <span class="post-date" th:text="${blogDt.postDate}">March 27, 2018</span>
+                                        </div>
+                                        <a class="text-black" th:href="@{|/knowledge-centre/${blogDt.slug}|}">
+                                            <span class="card-title" th:text="${blogDt.title}"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- slider end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- model -->
+
+        <div class="modal fade" id="otpModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content rounded">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalOtp"></h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="javascript:void(0)" method="post" id="verifyOtpInput"
+                          class="digit-group" data-group-name="digits" data-autosubmit="false"
+                          autocomplete="off">
+                        <div class="modal-body text-center">
+                            <input type="text" name="OTP1" id="OTP1" data-next="OTP2" class="form-input" required="required">
+                            <input type="text" name="OTP2" id="OTP2" data-next="OTP3" data-previous="OTP1" class="form-input" required="required">
+                            <input type="text" name="OTP3" id="OTP3" data-next="OTP4" data-previous="OTP2" class="form-input" required="required">
+                            <input type="text" name="OTP4" id="OTP4" data-previous="OTP3" class="form-input" required="required">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-block" id="buttonVerifyOtpStartUpGuide">Verify OTP</button>
+                            <p class="col-12 text-right flex-column justify-content-end align-items-end d-none" id="resendOTP">
+                                Didn't receive code?<br>
+                                <a href="javascript:void(0)" class="text-decoration-none" onclick="sendOtp('resendOTP','resendOTPTime')">Resend OTP</a>
+                            </p>
+                            <span id="resendOTPTime" class="col-12 text-center">&nbsp;</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="StartUpModal" tabindex="-1" aria-labelledby="exampleStartUpModal" aria-hidden="true">
+            <div class="modal-dialog  modal-lg modal-dialog-centered">
+               	<div class="modal-content rounded border-0 shadow-lg">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="exampleStartUpModal">Start Up Guide</h5>
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                </div>
+	                <a th:href="${@environment.getProperty('azure_path')+'Corpseed.pdf'}" target="_blank" class="none" download id="DownloadLegalFile">Download</a>
+                    <div class="modal-body px-md-3 px-lg-5">
+                    	<p class="mb-3 text-body" id="pmsgBar">Please Fill in the form and send us, we'll get back to you as soon as possible.</p>
+                        <form id="StartUpGuideEnquiry" class="valid-check">
+                            <div class="form-row">
+                                <label for="pname" class="col-md-6 form-group">
+                                    Full Name *
+                                    <input type="text" name="pname" id="pname" placeholder="Enter your name" class="form-control"/>
+                                </label>
+                                <label for="pemail" class="col-md-6 form-group">
+                                    Email Address
+                                    <input type="email" name="pemail" id="pemail" placeholder="Enter your email" class="form-control"/>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label for="mobile" class="col-md-6 form-group">Mobile No *
+                                	<div class="form-group">
+                                    	<input type="tel" name="pmobile" id="mobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" maxlength="15" placeholder="Phone Number" autocomplete="off" required="required"/>
+                                	</div>
+                                </label>
+                            </div>
+                            <input type="hidden" id="url"/>
+                            <input type="hidden" name="postDate" id="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+							<input type="hidden" name="modifyDate" id="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+                            <div class="modal-footer">
+                            	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	                            <button class="btn btn-primary btn-submit rounded" type="submit" name="guidesubmit">Download</button>
+	                        </div>
+	                    </form>
+					</div>
+				</div>
+            </div>
+        </div>
+        <div class="modal fade" id="ConsultNowModal" tabindex="-1" aria-labelledby="exampleConsultNowModal" aria-hidden="true">
+            <div class="modal-dialog  modal-lg modal-dialog-centered">
+               	<div class="modal-content rounded border-0 shadow-lg">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="exampleConsultNowModal">Consult Now</h5>
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                </div>
+                    <div class="modal-body px-0 px-md-3 px-lg-5">
+                    	<p class="mb-3 text-body">Please Fill in the form and send us, we'll get back to you as soon as possible.</p>
+                        <form action="#" id="consultNowEnquiry" class="valid-check">
+                            <div class="form-row">
+                                <label for="consultname" class="col-md-6 form-group">
+                                    Full Name *
+                                    <input type="text" name="consultname" id="consultname" placeholder="Enter your name" class="form-control"/>
+                                </label>
+                                <label for="consultemail" class="col-md-6 form-group">
+                                    Email Address
+                                    <input type="email" name="consultemail" id="consultemail" placeholder="Enter your email" class="form-control"/>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label for="consultobile" class="col-md-6 form-group">Mobile No *
+                                	<div class="form-group">
+                                    	<input type="tel" name="consultobile" id="consultobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" maxlength="15" placeholder="Phone Number" autocomplete="off" required="required">
+                                	</div>
+                                </label>
+                                <label for="consultcity" class="col-md-6 form-group">City *
+		                             <div class="form-group">
+		                                <input type="city" id="consultcity" name="consultcity" class="form-control"/>
+	                               	</div>
+                            	</label>
+                            </div>
+
+                            <div class="form-row">
+                                <label for="consultmessage" class="form-group col-12">
+                                    Message
+                                    <textarea name="consultmessage" id="consultmessage" rows="3" class="form-control"></textarea>
+                                </label>
+                            </div>
+                            <div class="modal-footer">
+	                            <button class="btn btn-primary btn-submit rounded" name="consultsubmit">Submit</button>
+	                        </div>
+	                        	<input type="hidden" id="CategoryId"/>
+                                <input type="hidden" id="consultpostDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+								<input type="hidden" id="consultmodifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+	                    </form>
+					</div>
+				</div>
+            </div>
+        </div>
+        <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+        <div th:replace="users/includes/index-js :: javascript"></div>
+    <script type="text/javascript">
+    function openService(evt, serviceName) {
+    	$(".tabcontent").removeClass("d-block");
+		$(".tablinks").removeClass("active");
+		evt.currentTarget.className += " active";
+		$("#"+serviceName).addClass("d-block");
+    }
+
+    $('.owl-carousel.test-slider').owlCarousel({
+        loop:true,
+        margin:16,
+        nav:false,
+        autoPlay: true,
+        autoHeight: false,
+        autoHeightClass: 'h-100',
+        //default settings:
+        autoplay:true,
+        autoplayTimeout:3000,
+        autoplayHoverPause:true,
+        stagePadding: 8,
+        dots: false,
+        responsive:{
+            0:{
+                items:1
+            },
+            575:{
+                items:2
+            },
+            991:{
+                items:3
+            }
+        }
+    });
+//     $(".owl-carousel.mobile").owlCarousel({
+//         autoPlay: 3000,
+//         items : 1, // THIS IS IMPORTANT
+//         loop: true,
+//         margin: 10,
+//         responsive : {
+//               480 : { items : 1  }, // from zero to 480 screen width 4 items
+//               768 : { items : 2  }, // from 480 screen widthto 768 6 items
+//               1024 : { items : 3   // from 768 screen width to 1024 8 items
+//               }
+//           },
+//     });
+    $('.owl-carousel.mobile').owlCarousel({
+        loop: true,
+        nav: true,
+        margin: 24,
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1,
+                stagePadding:45,
+//                 nav: true
+            },
+            600: {
+                items: 3,
+                // nav: false
+            },
+            1000: {
+                items: 4,
+                stagePadding:60,
+                // nav: true,
+                // loop: false,
+//                 margin: 40
+            }
+        }
+    });
+
+    $('.owl-carousel.service-sider').owlCarousel({
+        loop: true,
+        nav: true,
+        margin: 10,
+        responsiveClass: true,
+        responsive: {
+            0:{
+                items:1
+            },
+            600:{
+                items:2
+            },
+            1000:{
+                items:4
+            }
+        }
+    });
+
+        $(document).ready(function () {
+
+            var steps = $('ul.steps li')
+            var active = 0;
+            var speed1 = 2500; // 1.5 sec
+
+            setInterval(() => {
+                // console.log(steps[active++ % steps.length]);
+                $(steps[active++ % steps.length]).addClass('active').siblings().removeClass('active');
+            }, speed1);
+
+            $(".submit").click(function () {
+                //Fetch form to apply custom Bootstrap validation
+                var form = $(".valid")
+                console.log(form.prop('id')); //test to ensure calling form correctly
+                // console.log($('#fileInput')[0].files[0]);
+                if (form[0].checkValidity() === false)
+                {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.addClass('was-validated')
+            });
+
+		$("#url").val(location.href);
+
+/////////// auto completer 
+        let i = 0;
+        let j = 0;
+        let txt = [
+          "Try FSSAI Registration",
+          "Try NBFC Registration",
+          "Try EPR Authorization",
+          "Try General Accounting",
+        ];
+        let speed = 250;
+        waitFornext = 450;
+        var auin = document.getElementById("home-search");
+        function typeWriter() {
+          var cword = txt[j];
+          if (j == txt.length) {
+            // console.log("Text string ended");
+            j = 0;
+            i = 0;
+            setTimeout(typeWriter, waitFornext);
+          } else if (i < cword.length) {
+            auin.placeholder += cword.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+          } else {
+            auin.placeholder = "";
+            i = 0;
+            j++;
+            typeWriter();
+          }
+        }
+        $(function() {
+          typeWriter();
+        })
+
+        });
+
+    $('#nav_partners .owl-carousel').owlCarousel({
+        autoplay:true,
+        loop:true,
+        margin:0,
+        items:1,
+        nav:true,
+        autoplayHoverPause: true,
+        responsive:{
+            0:{
+                nav:false,
+                dots:true
+            },
+            600:{
+                nav:false,
+                dots:true
+            },
+            1000:{
+                nav:false,
+                dots:true
+            }
+        }
+    });
+    $('#nav_advisors .owl-carousel').owlCarousel({
+        autoplay:true,
+        loop:true,
+        margin:0,
+        items:1,
+        nav:true,
+        autoplayHoverPause: true,
+        responsive:{
+            0:{
+                nav:false,
+                dots:true
+            },
+            600:{
+                nav:false,
+                dots:true
+            },
+            1000:{
+                nav:false,
+                dots:true
+            }
+        }
+    });
+    $('#blog-slider').owlCarousel({
+        loop:true,
+        margin:10,
+        nav:false,
+        autoPlay: true,
+        autoHeight: false,
+        //default settings:
+        autoplay:true,
+        autoplayTimeout:3000,
+        autoplayHoverPause:true,
+        dots: true,
+        responsive:{
+            0:{
+                items:1,
+                stagePadding:35,
+            },
+            576:{
+                items:2
+            },
+            768:{
+                items:3
+            },
+            991:{
+                items:3
+            }
+        }
+    })
+    $('.brand-icon .brands.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 20,
+        nav: true,
+        autoPlay: true,
+        autoHeight: false,
+        autoHeightClass: 'h-100',
+        //default settings:
+        // autoWidth: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        stagePadding: 8,
+        dots: false,
+        responsive: {
+            0:{
+                items:3
+            },
+            575:{
+                items:6
+            },
+            991:{
+                items:9
+            }
+        }
+    });
+    </script>
+    </main>
+</body>
+
+</html>

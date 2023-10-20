@@ -1,0 +1,786 @@
+/**{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "roboto", sans-serif;
+}*/
+
+/* common classes */
+
+.padding-xy{
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.box-press-shadow{
+    box-shadow:  20px 20px 60px #bebebe,
+    -20px -20px 60px #ffffff;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+.align-center-xy{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.font-black-color{
+    color: #262626;
+}
+
+.corpseed-life{
+    padding-right: 20px;
+    border-right: 2px solid black;
+    font-weight: 600;
+}
+
+.nav-bgh{
+    background: #f5f5f573 !important;
+    height: 50px;
+}
+
+
+
+.single-video-area{
+    background-image: url("/assets/img/life/corpseed-banner.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.video-area-box{
+    padding: 20px 20px 20px 40px;
+    background-color: #FFFFFFC2;
+    width: 70vw;
+}
+
+.video-area-box .video-area{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.video-area-box .video-area h2{
+    font-family: "Roboto Condensed", Sans-serif;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+.play-circle{
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+
+/* meet-people-section */
+
+.meet-people-section h2{
+    font-weight: 100;
+    color: #303134;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.meet-people-section h2 span{
+    font-weight: 600;
+}
+
+.meet-people-section p{
+    font-weight: 100;
+    font-size: 20px;
+    color: #303134;
+    text-align: center;
+    width: 60%;
+    margin: auto;
+}
+
+
+.meet-people-section p span{
+    font-weight: 600;
+}
+
+
+.meet-people-section .copy-link-btn{
+    padding: 10px 20px;
+    color: white;
+    background: black;
+    border: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* end  meet-people-section */
+
+
+/* video section */
+
+.video-main-box{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,.5);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+
+.video-main-box p{
+    color: white;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+}
+
+.show-video{
+    display: flex;
+}
+
+.hide-video{
+    display: none;
+}
+
+
+/* video secion end  */
+
+
+/* culture box */
+.culture-image-box{
+    width: 90%;
+    height: 430px;
+    margin: auto;
+}
+
+.card-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.culture-image-box img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.culture-area .culture-text{
+    padding: 20px 60px;
+}
+
+.culture-area .culture-text h2{
+    color: #48aced;
+    font-size: 35px;
+}
+
+.culture-area .culture-text p{
+    color: #808080;
+}
+
+
+.learn-more-btn{
+    padding: 8px 16px;
+    background-color: #2b63f9;
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 20px;
+}
+
+
+.culture-area .culture-text .culture-tags{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.culture-area .culture-text .culture-tags a{
+    font-weight: 200;
+    color: #000000;
+    font-size: 14px;
+    padding: 8px 16px;
+    border: 1px solid #2b63f9;
+    border-radius: 30px;
+}
+
+.culture-area .culture-text .culture-tags a:hover{
+    background-color: #2b63f9;
+    color: white;
+}
+
+
+.load-btn-center{
+    display: flex;
+    justify-content: center;
+}
+
+
+.load-btn-center .load-more-button{
+    padding: 8px 32px;
+    border: 1px solid black;
+    font-weight: 600;
+    background: white;
+    margin-bottom: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+/* culture box */
+
+.circle-indicater{
+    height: 20px !important;
+    width: 20px !important;
+    border-radius: 50% !important;
+}
+
+.communities-box{
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 0px;
+}
+
+.communities-box h2{
+    font-weight: 600;
+    font-size: 25px;
+}
+
+
+.communiti-image{
+    height: 200px;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+
+.communiti-image img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.communiti-text{
+    padding-top: 20px;
+}
+
+.communiti-text h3{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.communiti-text p{
+    font-size: 14px;
+    color: gray;
+}
+
+.communiti-text a{
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    margin-bottom: 30px;
+    color: #03a9f4 !important;
+    border: 1px solid white;
+    cursor: pointer;
+}
+
+.communiti-text a:hover{
+    border: 1px solid #03a9f4;
+    width: fit-content;
+    border-radius: 10px;
+}
+
+
+
+.life-review{
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.back-image{
+    height: 60vh;
+    width: 100%;
+}
+
+.back-image img{
+    height: 100%;
+    width: 100%;
+}
+
+.above-video-text{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-height: 120px;
+    z-index: 10;
+    width: 70vw;
+    padding: 20px 20px 20px 40px;
+    background-color: #FFFFFFC2;
+    width: 70vw;
+}
+
+.video-area-carousel{
+    display: flex;
+    align-items: center;
+}
+
+.play-btn a svg{
+    height: 50px;
+    width: 50px;
+}
+
+/* enquiry  */
+
+.person-enquiry{
+    position: fixed;
+    z-index: 30;
+}
+
+.enquiry-form{
+    padding: 20px;
+    border: 1px solid gray;
+    border-radius: 3px;
+    position: relative;
+    right: -100vw;
+    transition: all 1s ease;
+    width: 400px;
+    background: #1a73e8;
+}
+
+.enquiry-form h2{
+    font-size: 25px;
+    text-transform: capitalize;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #ffff;
+}
+.enquiry-form .enquiry-desc{
+    font-size: 14px;
+    text-transform: capitalize;
+    margin-bottom: 10px;
+    font-weight: 300;
+    color: #ffff;
+}
+
+.enquiry-form .enquire-field{
+    padding: 5px 10px;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #ffff;
+    background: #1a73e8;
+    color:#ffff;
+}
+.enquiry-form .enquire-field::placeholder{
+    color: #e0e0e0;
+}
+.enquiry-form .enquire-field:focus-visible{
+    outline: none;
+}
+
+.enquiry-message{
+    min-height: 120px;
+}
+
+.fixed-box{
+    position: absolute;
+    left: -35px;
+    top: 40%;
+}
+
+.enquiry-form .fixed-box .enq-text{
+    background: #ffd000;
+    color: black;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    width: 35px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 10px 0px;
+    cursor: pointer;
+}
+.enquiry-form .fixed-box .enq-text p{
+    margin-bottom: 0;
+    line-height: 18px;
+}
+
+.person-enquiry .enquire-icon{
+    height: 50px;
+    width: 50px;
+    color: white;
+    background: #ffd000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.show-enquiry{
+    right: calc(400px - 100vw);
+}
+
+
+/* press release css */
+
+.press-release{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    position: relative;
+}
+
+.press-release-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+}
+
+.in-news{
+    position: absolute;
+    box-shadow: 0 6px 9px 0 rgba(0,0,0,0.2);
+    display: inline-block;
+    padding: 12px 24px;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background-color: rgba(255,255,255,0.8);
+    color: #454545;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.in-news h2{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+
+}
+
+
+.press-side-box{
+    border: 1px solid red;
+}
+
+.press-content{
+    padding: 40px;
+    position: relative;
+}
+
+.press-content .side-square{
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    background-color: red;
+    rotate: 225deg;
+    top: 30px;
+    left: -16px;
+    background: white;
+}
+
+.press-content .press-release-text{
+    text-transform: uppercase;
+    color: #2b63f9;
+    font-size: 14px;
+}
+
+.press-content .press-heading{
+    font-weight: 700;
+    font-style: normal;
+    color: #464646;
+    font-size: 18px;
+    line-height: 24px;
+    margin-top: 40px;
+}
+
+
+.press-release .press-content .press-inner-content{
+    border-left: 1px solid goldenrod;
+    padding-left: 15px;
+    margin-left: 20px;
+}
+
+.press-release .press-content .press-inner-content p{
+    font-size: 14px;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+.press-release .press-indiacter{
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+    margin-left: 22%;
+}
+
+.press-release .press-indiacter li{
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+/* media query */
+
+@media only screen and (max-width: 992px){
+    .culture-image-box {
+        height: auto;
+    }
+    .video-main-box video{
+        width: 90%;
+        height: auto;
+    }
+    .corpseed-life{
+        border-right: none;
+    }
+}
+
+@media only screen and (min-width: 768px){
+    .contact-option{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 767px){
+    .video-area-box .video-area h2{
+        font-size: 25px;
+    }
+    .video-area-box .video-area p{
+        font-size: 14px;
+    }
+    .display-n{
+        display: none;
+    }
+
+    .padding-xy{
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    .meet-people-section p{
+        font-size: 15px;
+        width: 95%;
+
+    }
+    .meet-people-section h2{
+        font-size: 23px;
+        margin-bottom: 30px;
+    }
+    .meet-people-section .copy-link-btn{
+        font-size: 12px;
+    }
+    .change-flex-dir {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .culture-area .culture-text{
+        padding: 20px 20px;
+    }
+    .culture-area .culture-text h2{
+        color: #48aced;
+        font-size: 24px;
+    }
+
+    .culture-area .culture-text p{
+        color: #808080;
+        font-size: 14px;
+    }
+    .card-grid{
+        grid-template-columns: 1fr;
+    }
+    .culture-image-box {
+        height: 400px;
+    }
+    .communities-box{
+        padding-bottom: 0px;
+    }
+    .contact-option{
+        background: transparent;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 20;
+        gap: 20px;
+    }
+
+    .contact-option .mobile-contact, .contact-option .chat-contact {
+        display: flex;
+        gap: 5px;
+        border: none;
+        outline: none;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .chat-contact, .mobile-contact{
+        border-radius: 20px;
+        padding: 10px 0px;
+        font-weight: 400;
+        background-color: white;
+        color: white;
+        width: 100%;
+    }
+
+    .chat-contact{
+        background-color: #2b63f9;
+    }
+    .mobile-contact{
+        background-color: #47c758;
+    }
+
+    .chat-contact p, .mobile-contact p {
+        margin-bottom: 0px;
+    }
+
+    /* enquiry css */
+
+    .person-enquiry{
+        position: fixed;
+        z-index: 30;
+    }
+
+    .enquiry-form{
+        /* padding: 20px;
+        background-color: white;
+        color: white;
+        border: 1px solid gray;
+        border-radius: 10px;
+        position: relative;        
+        transition: all 1s ease; */
+        width: 80%;
+        right: -100%;
+    }
+
+    /* .enquiry-form h2{
+        font-size: 25px;
+        text-transform: capitalize;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #3b3f5c;
+    } */
+    /* .enquiry-form .enquiry-desc{     
+        font-size: 14px;
+        text-transform: capitalize;
+        margin-bottom: 10px;
+        font-weight: 300;
+        color: #5c5c5c;
+    } */
+
+    .enquiry-form .enquire-field{
+        padding: 5px 10px;
+        margin-bottom: 30px;
+        border: none;
+        border-bottom: 1px solid gray;
+    }
+    .enquiry-form .enquire-field:focus-visible{
+        outline: none;
+    }
+
+    .enquiry-form .enq-button{
+        width: 48%;
+        text-transform: uppercase;
+    }
+
+    .enquiry-message{
+        min-height: 120px;
+    }
+
+    .fixed-box{
+        position: absolute;
+        left: -35px;
+        top: 40%;
+    }
+
+    .enquiry-form .fixed-box .enq-text{
+        background: #ffd000;
+        color: black;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 600;
+        width: 35px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        padding: 10px 0px;
+    }
+    .enquiry-form .fixed-box .enq-text p{
+        margin-bottom: 0;
+        line-height: 18px;
+    }
+
+    .person-enquiry .enquire-icon{
+        height: 50px;
+        width: 50px;
+        color: white;
+        background: #ffd000;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .show-enquiry{
+        right: -20%;
+    }
+    .press-release{
+        grid-template-columns: 1fr;
+
+    }
+    .press-release .press-release-content{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+
+@media only screen and (max-width: 600px){
+    .load-btn-center .load-more-button {
+        font-size: 16px;
+    }
+    .video-area-box .video-area h2 {
+        font-size: 20px;
+    }
+    .carousel-heading h2{
+        font-size: 20px;
+    }
+    .carousel-heading p{
+        font-size: 14px;
+    }
+    .above-video-text {
+        max-height: 160px;
+    }
+}

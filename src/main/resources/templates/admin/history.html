@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+              	<div class="row">
+                	<div class="col-xl-12">
+                    	<div class="card">
+                        	<div class="card-body">
+                            	<div class="d-flex align-items center justify-content-between mb-3">
+                                	<h4 class="card-title">Trash History</h4>                                 	
+                            	</div>
+                            	<h5 class="card-subtitle"></h5>
+                            	<div class="table-responsive">
+									<table id="dataTable" class="table table-striped table-hover mb-0">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>Type</th>
+                                        	<th>User Name</th>
+                                        	<th>Date-Time</th>
+                                        	<th>IP</th>                                         	
+                                        	<th>Action</th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="h, sn : ${history}">
+                                        		<td th:text="${sn.index+1}"></td>
+                                        		<td th:text="${h.type+' : '+h.itemName}" data-toogle="tooltip"></td>
+                                        		<td th:text="${h.userName}"></td>
+                                        		<td th:text="${h.date+' '+h.time}"></td>
+                                        		<td th:text="${h.ip}"></td>													
+												<td>												
+												<span th:if="${session.role=='ROLE_ADMIN'}">
+												<a class="pointer" th:attr="onclick='restoreTrash(\''+${h.uuid}+'\')'"><i class="las la-trash-restore" data-toggle="tooltip" data-placement="left" title="Restore"></i></a>
+												<a class="pointer" th:attr="onclick='deleteHistory(\''+${h.uuid}+'\')'"> | <i class="las la-trash"  data-toggle="tooltip" data-placement="left" title="Delete"></i></a>
+												</span></td>
+											</tr>
+                                    </tbody>
+                                </table>
+                         	</div>                            
+                        	</div>
+                    	</div>
+                	</div>
+              	</div>
+              	
+              	<!-- Modal -->
+              	<div class="modal fade-in" id="WarningRestore" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to restore this trash ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <input type="hidden" id="HistoryUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return restoreTrash('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+              	
+				<div class="modal fade-in" id="WarningDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to delete this trash permanently ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <input type="hidden" id="TrashUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return deleteHistory('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+              	<div th:replace="admin/includes/javascript :: javascript"></div>
+              	<script type="text/javascript">
+                function restoreTrash(uuid){
+                  	 if(uuid!="NA"){
+                  		 $("#TrashUuid").val(uuid);
+                  		 $("#WarningRestore").modal("show");
+                  	 }else{               		 
+                  		 $("#WarningRestore").modal("hide");
+                  		 var trashUuid=$("#TrashUuid").val();
+                  		 location.href="/admin/trash/restore/"+trashUuid;
+                  	 }
+                   }
+                function deleteHistory(uuid){
+               	 if(uuid!="NA"){
+               		 $("#HistoryUuid").val(uuid);
+               		 $("#WarningDelete").modal("show");
+               	 }else{               		 
+               		 $("#WarningDelete").modal("hide");
+               		 var historyUuid=$("#HistoryUuid").val();
+               		 location.href="/admin/trash/delete/"+historyUuid;
+               	 }
+                }
+                </script>
+            </div>           
+</body>
+</html>

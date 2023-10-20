@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+    <main th:fragment="corpseedBodyContent">
+        <section class="career">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center py-5  mb-4">
+                            <h1 class="display-4 mb-0">Career@<span class="text-primary">Corpseed</span> </h1>
+                        </div>
+                    </div>
+                    <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert col-12" role="alert">
+  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		             </div>
+                    <div class="col-xl-12">
+                        <div class="card rounded-lg w-100 ">
+                            <div class="card-body py-5 px-4 px-md-5">
+                                <div class="d-flex flex-column flex-sm-row justify-content-between mb-5 align-items-center">
+                                    <h3 class="card-title text-uppercase h3 mb-3 mb-sm-0 text-left" th:text="${job.title}">PHP DEVELOPER</h3>
+                                    <div class="d-flex">
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#shareModal" class="btn-light rounded mr-3 btn">Share</a>
+                                        <a href="#" data-toggle="modal" data-target="#apply-now" class="btn-primary rounded btn">Apply</a>
+                                    </div>
+                                </div>
+                                <article>
+                                    <h4 class="card-title mb-4">Job Summary</h4>
+                                    <ul>
+                                    	<li>Positions open : <span th:text="${position}"></span></li>
+                                    	<li>Qualification : <span th:text="${job.qualification}"></span></li>
+                                    	<li>Experience    : <span th:text="${job.experience}"></span></li>
+                                    	<li>Salary        : <span th:if="${job.salary=='0'}">Negotiable</span><span th:unless="${job.salary=='0'}">[[${job.salary}]]/monthly</span></li>
+                                    	<li>Location      : <span th:text="${job.jobLocation}"></span></li>
+                                    	<li>Post Date     : <span th:text="${job.postDate}"></span></li>
+                                    </ul>
+                                </article>
+                                <hr class="my-5">
+                                <article>
+                                    <h4 class="card-title mb-4">Job Details : </h4>
+                                    <div class="clearfix" th:utext="${job.description}"></div>
+                                </article>
+                            </div>
+                        </div>
+                        <a th:href="@{/join-our-team}" class="btn btn-link mt-5 py-4 btn-block">View all jobs</a>
+                    </div>
+                </div>
+            </div>
+        </section>    
+    <!-- popup  -->
+    <div class="modal fade" id="apply-now" tabindex="-1" aria-labelledby="applyNow" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <form th:action="@{|/join-our-team/${job.slug}/submitjob|}" method="post"
+            enctype="multipart/form-data" th:object="${jobApp}" id="add_application">
+            	<input type="hidden" name="jobId" id="jobId" th:value="${job.id}"/>
+                <div class="modal-content  rounded-lg border-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="applyNow">Please Fill In all Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body px-2 px-md-3">
+                    	<div class="form-row">
+                        	<div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> Name *
+                                	<input type="text" th:field="*{name}" id="name" class="form-control w-100" placeholder="Please enter your full name" required
+                                	th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}" aria-describedby="emailHelp"/>
+<!--                                     <div class="invalid-tooltip">Please enter your name.</div> -->
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}"></span>
+                                </label>
+                        	</div>
+                            <div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> Email Address *
+	                                <input type="email" th:field="*{email}" onchange="validateEmail('email','ApplyJobButton')" id="email" class="form-control" placeholder="Please enter your email address" required
+	                                th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}" aria-describedby="emailHelp"/>
+<!-- 	                                <div class="invalid-tooltip"> Please provide a valid email.</div> -->
+	                                <span class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></span>
+                                </label>
+                            </div>
+                      	</div>
+                        <div class="form-row">
+                        	<div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> Mobile Number *
+	                            <input type="tel" th:field="*{mobile}" id="mobile" class="form-control" 
+	                            oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" 
+	                            minlength="10" maxlength="15" placeholder="Phone Number" autocomplete="false" required
+	                            th:classappend="${#fields.hasErrors('mobile') ? 'is-invalid':''}" aria-describedby="emailHelp"/>
+	                            <span class="invalid-feedback" th:each="e : ${#fields.errors('mobile')}" th:text="${e}"></span>
+                                </label>
+                           	</div>
+                            <div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> What is your current CTC ? *
+	                                <div class="input-group">
+		                               <div class="input-group-prepend">
+	    	                               <span class="input-group-text"> ₹</span>
+	                                   </div>.
+	                                   <input type="text" th:field="*{currentCTC}" class="form-control" placeholder="Please enter your current CTC" required
+	                                   th:classappend="${#fields.hasErrors('currentCTC') ? 'is-invalid':''}" aria-describedby="emailHelp"/>
+	                                </div>
+<!-- 									<div class="invalid-tooltip"> Please enter your CTC first.</div> -->
+									<span class="invalid-feedback" th:each="e : ${#fields.errors('currentCTC')}" th:text="${e}"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                        	<div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> Current Location? *
+	                                <input type="text" th:field="*{location}" class="form-control" placeholder="Please enter your location" required
+	                                th:classappend="${#fields.hasErrors('location') ? 'is-invalid':''}" aria-describedby="emailHelp"/>
+<!-- 	                                <div class="invalid-tooltip">Please provide your Location!</div> -->
+	                                <span class="invalid-feedback" th:each="e : ${#fields.errors('location')}" th:text="${e}"></span>
+                                </label>
+                           	</div>
+                            <div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> Total Experience *
+	                                <select th:field="*{experience}" class="custom-select mw-100" required
+	                                th:classappend="${#fields.hasErrors('experience') ? 'is-invalid':''}" aria-describedby="emailHelp">
+	                                	<option selected disabled value="">Choose...</option>
+	                                    <option value="Fresher">Fresher</option>
+	                                    <option value="1 - 2 years">1 - 2 years</option>
+	                                    <option value="2 - 3 years">2 - 3 years</option>
+	                                    <option value="3 - 4 years">3 - 4 years</option>
+	                                    <option value="5 - 10 years">5 - 10 years</option>
+	                                    <option value="10 - 20 years">10 - 20 years</option>
+	                                    <option value="20+ years">20+ years</option>
+	                               	</select>
+<!-- 	                                <div class="invalid-tooltip"> Please select your experience!</div> -->
+	                                <span class="invalid-feedback" th:each="e : ${#fields.errors('experience')}" th:text="${e}"></span>
+                                </label>
+                            </div>
+                      	</div>
+						<div class="form-row">
+                        	<div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> Goal motivates you to be the best? *
+	                                <input type="text" th:field="*{bestGoal}" class="form-control" placeholder="Please enter your answer" required
+	                                 th:classappend="${#fields.hasErrors('bestGoal') ? 'is-invalid':''}" aria-describedby="emailHelp"/>
+<!-- 	                                <div class="invalid-tooltip"> Please provide your answer!</div> -->
+	                                <span class="invalid-feedback" th:each="e : ${#fields.errors('bestGoal')}" th:text="${e}"></span>
+                                </label>
+                           	</div>
+                            <div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> Upload a CV *
+	                                <div class="input-group ">
+	                                	<div class="custom-file" style="border: 1.5px solid #cbc8d0;">	                                    	
+<!-- 	                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
+	                                        <input type="file" name="file" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" required/>
+	                                    </div>
+	                               	</div>
+<!-- 	                                <div class="invalid-tooltip"> Please upload your CV!</div> -->
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-0 w-100">
+                        	<label for="motivation"> What is your motivation to join Corpseed ? *</label>
+                            <textarea th:field="*{motivation}" class="form-control w-100" rows="1" required
+                             th:classappend="${#fields.hasErrors('motivation') ? 'is-invalid':''}" aria-describedby="emailHelp"></textarea>
+                            <div class="invalid-tooltip"> Please write here!</div>
+                            <span class="invalid-feedback" th:each="e : ${#fields.errors('motivation')}" th:text="${e}"></span>
+                        </div>
+                        <div class="form-group mb-0 w-100">
+                        	<label for="address"> Address *</label>
+                            <textarea th:field="*{address}" class="form-control w-100" rows="1" required
+                             th:classappend="${#fields.hasErrors('address') ? 'is-invalid':''}" aria-describedby="emailHelp"></textarea>
+                            <div class="invalid-tooltip"> Please provide your Address!</div>
+                            <span class="invalid-feedback" th:each="e : ${#fields.errors('address')}" th:text="${e}"></span>
+                        </div>
+                        
+                        <p class="small text-muted mb-0 mt-3">* Mandatory</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light rounded" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-submit rounded ApplyJobButton" id="add_application_btn">Apply Now</button>
+                    </div>
+                </div>
+                <input type="hidden" name="otp" id="varifyedOTP">
+                <input type="hidden" name="qualification" value="NA"/>
+                <input type="hidden" name="addedByUUID" value="0"/>
+                <input type="hidden" name="applicationStatus" value="3"/>
+                <input type="hidden" name="displayStatus" value="1"/>
+                <input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+				<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body share-button">
+       <div class="share-dialog">
+		  <header>
+		    <h3 class="dialog-title">Share this service</h3>
+		    <button class="close-button" data-dismiss="modal"><svg><use href="#close"></use></svg></button>
+		  </header>
+		  <div class="targets">
+		    <a class="button" id="fb_share">		    
+		      <svg>
+		        <use href="#facebook"></use>
+		      </svg>
+		      <span>Facebook</span>
+		    </a>
+		    
+		    <a class="button" id="whatsApp_share">
+		      <svg>
+		        <use href="#WhatsApp"></use>
+		      </svg>
+		      <span>WhatsApp</span>
+		    </a>
+		    
+		    <a class="button" id="linkdin_share">
+		      <svg>
+		        <use href="#linkedin"></use>
+		      </svg>
+		      <span>LinkedIn</span>
+		    </a>
+		    
+		    <a class="button" id="email_share">
+		      <svg>
+		        <use href="#email_Icon"></use>
+		      </svg>
+		      <span>Email</span>
+		    </a>
+		  </div>
+		  <div class="link">
+		    <div class="pen-url" id="copy-Content"></div>
+		    <button class="copy-link">Copy Link</button>
+		  </div>
+		</div>
+      </div>
+      <svg class="share-hidden">
+  <defs>
+    <symbol id="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></symbol>
+    
+    <symbol id="facebook" viewBox="0 0 24 24" fill="#3b5998" stroke="#3b5998" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></symbol>
+    
+    <symbol id="WhatsApp" viewBox="0 0 40 40" fill="#25D366" stroke="#25D366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-whatsapp"><path d="m25 21.7q0.3 0 2.2 1t2 1.2q0 0.1 0 0.3 0 0.8-0.4 1.7-0.3 0.9-1.6 1.5t-2.2 0.6q-1.3 0-4.3-1.4-2.2-1-3.8-2.6t-3.3-4.2q-1.6-2.3-1.6-4.3v-0.2q0.1-2 1.7-3.5 0.5-0.5 1.2-0.5 0.1 0 0.4 0t0.4 0.1q0.4 0 0.6 0.1t0.3 0.6q0.2 0.5 0.8 2t0.5 1.7q0 0.5-0.8 1.3t-0.7 1q0 0.2 0.1 0.3 0.7 1.7 2.3 3.1 1.2 1.2 3.3 2.2 0.3 0.2 0.5 0.2 0.4 0 1.2-1.1t1.2-1.1z m-4.5 11.9q2.8 0 5.4-1.1t4.5-3 3-4.5 1.1-5.4-1.1-5.5-3-4.5-4.5-2.9-5.4-1.2-5.5 1.2-4.5 2.9-2.9 4.5-1.2 5.5q0 4.5 2.7 8.2l-1.7 5.2 5.4-1.8q3.5 2.4 7.7 2.4z m0-30.9q3.4 0 6.5 1.4t5.4 3.6 3.5 5.3 1.4 6.6-1.4 6.5-3.5 5.3-5.4 3.6-6.5 1.4q-4.4 0-8.2-2.1l-9.3 3 3-9.1q-2.4-3.9-2.4-8.6 0-3.5 1.4-6.6t3.6-5.3 5.3-3.6 6.6-1.4z"></path></symbol>
+    
+    <symbol id="email_Icon" viewBox="0 0 24 24" fill="#777" stroke="#fafafa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></symbol>
+    
+    <symbol id="linkedin" viewBox="0 0 24 24" fill="#0077B5" stroke="#0077B5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></symbol>
+    
+    <symbol id="close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></symbol>
+  </defs>
+</svg>
+</div>
+</div>
+</div>  
+
+<div class="modal fade" id="otpModal" tabindex="-1" role="dialog" 
+aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content rounded">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalOtp"></h6>        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="javascript:void(0)" method="post" id="verifyOtpInput" 
+      class="digit-group" data-group-name="digits" data-autosubmit="false" 
+      autocomplete="off">
+      <div class="modal-body text-center">      
+       <input type="text" name="OTP1" id="OTP1" data-next="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP2" id="OTP2" data-next="OTP3" data-previous="OTP1" class="form-input" required="required">
+       <input type="text" name="OTP3" id="OTP3" data-next="OTP4" data-previous="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP4" id="OTP4" data-previous="OTP3" class="form-input" required="required">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" id="buttonVerifyOtpCareer">Verify OTP</button>
+        <p class="col-12 text-right flex-column justify-content-end align-items-end d-none" id="resendOTP">
+           Didn't receive code?<br>
+           <a href="javascript:void(0)" class="text-decoration-none" onclick="sendOtp('resendOTP','resendOTPTime')">Resend OTP</a>
+         </p>
+         <span id="resendOTPTime" class="col-12 text-center">&nbsp;</span>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+    <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+    <div th:replace="users/includes/javascript :: javascript"></div>	
+    <script type="application/ld+json">
+        {
+          "@context" : "https://schema.org/",
+          "@type" : "JobPosting",
+          "title" : "[[${job.title}]]",
+          "description" : "<p>[[${job.description}]]</p>",
+          
+          "datePosted" : "[[${job.postDate}]]",
+          "validThrough" : "[[${job.expireDate}]]",
+          "employmentType" : "PRIVATE",
+          "hiringOrganization" : {
+            "@type" : "Organization",
+            "name" : "Corpseed",
+            "sameAs" : "http://www.corpseed.com",
+            "logo" : "http://www.corpseed.com/assets/img/corpseed_logo.png"
+          },
+          "jobLocation": {
+          "@type": "Place",
+            "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "A-43",
+            "addressLocality": "A Block, Sector 63,Noida",
+            "addressRegion": "Uttar Pradesh",
+            "postalCode": "201301",
+            "addressCountry": "INDIA"
+            }
+          },
+          "baseSalary": {
+            "@type": "MonetaryAmount",
+            "currency": "INR",
+            "value": {
+              "@type": "QuantitativeValue",
+              "value": [[${job.salary}]],
+              "unitText": "MONTH"
+            }
+          }
+        }
+        </script>
+    <script>
+    $(document).ready(function(){
+    	$(".pen-url").html(location.href);
+    });
+/*         $(".btn-submit").click(function() {
+            //Fetch form to apply custom Bootstrap validation
+            var form = $(".form-check")
+            // console.log($('#fileInput')[0].files[0]);
+            if (form[0].checkValidity() === false) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.addClass('was-validated')
+        }); */
+        
+        $(function() {              
+        	   $("#add_application").validate({
+        	      // Specify validation rules
+        	      rules: {
+        	    	name: "required",
+        	    	email: "required",
+        	    	mobile: "required",
+        	    	currentCTC: "required",
+        	    	location: "required",
+        	    	experience: "required",
+        	    	bestGoal: "required",
+        	    	file: "required",
+        	    	address: "required",
+        	    	motivation: "required"},
+        	      // Specify validation error messages
+        	      messages: {
+        	    	  name: "Please enter name !!",
+        	    	  email: "Please enter email !!",
+        	    	  mobile: "Please enter mobile !!",
+        	    	  currentCTC: "Please enter CTC !!",
+        	    	  location: "Please enter location !!",
+        	    	  experience: "Please select experience !!",
+        	    	  bestGoal: "Please enter best goal !!",
+        	    	  file: "Please select resume !!",
+        	    	  address: "Please enter address !!",
+        	    	  motivation:"Please write here !!"},
+        	        submitHandler: function(form) {
+        	    	var mobile=$("#mobile").val();
+                    $("#mobileotpverifynumber").val(mobile);
+        	 		sendOtp("resendOTP","resendOTPTime",$("#name").val());
+        	 		$("#exampleModalOtp").html("Please enter the OTP sent to "+mobile+"&nbsp;<a href='javascript:void(0)' onclick='changeNumber(\"otpModal\",\"mobile\")'>Change</a>");
+        	 		$("#otpModal").modal("show");
+        	      }
+        	    });
+        	  });
+        
+        $( ".copy-link" ).click(function() {
+			  if (document.selection) {
+			    var range = document.body.createTextRange();
+			    range.moveToElementText(document.getElementById("copy-Content"));
+			    range.select().createTextRange();
+			    document.execCommand("copy");
+			  } else if (window.getSelection) {
+			    var range = document.createRange();
+			    range.selectNode(document.getElementById("copy-Content"));
+			    window.getSelection().addRange(range);
+			    document.execCommand("copy");
+			    $( ".copy-link" ).html("Copied");
+			  }
+			});	
+    </script>
+    </main>
+    
+</body>
+</html>

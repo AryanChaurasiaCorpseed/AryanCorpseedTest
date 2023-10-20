@@ -1,0 +1,8 @@
+<footer class="footer" th:fragment="footer">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between border-top py-4">
+            <span><i class="las la-copyright mr-2"></i> Copyright <span th:text="${#dates.format(#dates.createNow(), 'Y')}"> 2020</span> </span>
+            <span>Made for <a href="https://www.corpseed.com" target="_blank" rel="noopener noreferrer">Corpseed</a></span>
+        </div>
+    </div>
+</footer>

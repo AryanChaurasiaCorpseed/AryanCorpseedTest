@@ -1,0 +1,19 @@
+<aside  th:fragment="sidebar">
+	<nav class="sidebar" id="sidebar">
+    	<div class="logo text-center d-flex justify-content-center">
+        	<div class="logo text-center d-flex justify-content-center">
+            	<a th:href="@{/candidate/}" class="d-block">
+                	<img th:src="@{/admin/assets/logo-white.svg}" alt='logo' class="img-fluid logo-full mt-3">
+                    <img th:src="@{/admin/assets/logo-small.svg}" alt="logo" class="img-fluid logo-small px-1 mt-4 mb-2">
+                </a>                
+            </div>
+        </div>
+        <div class="nav-bar mt-3 sss-scroll" ss-container>
+        	<ul class="nav flex-column">            	
+            	<li class="nav-item" th:classappend="${appendClass=='jobApp'} ? 'active' :''"><a th:href="@{/candidate/}" class="nav-link"><i class="las la-tachometer-alt"></i><span>Job Application</span></a></li>
+            	<li class="nav-item" th:classappend="${appendClass=='roles'} ? 'active' :''"><a th:href="@{/candidate/open-roles}" class="nav-link"><i class="las la-graduation-cap"></i><span>Open Roles</span></a></li>
+                <li class="nav-item" th:classappend="${appendClass=='profile'} ? 'active' :''"><a th:href="@{/candidate/my-profile}" class="nav-link"><i class="las la-user"></i><span>My-Profile</span></a></li>             
+        	 </ul>
+		</div>
+	</nav>
+</aside>

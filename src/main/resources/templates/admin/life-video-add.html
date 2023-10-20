@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+		<div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/admin/life/video/save}" method="post" id="life_video"
+                	enctype="multipart/form-data" th:object="${lifeVideo}">
+                    <div class="col-lg-9">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body no-function">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Add Video</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+                                <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>
+                                <label class="form-group">
+                                    Position
+                                    <input th:field="*{position}" class="form-control" placeholder="Enter position..."
+                                              th:classappend="${#fields.hasErrors('position') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('position')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Title
+                                    <input th:field="*{title}" class="form-control" placeholder="Enter title..."
+                                           th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Cover Image<small>(1920 X 740)</small>
+                                    <input type="file" name="file" class="form-control">
+                                </label>
+                                <label class="form-group">
+                                    URL
+                                    <input th:field="*{url}" class="form-control" placeholder="For youtube video starts with : https://www.youtube.com/embed/"
+                                           th:classappend="${#fields.hasErrors('url') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('url')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Display Status
+                                    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                                        <input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" checked>
+                                        <label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+                                    </div>
+                                    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                                        <input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2">
+                                        <label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+                                    </div>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('displayStatus')}" th:text="${e}"></span>
+                                </label>
+								<input type="hidden" name="createdAt" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+								<input type="hidden" name="updatedAt" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+							</div>
+						</div> 
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Tag Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="goBack()">Discard</button>
+                                    <button class="btn d-none btn-outline-secondary btn-sm"> Save as draft</button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease"><i class="las la-upload mr-1"></i>  Publish</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(function() {     
+              	   $("#life_video").validate({
+              	      // Specify validation rules
+              	      rules: {
+              	    	 title: "required",
+              	    	 position: "required",
+              	    	 file: "required",
+                         url: "required"},
+              	      // Specify validation error messages
+              	      messages: {
+                          title: "Please enter title !!",
+                          position: "Please enter position !!",
+                          file: "Upload cover image !!",
+                          url: "Please enter video url !!"
+                      },
+              	     submitHandler: function(form) {
+              	    	 $(".disableMePlease").attr("disabled","disabled");
+              	        form.submit();
+              	      }
+              	    });
+              	  });
+                </script>
+            </div>           
+</body>
+</html>

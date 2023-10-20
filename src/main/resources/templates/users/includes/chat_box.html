@@ -1,0 +1,201 @@
+<div class="whaps">
+<div id='whatsapp-chat' class='hide'>
+    <div class='whatsapp-chat-header'>
+        <div class='whatsapp-chat-avatar'>
+            <img th:src='@{/assets/img/logo.svg}' alt="Corpseed Logo" />
+        </div>
+        <p><span class="whatsapp-chat-name">Corpseed</span><br><small>Online</small></p>
+    </div>
+
+    <div class='start-chat'>
+        <div th:pattern="@{/assets/img/whatsapp.png}" class="WhatsappChat__Component-sc-1wqac52-0 whatsapp-chat-body">
+            <div class="WhatsappChat__MessageContainer-sc-1wqac52-1 dAbFpq">
+                <div style="opacity: 0;" class="WhatsappDots__Component-pks5bf-0 eJJEeC">
+                    <div class="WhatsappDots__ComponentInner-pks5bf-1 hFENyl">
+                        <div class="WhatsappDots__Dot-pks5bf-2 WhatsappDots__DotOne-pks5bf-3 ixsrax"></div>
+                        <div class="WhatsappDots__Dot-pks5bf-2 WhatsappDots__DotTwo-pks5bf-4 dRvxoz"></div>
+                        <div class="WhatsappDots__Dot-pks5bf-2 WhatsappDots__DotThree-pks5bf-5 kXBtNt"></div>
+                    </div>
+                </div>
+                <div style="opacity: 1;" class="WhatsappChat__Message-sc-1wqac52-4 kAZgZq">
+                    <div class="WhatsappChat__Author-sc-1wqac52-3 bMIBDo">Corpseed</div>
+                    <div class="WhatsappChat__Text-sc-1wqac52-2 iSpIQi">Hi there 👋<br><br>How can I help you?</div>
+                    <div class="WhatsappChat__Time-sc-1wqac52-5 cqCDVm">1:40</div>
+                </div>
+            </div>
+        </div>
+
+        <div class='blanter-msg'>
+            <textarea id='chat-input' placeholder='Write a response' maxlength='120' row='1'></textarea>
+            <a href='javascript:void(0);' id='send-it'>
+                <svg viewBox='0 0 448 448'>
+                    <path d="M.213 32L0 181.333 320 224 0 266.667.213 416 448 224z"/>
+                </svg>
+            </a>
+
+        </div>
+    </div>
+    <div id='get-number'></div>
+    <a class='close-chat' href='javascript:void(0)'>×</a>
+</div>
+<a class='blantershow-chat' href='javascript:void(0)' title='Show Chat'>
+    <svg width="50" viewBox="0 0 24 24"><defs/>
+        <path fill="#eceff1" d="M20.5 3.4A12.1 12.1 0 0012 0 12 12 0 001.7 17.8L0 24l6.3-1.7c2.8 1.5 5 1.4 5.8 1.5a12 12 0 008.4-20.3z"/>
+        <path fill="#4caf50" d="M12 21.8c-3.1 0-5.2-1.6-5.4-1.6l-3.7 1 1-3.7-.3-.4A9.9 9.9 0 012.1 12a10 10 0 0117-7 9.9 9.9 0 01-7 16.9z"/>
+        <path fill="#fafafa" d="M17.5 14.3c-.3 0-1.8-.8-2-.9-.7-.2-.5 0-1.7 1.3-.1.2-.3.2-.6.1s-1.3-.5-2.4-1.5a9 9 0 01-1.7-2c-.3-.6.4-.6 1-1.7l-.1-.5-1-2.2c-.2-.6-.4-.5-.6-.5-.6 0-1 0-1.4.3-1.6 1.8-1.2 3.6.2 5.6 2.7 3.5 4.2 4.2 6.8 5 .7.3 1.4.3 1.9.2.6 0 1.7-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4z"/>
+    </svg>
+</a>
+    <div class="whatsapp-msg">
+    <p>Welcome to Corpseed. Please type your query, and we shall provide immediate assistance.</p>
+    <span>×</span>
+</div>
+</div>
+<!--<div id="fixed-social">
+    <div>
+        <a href="#" class="fixed-whatsapp" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" width="30" height="30" style="margin-bottom: 4px;">
+                <path d="M16.6 14c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.7-.3-1.4-.7-2-1.2-.5-.5-1-1.1-1.4-1.7-.1-.2 0-.4.1-.5.1-.1.2-.3.4-.4.1-.1.2-.3.2-.4.1-.1.1-.3 0-.4-.1-.1-.6-1.3-.8-1.8-.1-.7-.3-.7-.5-.7h-.5c-.2 0-.5.2-.6.3-.6.6-.9 1.3-.9 2.1.1.9.4 1.8 1 2.6 1.1 1.6 2.5 2.9 4.2 3.7.5.2.9.4 1.4.5.5.2 1 .2 1.6.1.7-.1 1.3-.6 1.7-1.2.2-.4.2-.8.1-1.2l-.4-.2m2.5-9.1C15.2 1 8.9 1 5 4.9c-3.2 3.2-3.8 8.1-1.6 12L2 22l5.3-1.4c1.5.8 3.1 1.2 4.7 1.2 5.5 0 9.9-4.4 9.9-9.9.1-2.6-1-5.1-2.8-7m-2.7 14c-1.3.8-2.8 1.3-4.4 1.3-1.5 0-2.9-.4-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3c-2.4-4-1.2-9 2.7-11.5S16.6 3.7 19 7.5c2.4 3.9 1.3 9-2.6 11.4" fill="#ffffff" class="color000 svgShape"></path>
+            </svg>
+            <span>WhatsApp Us</span></a>
+    </div>
+    <div>
+        <a href="tel:9999008018" class="fixed-call">
+            <svg class="" width="25" height="25" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.34417 10.3404C7.72417 13.0525 9.9475 15.2662 12.6596 16.6558L14.7679 14.5475C15.0267 14.2887 15.41 14.2025 15.7454 14.3175C16.8188 14.6721 17.9783 14.8637 19.1667 14.8637C19.6938 14.8637 20.125 15.295 20.125 15.8221V19.1667C20.125 19.6938 19.6938 20.125 19.1667 20.125C10.1679 20.125 2.875 12.8321 2.875 3.83333C2.875 3.30625 3.30625 2.875 3.83333 2.875H7.1875C7.71458 2.875 8.14583 3.30625 8.14583 3.83333C8.14583 5.03125 8.3375 6.18125 8.69208 7.25458C8.7975 7.59 8.72083 7.96375 8.4525 8.23208L6.34417 10.3404Z" fill="white"></path>
+            </svg>
+            <span>Talk To Expert</span></a>
+    </div>
+    <div>
+        <a href="#" class="fixed-chat">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square animate">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Talk To Expert</span></a>
+    </div>
+</div>-->
+<!--div class="chat-boat">
+&lt;!&ndash; Chat bot UI start &ndash;&gt;
+<div class="chat-screen">
+    <div class="chat-header">
+        <div class="chat-header-title">
+            Let's chat? - We're online
+        </div>       
+    </div>
+    <div class="chat-mail">
+        <div class="row">
+            <div class="col-md-12 text-center mb-2">
+                <p>Hi 👋! Please fill out the form to chat with next available agent.</p>
+                <input type="hidden" id="GreatMsgId" value="1"/>
+            </div>
+        </div>        
+        <form action="javascript:void(0)" id="ChatBoxValidation">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="text" name="chatName" id="chatName" class="form-control" placeholder="Name" aria-describedby="emailHelp" required="required"/>
+                </div>
+            </div>
+            <div class="col-md-12 d-none">
+                <div class="form-group">
+                    <input type="email" name="chatEmail" value="NA" onchange="validateEmail('chatEmail','StartChatButton')" id="chatEmail" class="form-control" placeholder="Email" aria-describedby="emailHelp"/>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="tel" name="chatMobile" id="chatMobile" minlength="10" maxlength="15" class="form-control" placeholder="Mobile" aria-describedby="emailHelp" onkeypress="return isNumber(event)" required="required"/>
+                </div>
+            </div>
+            <div class="col-md-12 mt-5 mb-3">
+                <button type="submit" class="btn btn-primary btn-rounded btn-block StartChatButton">Start Chat</button>
+            </div>
+            </form>      
+    </div>
+    <div class="chat-body hide">
+        <div class="chat-bubble you">Hello <span id="HelloName"></span> ! Welcome to Corpseed, and thank you for visiting us. How can we help you today?</div>
+        <div class="chat-bubble you">Tell us more about your requirements</div>
+        <div id="AppendChatData"></div>
+        <div class="chat-bubble you" id="ChatTyping">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto;display: block;shape-rendering: auto;width: 43px;height: 20px;" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                <circle cx="0" cy="44.1678" r="15" fill="#ffffff">
+                    <animate attributeName="cy" calcMode="spline" keySplines="0 0.5 0.5 1;0.5 0 1 0.5;0.5 0.5 0.5 0.5" repeatCount="indefinite" values="57.5;42.5;57.5;57.5" keyTimes="0;0.3;0.6;1" dur="1s" begin="-0.6s"></animate>
+                </circle> <circle cx="45" cy="43.0965" r="15" fill="#ffffff">
+                <animate attributeName="cy" calcMode="spline" keySplines="0 0.5 0.5 1;0.5 0 1 0.5;0.5 0.5 0.5 0.5" repeatCount="indefinite" values="57.5;42.5;57.5;57.5" keyTimes="0;0.3;0.6;1" dur="1s" begin="-0.39999999999999997s"></animate>
+            </circle> <circle cx="90" cy="52.0442" r="15" fill="#ffffff">
+                <animate attributeName="cy" calcMode="spline" keySplines="0 0.5 0.5 1;0.5 0 1 0.5;0.5 0.5 0.5 0.5" repeatCount="indefinite" values="57.5;42.5;57.5;57.5" keyTimes="0;0.3;0.6;1" dur="1s" begin="-0.19999999999999998s"></animate>
+            </circle></svg>
+        </div>
+    </div>
+    <div class="chat-input hide">
+        <input type="hidden" name="OTPChatVerify798456T" id="OTPChatVerify798456T">
+        <input type="text" id="ChatTypingText" placeholder="For others type here..."/>
+        <div class="input-action-icon" onclick="saveThisEnquiry('NA')">
+&lt;!&ndash;             <a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-paperclip"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg></a> &ndash;&gt;
+            <a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></a>
+        </div>
+        <input type="hidden" id="CategoryUuid"/>
+    </div>    
+</div>
+<div class="chat-bot-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square animate"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x "><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+</div>
+</div>
+
+<div class="modal fade" id="otpModalChat" tabindex="-1" role="dialog" 
+aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content rounded">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalOtpChat"></h6>        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="javascript:void(0)" method="post" id="verifyOtpInputChat" 
+      class="digit-group" data-group-name="digits" data-autosubmit="false" 
+      autocomplete="off">
+      <div class="modal-body text-center">      
+       <input type="text" name="OTPChat1" id="OTPChat1" data-next="OTPChat2" class="form-input" required="required">
+       <input type="text" name="OTPChat2" id="OTPChat2" data-next="OTPChat3" data-previous="OTPChat1" class="form-input" required="required">
+       <input type="text" name="OTPChat3" id="OTPChat3" data-next="OTPChat4" data-previous="OTPChat2" class="form-input" required="required">
+       <input type="text" name="OTPChat4" id="OTPChat4" data-previous="OTPChat3" class="form-input" required="required">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" id="buttonVerifyOtpChat">Verify OTP</button>
+        <p class="col-12 text-right flex-column justify-content-end align-items-end d-none" id="resendOTPChat">
+           Didn't receive code?<br>
+           <a href="javascript:void(0)" class="text-decoration-none" onclick="sendOtpBlog('resendOTPChat','resendOTPTimeChat','chat')">Resend OTP</a>
+         </p>
+         <span id="resendOTPTimeChat" class="col-12 text-center">&nbsp;</span>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="success_tic" class="modal fade" role="dialog" tabindex="-1" 
+	aria-labelledby="successModal" aria-hidden="true" 
+	data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md">
+
+    &lt;!&ndash; Modal content&ndash;&gt;
+    <div class="modal-content rounded">
+      <a class="close" href="#" data-dismiss="modal">&times;</a>
+      <div class="page-body">
+    <div class="head">  
+      <h5 class="text-success">Your Enquiry has been received !!</h5>
+      <h6 class="text-info">Our legal advisor will contact you shortly..!!</h6>
+    </div>
+
+  <div class="text-center mt-4">
+   <div class="checkmark-circle">
+	  <div class="background"></div>
+	  <div class="checkmark draw"></div>
+   </div>
+  </div>
+
+  </div>
+</div>
+    </div>
+
+  </div>
+<audio id="chatAudioSound" th:src="@{/corpseedchat.mp3}"></audio>-->

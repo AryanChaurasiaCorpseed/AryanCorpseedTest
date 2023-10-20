@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+                <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <!-- info row-->
+                <div class="row">
+                    <div class="col-lg-12 grid-margin card-stretch">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h3 class="mb-0 card-title">View Footer</h3>
+                                    <a th:href="@{/admin/master/footer/add}" class="btn btn-sm btn-info">Add New</a>
+                                </div>
+                                <div class="table-responsive">
+									<table id="dataTable" class="table table-striped table-hover mb-0">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>Date</th>
+                                        	<th>Category</th>
+                                        	<th>Status</th>
+                                        	<th align="center">Action</th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="f, sn : ${footer}">
+                                        		<td th:text="${sn.index+1}"></td>
+                                        		<td th:text="${f.modifyDate}"></td>
+                                        		<td th:text="${f.categoryName}"></td>
+                                        		<td th:classappend="${f.displayStatus=='1'} ? text-success:text-danger" th:text="${f.displayStatus=='1'} ? Enable:Disable"></td>
+												<td><a th:href="@{|/admin/master/footer/edit/${f.uuid}|}"><i class="las la-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i></a><span th:if="${session.role=='ROLE_ADMIN'}"><a class="pointer" th:attr="onclick='deleteFooter(\''+${f.uuid}+'\')'"> | <i class="las la-trash"  data-toggle="tooltip" data-placement="left" title="Delete"></i></a></span></td>
+											</tr>
+                                    	</tbody>
+                                	</table>
+                            	</div>                                
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <!-- Modal -->
+				<div class="modal fade-in" id="WarningDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to delete this footer ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <input type="hidden" id="masterFooterUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return deleteFooter('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>  
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                function deleteFooter(uuid){
+               	 if(uuid!="NA"){
+               		 $("#masterFooterUuid").val(uuid);
+               		 $("#WarningDelete").modal("show");
+               	 }else{               		 
+               		 $("#WarningDelete").modal("hide");
+               		 var footerUuid=$("#masterFooterUuid").val();
+               		 location.href="/admin/master/footer/delete/"+footerUuid;
+               	 }
+                }
+                </script>
+            </div>            
+</body>
+</html>

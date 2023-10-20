@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+              	<div class="row">
+                	<div class="col-xl-12">
+                    	<div class="card">
+                        	<div class="card-body">
+                            	<div class="d-flex align-items center justify-content-between mb-3">
+                                	<h4 class="mb-0 card-title">All Country</h4>
+                                 	<a th:href="@{/admin/master/country/add}" class="btn btn-sm btn-info">Add Country</a>
+                            	</div>
+                            	<h5 class="card-subtitle"></h5>
+                            	<div class="table-responsive">
+									<table id="dataTable" class="table table-striped table-hover mb-0">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>Country Code</th>
+                                        	<th>ShortName</th>
+                                        	<th>Country Name</th>                                        	
+                                        	<th>Action</th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="countries, sn : ${country}">
+                                        		<td th:text="${sn.index+1}"></td>
+                                        		<td th:text="${countries.countryCode}"></td>
+                                        		<td th:text="${countries.shortName}"></td>
+                                        		<td th:text="${countries.countryName}"></td>												
+												<td><a th:href="@{/admin/master/country/edit/} + ${countries.uuid}"><i class="las la-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i></a><span th:if="${session.role=='ROLE_ADMIN'}"><a class="pointer" th:attr="onclick='deleteCountry(\''+${countries.uuid}+'\')'"> | <i class="las la-trash"  data-toggle="tooltip" data-placement="left" title="Delete"></i></a></span></td>
+											</tr>
+                                    </tbody>
+                                </table>
+                         	</div>                            
+                        	</div>
+                    	</div>
+                	</div>
+              	</div>
+              	<!-- Modal -->
+				<div class="modal fade-in" id="WarningDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to delete this country ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <input type="hidden" id="CountryUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return deleteCountry('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+              	<div th:replace="admin/includes/javascript :: javascript"></div>
+              	<script type="text/javascript">
+                function deleteCountry(uuid){
+               	 if(uuid!="NA"){
+               		 $("#CountryUuid").val(uuid);
+               		 $("#WarningDelete").modal("show");
+               	 }else{               		 
+               		 $("#WarningDelete").modal("hide");
+               		 var countryUuid=$("#CountryUuid").val();
+               		 location.href="/admin/master/country/delete/"+countryUuid;
+               	 }
+                }
+                </script>
+            </div>           
+</body>
+</html>

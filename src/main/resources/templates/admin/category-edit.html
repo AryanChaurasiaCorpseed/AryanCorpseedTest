@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/admin/category/update/}+${uuid}" id="edit_category" method="post" enctype="multipart/form-data" 
+                	th:object="${category}">
+                    <div class="col-lg-9 ">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Edit Category</h4>
+                                    <a th:href="@{/admin/category/}" class="btn btn-sm btn-outline-secondary"> Back</a>
+                                </div>
+								 <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>                                
+                                <label for="#" class="form-group">
+                                    Parent Category
+                                    <select th:field="*{categoryName}" class="form-control select2-search" id="parentId"
+                                     th:classappend="${#fields.hasErrors('categoryName') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    	<option value="">---- Select Category ----</option>
+                                    	<option value="Start Company">Start Company</option>
+                                    	<option value="License & Certification">License & Certification</option>
+                                    	<option value="Financial Services">Financial Services</option>
+                                    	<option value="Business Compliance">Business Compliance</option>
+                                    	<option value="Changes In Business">Changes In Business</option>
+                                    	<option value="Pollution Advisory">Pollution Advisory</option>
+                                    </select>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('categoryName')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Sub Category Name
+                                    <input type="text" name="subCategoryName" id="menuName" class="form-control" 
+                                    th:classappend="${#fields.hasErrors('subCategoryName') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter category menu name..." th:value="${category.subCategoryName}">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('subCategoryName')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Title
+                                    <input type="text" name="title" id="title" class="form-control" 
+                                    th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" aria-describedby="emailHelp" 
+                                    placeholder="Enter category title..." th:value="${category.title}" onload="convertToSlug(this.value)" onkeyup="convertToSlug(this.value)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+                                </label>                                
+                                <label class="form-group">
+                                    Slug
+                                    <input type="text" name="slug" id="slug" class="form-control" 
+                                    th:classappend="${#fields.hasErrors('slug') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter category slug..." th:value="${category.slug}">
+                                     <span class="invalid-feedback" th:each="e : ${#fields.errors('slug')}" th:text="${e}"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title">SEO</h4>
+                                <label for="#" class="form-group">
+                                    Meta Title
+                                    <input type="text" id="metaTitle" name="metaTitle" class="form-control" placeholder="Enter meta title..."
+                                     th:classappend="${#fields.hasErrors('metaTitle') ? 'is-invalid':''}" th:value="${category.metaTitle}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('metaTitle')}" th:text="${e}"></span>
+                                </label>
+                               
+                                <label for="#" class="form-group">
+                                    Meta Keyword
+                                    <input type="text" id="metaKeyword" name="metaKeyword" class="form-control" placeholder="Enter meta keyword...."
+                                     th:classappend="${#fields.hasErrors('metaKeyword') ? 'is-invalid':''}" th:value="${category.metaKeyword}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('metaKeyword')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Meta Description
+                                   <textarea name="metaDescription" id="metaSummary" class="form-control" placeholder="Enter meta description..."
+                                   th:classappend="${#fields.hasErrors('metaDescription') ? 'is-invalid':''}" aria-describedby="emailHelp" cols="30" rows="5" th:text="${category.metaDescription}"></textarea>
+                                   <span class="invalid-feedback" th:each="e : ${#fields.errors('metaDescription')}" th:text="${e}"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                            	<label for="#" class="form-group">
+                                    Icon
+                                    <div th:if="${category.icon!=null}" id="ChoosedOldFile" class="uploaded"><a th:href="${@environment.getProperty('azure_path')+category.icon}" target="_blank"><b th:text="${category.icon}"></b>
+                                    <i class="las la-eye mr-4 mt-1" data-toggle="tooltip" data-placement="top" title="View"></i></a>
+                                    <button type="button" onclick="uploadNewDocument('ChooseNewFile','ChoosedOldFile')"><i class="las la-times text-danger"  data-toggle="tooltip" data-placement="top" title="Remove"></i></button>
+                                    </div>                                    
+                                    <input type="file" name="icons" id="ChooseNewFile" class="form-control" th:classappend="${category.icon==null}?'':'d-none'">
+                                    
+                                </label>
+                                <label for="#" class="form-group">
+                                    Rating User
+                                    <input type="text" id="ratingUser" name="ratingUser" class="form-control" 
+                                    th:classappend="${#fields.hasErrors('ratingUser') ? 'is-invalid':''}" th:value="${category.ratingUser}" aria-describedby="emailHelp"
+                                     placeholder="Total rating user..." onkeypress="return isNumber(event)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('ratingUser')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Rating Value
+                                    <input type="text" id="ratingCount" name="ratingValue" 
+                                    th:classappend="${#fields.hasErrors('ratingValue') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" th:maxlength="3" th:value="${category.ratingValue}" placeholder="Total rating given by each user..." onkeypress="return isNumberKey(event)">
+                                     <span class="invalid-feedback" th:each="e : ${#fields.errors('ratingValue')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group"> Show On Home
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="showHome1" name="showHomeStatus" class="custom-control-input" value="1" th:checked="${category.showHomeStatus=='1'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="showHome1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="showHome0" name="showHomeStatus" class="custom-control-input" value="2"  th:checked="${category.showHomeStatus=='2'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="showHome0">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('showHomeStatus')}" th:text="${e}"></span>
+								</label>
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" th:checked="${category.displayStatus=='1'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2" th:checked="${category.displayStatus=='2'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('displayStatus')}" th:text="${e}"></span>
+								</label>
+								<input type="hidden" name="postDate" th:value="${category.postDate}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Post Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" onclick="goBack()" class="btn btn-outline-danger btn-sm">
+                                        Discard
+                                    </button>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+       <div th:replace="admin/includes/javascript :: javascript"></div>
+       <script type="text/javascript">
+       $(function() {
+    	   $("#edit_category").validate({
+    	      // Specify validation rules
+    	      rules: {
+    	        categoryName: "required",
+    	        subCategoryName: "required",
+    	  	  title: "required",
+    	  	  slug: "required",
+    	  	  metaTitle: "required",
+    	  	  metaKeyword: "required",
+    	  	metaDescription: "required",
+    	  	  ratingUser: "required",
+    	  	  ratingValue: "required"},
+    	      // Specify validation error messages
+    	      messages: {
+    	        categoryName: "Please select category",
+    	        subCategoryName: "Please select sub-category",
+    	  	  title: "Please enter title",
+    	        slug: "Please enter slug",
+    	  	  metaTitle:"Please enter meta title",
+    	  	  metaKeyword:"Please enter meta keyword",
+    	  	metaDescription:"Please enter meta Description",
+    	  	  ratingUser:"Please enter rating User",
+    	  	  ratingValue:"Please enter rating Value out of 5"
+    	      },
+    	     submitHandler: function(form) {
+    	    	 $(".disableMePlease").attr("disabled","disabled");
+    	        form.submit();
+    	      }
+    	    });
+    	  }); 
+       </script>
+	 </div>
+
+</body>
+</html>

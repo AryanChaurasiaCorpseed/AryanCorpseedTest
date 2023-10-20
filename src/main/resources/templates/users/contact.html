@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+    <main th:fragment="corpseedBodyContent">
+    <input type="hidden" id="type" value="0"/>
+	<input type="hidden" id="type_id" value="0"/>
+        <section class="contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="py-4 border-bottom border-light my-4">
+                            <h1 class="display-4 text-center">Contact Us</h1>
+                            <p class="h3 text-center text-muted">Thanks for your interest in Corpseed</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-5 mr-auto col-lg-6">
+                        <div class="contact-form">
+                            <h4 class="text-center my-3">Leave us a message</h4>
+                            <form action="#" id="contactUsEnquiry">
+                                <div class="form-group mb-0">
+                                    <label for="name" class="inp">
+                                        <input type="text" id="name" name="name" placeholder="Name *" required="required"/>
+                                        <span class="focus-bg"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label for="email" class="inp">
+                                        <input type="email" id="email" name="email" onchange="validateEmail('email','')" placeholder="Email *" required="required"/>
+                                        <span class="focus-bg"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group mb-0 mobile-num">
+                                    <label for="mobile" class="mobile-num">
+                                        <input type="tel" name="mobile" id="mobile" oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" 
+                                        minlength="10" maxlength="15" placeholder="Phone Number*" autocomplete="false" required="required"/>
+<!--                                         <span class="label">Mobile *</span> -->
+                                        <span class="focus-bg"></span>
+                                    </label>
+                                </div>
+                               	<div class="form-group mb-0">
+	                               	<label for="city" class="inp">
+	                                    <input type="city" id="city" name="city" placeholder="City *" required="required"/>
+	                                    <span id="citysearch"></span>
+	                                </label>
+	                            </div>
+                                <div class="form-group mb-2">
+                                    <label for="message" class="inp">
+                                        <textarea id="message" name="message" rows="5" cols="0" placeholder="Message *" required="required"></textarea>
+                                        <span class="focus-bg"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <button type="submit" class="btn rounded px-5 py-2 btn-primary" name="submit">Submit</button>
+                                </div>
+								<input type="hidden" name="postDate" id="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+								<input type="hidden" name="modifyDate" id="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="contact-details m-2 m-md-3 mt-5 mt-lg-0">
+                            <div class="card border-0 mb-4" th:each="contact:${address}">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <svg class="mr-3 ml-n3" width="22" height="30" viewBox="0 0 22 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11 0C17.0738 0 22 4.7025 22 10.5C22 18.375 11 30 11 30C11 30 0 18.375 0 10.5C0 4.7025 4.92617 0 11 0ZM11 6.315C8.39667 6.315 6.2865 8.4375 6.2865 11.0531C6.2865 13.6669 8.39667 15.7875 11 15.7875C13.6033 15.7875 15.7135 13.665 15.7135 11.0512C15.7135 8.4375 13.6033 6.315 11 6.315Z" fill="#4A4A4A"></path>
+                                        </svg>
+                                            
+                                        <h5 class="text-black" th:text="${contact.title}">NOIDA OFFICE</h5>
+                                    </div>
+                          
+                                    <ul class="list-group ml-3">
+                                        <li class="list-group-item py-2 bg-white text-muted px-0">Call: <span th:text="${contact.mobile}"></span></li>
+                                        <li class="list-group-item py-2  bg-white text-muted px-0">(toll free at Call: +91 7558 640 644)</li>
+                                        <li class="list-group-item py-2  bg-white text-muted px-0">Email:<a class="t-primary" th:href="@{|mailto:${contact.email}|}" th:text="${contact.email}"> hello@Corpseed.com</a> </li>
+                                        <li class="list-group-item  py-2 bg-white text-muted px-0" th:text="${contact.address}">
+                                            Write: 69,Sector 1, Bhagwati nagar , Jammu - 180002
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="other mt-5 py-4 mb-5 ">
+                            <p class="lead">Have questions? Visit our <a th:href="@{/faq}">FAQs</a>. If you've are our excisting customer and have feedback on how we improve, please let us know.</p>
+                            <p class="lead">For job opportunities, please view our <a th:href="@{/join-our-team}">open roles</a>.</p>
+                            <p class="lead">For business partnerships, please visit our <a th:href="@{/partner}">forum</a>.</p>
+                            <p class="lead">For complaint, open a <a href="#" data-toggle="modal" data-target="#raiseSupport">ticket</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modal -->        
+        <div class="modal fade" id="raiseSupport" tabindex="-1" aria-labelledby="raiseSupport" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="return false" id="Complaint_Box" class="form-check">            	
+                <div class="modal-content rounded-lg border-light">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >Support On Ongoing Order</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body px-2 px-md-3">
+                    	<div class="form-row">
+                    		<div class="form-group col-md-12">
+                            	<label class="w-100 mb-0"> Invoice/Estimate/Project No. *
+	                                <input type="text" name="iepno" class="form-control" placeholder="Enter valid invoice/estimate/project no." required
+	                                aria-describedby="emailHelp"/>
+                                </label>
+                            </div>                           
+                      	</div>
+                    	<div class="form-row">                    		
+                        	<div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> Full Name *
+                                	<input type="text" name="cname" class="form-control w-100" placeholder="Please enter your full name" required aria-describedby="emailHelp"/>                                    
+                                </label>
+                        	</div> 
+                        	<div class="form-group col-md-6">
+                            	<label class="w-100 mb-0"> Mobile Number *
+	                            <input type="tel" name="cmobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" maxlength="15" placeholder="Phone Number" autocomplete="false" required=""
+	                            aria-describedby="emailHelp"/>
+                                </label>
+                           	</div>                         	                           
+                      	</div>
+                        <div class="form-row">
+                       	  <div class="form-group col-md-12">
+                           	<label class="w-100 mb-0"> Email Address *
+                                <input type="email" name="cemail" id="cemail" onchange="validateEmail('cemail','')" class="form-control" placeholder="Please enter your email address" required
+                                aria-describedby="emailHelp"/>
+                               </label>
+                           </div>                         
+                        </div>                  
+                        <div class="form-group mb-0 w-100">
+                        	<label for="#"> Message *</label>
+                            <textarea name="cmessage" class="form-control w-100" rows="5" placeholder="Please describe your concern !!" required aria-describedby="emailHelp"></textarea>                            
+                        </div>
+                        <p class="small text-muted mb-0 mt-3">* Mandatory</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light rounded" data-dismiss="modal">Close</button>
+                        <button type="submit" name="raiseComplaint" class="btn btn-primary btn-submit rounded">Submit</button>
+                    </div>
+                </div>
+                <input type="hidden" name="cpostDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+            </form>
+        </div>
+    </div>
+    
+<div class="modal fade" id="otpModal" tabindex="-1" role="dialog" 
+aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content rounded">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalOtp"></h6>        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="javascript:void(0)" method="post" id="verifyOtpInput" 
+      class="digit-group" data-group-name="digits" data-autosubmit="false" 
+      autocomplete="off">
+      <div class="modal-body text-center">      
+       <input type="text" name="OTP1" id="OTP1" data-next="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP2" id="OTP2" data-next="OTP3" data-previous="OTP1" class="form-input" required="required">
+       <input type="text" name="OTP3" id="OTP3" data-next="OTP4" data-previous="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP4" id="OTP4" data-previous="OTP3" class="form-input" required="required">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" id="buttonVerifyOtpContact">Verify OTP</button>
+        <p class="col-12 text-right flex-column justify-content-end align-items-end d-none" id="resendOTP">
+           Didn't receive code?<br>
+           <a href="javascript:void(0)" class="text-decoration-none" onclick="sendOtp('resendOTP','resendOTPTime')">Resend OTP</a>
+         </p>
+         <span id="resendOTPTime" class="col-12 text-center">&nbsp;</span>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+        <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+    	<script th:src="@{/assets/js/intlTelInput.js}"></script>
+    	<script type="text/javascript">
+            const mobile_intel1 = document.querySelector("#mobile");
+            window.intlTelInput(mobile_intel1, {
+  		  separateDialCode:true,
+  		   initialCountry:"in",
+  		    excludeCountries: ['ba'],
+  		    hiddenInput: "full",
+  		    utilsScript: "/assets/js/utils.js"
+  	  });
+    	</script>
+        <div th:replace="users/includes/javascript :: javascript"></div> 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "2nd Floor, A-154A",
+    "addressLocality": "A Block, Sector 63, Noida",
+    "addressRegion": "Uttar Pradesh",
+    "postalCode": "201301",
+    "addressCountry": "INDIA"
+  },
+  "email": "info@corpseed.com",
+  "member": [
+    {
+      "@type": "Organization"
+    },
+    {
+      "@type": "Organization"
+    }
+  ],
+  "alumni": [
+    {
+      "@type": "Person",
+      "name": "Vinay Thakur"
+    },
+    {
+      "@type": "Person",
+      "name": "Vipan Thakur"
+    }
+  ],
+  "name": "Corpseed Pvt. Ltd.",
+  "telephone": "+91 7558640644"
+}
+</script>      
+    </main>
+    
+	
+</body>
+</html>

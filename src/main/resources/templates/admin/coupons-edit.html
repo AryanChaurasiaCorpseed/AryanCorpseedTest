@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/admin/coupons/update/}" method="post" id="edit_coupon" th:object="${coupon}">
+                    <div class="col-lg-9">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Edit Coupons</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+								 <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>                                
+                                <label class="form-group">
+                                    Coupon Title
+                                    <input type="text" name="title" id="title" th:value="${coupon.title}"
+                                     th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                      class="form-control" placeholder="Enter coupon title...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Coupon Value
+                                    <input type="text" name="value" id="value" th:value="${coupon.value}"
+                                     th:classappend="${#fields.hasErrors('value') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                      class="form-control" placeholder="Enter coupon discoun value..." onkeypress="return isNumberKey(event)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('value')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                               		Coupon type
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="type1" name="type" class="custom-control-input" onclick="$('#ShowMaxDiscount').show()" value="percentage" th:checked="${coupon.type=='percentage'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="type1">Percentage</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="type0" name="type" class="custom-control-input" onclick="$('#ShowMaxDiscount').hide()" value="fixed" th:checked="${coupon.type=='fixed'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="type0">Fixed</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('type')}" th:text="${e}"></span>
+								</label>
+								<label class="form-group" id="ShowMaxDiscount" th:classappend="${coupon.type=='fixed'}?'no-display':''">
+                                    Maximum Discount(Rs.)
+                                    <input type="text" th:field="*{maximumDiscount}"
+                                     th:classappend="${#fields.hasErrors('maximumDiscount') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                      class="form-control" placeholder="Enter maximum price discount..." onkeypress="return isNumberKey(event)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('maximumDiscount')}" th:text="${e}"></span>
+                                </label>   
+                                <label for="#" class="form-group">
+                               		Service type
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="type2" onclick="showHideService('1')" th:field="*{serviceType}" class="custom-control-input" value="selected">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="type2">Selected</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="type3" onclick="showHideService('2')" th:field="*{serviceType}" class="custom-control-input" value="all">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="type3">All</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('type')}" th:text="${e}"></span>
+								</label>  
+                                <label for="#" class="form-group" id="ServiceTypeS" th:classappend="${coupon.serviceType=='all'}?'no-display':''">
+                                    Services
+                                    <select class="form-control select2-search" id="ServicesId" multiple="multiple">
+										<option th:each="service : ${services}" th:value="${service.id}" th:text="${service.serviceName}" th:selected="${existServices.contains(service)}">---- Select Service Name ----</option>
+                                   	</select>
+                                </label>							
+                               
+                                <label class="form-group">
+                                    Start Date
+                                    <input type="text" name="startDate" id="startDate" th:value="${coupon.startDate}"
+                                     th:classappend="${#fields.hasErrors('startDate') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                      class="form-control" data-date="" data-date-format="YYYY-MM-DD" placeholder="Enter coupon start date..." >
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('startDate')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    End Date
+                                    <input type="text" name="endDate" id="endDate" class="form-control"
+                                     th:classappend="${#fields.hasErrors('endDate') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                      th:value="${coupon.endDate}" data-date-format="YYYY-MM-DD" placeholder="Enter coupon end date...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('endDate')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" th:checked="${coupon.displayStatus=='1'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2" th:checked="${coupon.displayStatus=='2'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('displayStatus')}" th:text="${e}"></span>
+								</label>
+								<input type="hidden" name="serviceList" id="ServiceList">
+								<input type="hidden" th:field="*{couponServices}">
+								<input type="hidden" th:field="*{id}">
+								<input type="hidden" th:field="*{uuid}">
+								<input type="hidden" th:field="*{couponPushStatus}">
+								<input type="hidden" name="postDate" id="postDate" th:value="${coupon.postDate}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Coupon Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <a th:href="@{/admin/coupons/}"><button type="button" class="btn btn-outline-danger btn-sm">
+                                        Discard
+                                    </button></a>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <div class="col-lg-4  ml-auto">
+                        
+                    </div>
+                </div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(document).ready(function(){
+                	$('#ServicesId').select2({
+  		    		  placeholder: 'Select service',
+  		    		  allowClear: true
+      				});
+                	
+                	var today=$("#postDate").val();
+                	if($("#startDate").val()==""){
+                		$("#startDate").val(today)
+                	}
+                	if($("#endDate").val()==""){
+                		$("#endDate").val(today)
+                	}
+                });
+                function showHideService(data){
+                	if(data=="1"){
+                		$("#ServiceTypeS").slideDown();
+                	}else{
+                		$("#ServiceTypeS").slideUp();
+                	}
+                }
+                $(function() {     
+              	   $("#edit_coupon").validate({
+              	      // Specify validation rules
+              	      rules: {
+              	    	title: "required",
+              	    	value: "required",
+              	    	type: "required",
+              	    	serviceType: "required",
+              	    	startDate: "required",
+              	    	endDate: "required"},
+              	      // Specify validation error messages
+              	      messages: {
+              	    	title: "Please enter title",
+              	    	value: "Please enter value",
+              	    	type: "Please select type",
+              	    	serviceType:"Please select type",
+              	    	startDate:"Please enter start date",
+              	    	endDate:"Please enter end date"},
+              	     submitHandler: function(form) {
+              	    	isFormValid(form);
+              	      }
+              	    });
+              	  });
+                 function isFormValid(form){                	
+ 			    	var serviceType=$("input[name='serviceType']:checked").val();
+                 	if($(serviceType=="selected"&&"#ServicesId").val()==""){
+                 		return false;
+                 	}else{
+                 		$("#ServicesId").removeClass("is-invalid");
+                 	}
+                 	if(serviceType=="selected"){
+                 		var serviceLists=$("#ServicesId").val();
+                 		if(serviceLists==null||serviceLists==""){
+                 			$("#ServicesId").addClass("is-invalid");
+                 		}else
+                 		$("#ServiceList").val($("#ServicesId").val());
+                 	}else{
+                 		$("#ServiceList").val("0");
+                 	}
+                 	var type=$("input[name='type']").val();
+                 	var discount=$("#maximumDiscount").val();
+                 	
+                 	if(type=="percentage"){
+                 		if(discount==null||discount==""){
+                 			$("#maximumDiscount").addClass("is-invalid");
+                 			return false;
+                 		}
+                 	}
+                 	$(".disableMePlease").attr("disabled","disabled");
+                 	form.submit();
+                 } 
+                </script>
+            </div>
+            
+</body>
+</html>

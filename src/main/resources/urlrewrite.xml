@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite
+        PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite3.0.dtd">
+
+<urlrewrite>
+  <rule>
+    <name>seo redirect</name>
+    <condition name="host" operator="equal">^corpseed.com</condition>
+    <from>^/(.*)</from>
+    <to type="permanent-redirect" last="true">https://www.corpseed.com/$1</to>
+  </rule>
+  <rule>
+    <name>seo redirect1</name>
+    <condition name="host" operator="equal">^corpseed.azurewebsites.net</condition>
+    <from>^/(.*)</from>
+    <to type="permanent-redirect" last="true">https://www.corpseed.com/$1</to>
+  </rule>  
+</urlrewrite>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+    <main  th:fragment="corpseedBodyContent">
+        <section class="online-payment">
+            <div class="container">
+                <div class="col-xl-12">
+                    <div class="text-center py-5  mb-4">
+                        <h1 class="display-4 h1 mb-0">Online <span class="text-primary">Payment</span> </h1>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4">
+                    <div class="col-lg-5 col-md-7">
+                        <div class="timeline">
+                            <div class="timeline-item bg-white rounded ml-3 p-4 mt-0">
+                                <div class="timeline-arrow"></div>
+                                <h2 class="h5 mb-0">STEP 1</h2>
+                                <h4 class="card-title">Scan the QR Code,
+                                </h4>
+                                <p class="text-small mt-2 font-weight-light">
+                                   Open UPI payment app to scan the QR code for processing the payment.  .
+                                </p>
+                            </div>
+                            <div class="timeline-item bg-white rounded ml-3 p-4 ">
+                                <div class="timeline-arrow"></div>
+                                <h2 class="h5 mb-0">STEP 2</h2>
+                                <h4 class="card-title">Select your payment mode,
+                                </h4>
+                                <p class="text-small mt-2 font-weight-light">
+                                Select payment mode after scanning the QR code i.e upi, bank or card.
+                                </p>
+                            </div>
+                            <div class="timeline-item bg-white rounded ml-3 p-4">
+                                <div class="timeline-arrow"></div>
+                                <h2 class="h5 mb-0">STEP 3</h2>
+                                <h4 class="card-title">Payment Done.
+                                </h4>
+                                <p class="text-small mt-2 font-weight-light">
+                                After selecting payment mode enter  pin and payment will be done automatically.
+                                </p>
+                            </div>
+                        </div><!-- End -->
+                        
+                    </div>
+                    <div class="col-lg-5 col-md-5">
+                        <div class="card border-info shadow-lg mt-5 mt-md-0">
+                            <div class="card-body ">
+                                <!-- <h4 class="card-title pt-2">Pay with Paytm</h4> -->
+
+                                <div class="btn-group d-none w-100 btn-group-toggle mt-3" data-toggle="buttons">
+                                    <label class="btn btn-secondary active">
+                                      <input type="radio" name="options" id="option1" checked/> Paytm
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                      <input type="radio" name="options" id="option2"/> UPI
+                                    </label>
+                                </div>
+
+                                <picture class="img d-flex mt-3">
+                                    <img th:src="@{/assets/img/QR_code.jpg}" alt="Asked Ask" class="img-fluid mx-auto"/>
+                                </picture>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-8 col-xl-7 col-md-9 mx-auto py-5">
+                        <div class="alert small mx-auto alert-info mb-0">
+                            This Website uses 256-Bit SSL Encryption secure payment.
+                        </div>
+                        <div class="alert border-light shadow-sm aler-light mt-5">
+                            <p class="mb-0">
+                                If you encounter any <strong>error</strong> or in case of any failure.
+                                Please contact us <a th:href="@{/contact-us}">here.</a> or call us at <strong>7558-640-644</strong>. 
+                            </p>
+                        </div>
+                    </div>
+                </div><!--- ./row -->
+            </div>
+        </section>
+        <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+        <div th:replace="users/includes/javascript :: javascript"></div>
+    </main>
+    
+</body>
+</html>

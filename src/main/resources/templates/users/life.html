@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="users/base::layout(~{::corpseedBodyContent})">
+<body>
+<main th:fragment="corpseedBodyContent">
+    <div th:replace="~{users/includes/life-nav}"></div>
+    <div class="single-video-area">
+        <div class="video-area-box">
+            <div class="video-area">
+                <div class="play-btn"><a href="#" data-toggle="modal" data-target="#vedioshow" id="playButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-play-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                    </svg>
+                </a></div>
+                <div>
+                    <h2>Find Yourself here</h2>
+                    <p>See what a career at Corpseed looks like.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="meet-people-section padding-xy">
+        <h2>Meet the People who power <span>Corpseed</span></h2>
+        <p>We are the <span> #PeopleOfCorpseed</span>-employees representing communities and <br class="display-n">
+            culture of the world, coming together to help others achieve more. That's our <br class="display-n"><span>Corpseed</span>Life
+            , and these are our stories</p>
+        <div class="d-flex justify-content-center mt-5">
+            <button class="copy-link-btn" id="copyCurrentBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-link-45deg" viewBox="0 0 16 16">
+                    <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+                    <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+                </svg>
+                <span class="ml-2">Copy link to page</span></button>
+        </div>
+    </div>
+
+    <!-- culture area -->
+    <section class="culture-area-bg">
+        <div class="culture-area padding-xy" th:each="lu,sn:${lifeUsers}">
+            <div class="card-grid">
+                <div th:if="${(sn.index+1)%2!=0}">
+                    <div class="culture-image-box">
+                        <img th:src="${@environment.getProperty('azure_path')+lu.pictureName}" th:alt="Picture">
+                    </div>
+                </div>
+
+                <div class="culture-text ml-0">
+                    <h2 th:text="${lu.title}"></h2>
+                    <p th:utext="${lu.summary}"></p>
+                    <a th:href="@{|/life-at-corpseed/${lu.slug}|}" class="learn-more-btn">Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                             class="bi bi-chevron-right" viewBox="0 0 16 19">
+                            <path fill-rule="evenodd"
+                                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </a>
+                    <div class="culture-tags">
+                        <a th:each="tag:${lu.lifeCategories}"
+                           th:href="@{|/life-at-corpseed/tag/${tag.slug}|}" th:text="${'#'+tag.title}">#new</a>
+                    </div>
+                </div>
+                <div th:if="${(sn.index+1)%2==0}">
+                    <div class="culture-image-box">
+                        <img th:src="${@environment.getProperty('azure_path')+lu.pictureName}" th:alt="Picture">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- culture- area end -->
+
+    <div class="load-btn-center p-5">
+        <button class="load-more-button">Load More</button>
+    </div>
+
+
+    <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators1" th:each="lv,sn:${lifeVideo}" class="circle-indicater" th:classappend="${sn.index==0}?'active'" th:data-slide-to="${sn.index}"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item" th:each="lv,sn:${lifeVideo}" th:classappend="${sn.index==0}?'active'">
+                <div class="life-review">
+                    <div class="back-image">
+                        <img th:src="${@environment.getProperty('azure_path')+lv.coverImage}" alt="carousel-image">
+                    </div>
+                    <div class="above-video-text">
+                        <div class="video-area-carousel">
+                            <div class="mr-3 play-btn"><a href="javascript:void(0)" th:attr="onclick='playLifeVideo(\''+${lv.url}+'\',\''+${lv.position}+'\')'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-play-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                                </svg>
+                            </a></div>
+                            <div class="carousel-heading">
+                                <h2>Life At Corpseed : [[${lv.position}]]</h2>
+                                <p th:text="${lv.title}">See what a career at Corpseed looks like.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- communities text -->
+    <div class="communities-box padding-xy">
+        <h2>Our Communities inspire our Progress</h2>
+        <p>We strive to create an environment that brings the power of diversity to life-where people with different background and experiences thrive in both their professional and personal lives.</p>
+    </div>
+    <div class="communities-cards container padding-xy">
+        <div class="row">
+            <div class="col-md-4" th:each="b:${blogs}">
+                <div class="communiti-image">
+                    <img th:src="${@environment.getProperty('azure_path')+b.image}" alt="images">
+                </div>
+                <div class="communiti-text">
+                    <h3 th:text="${#strings.abbreviate(b.title,65)}">connecting place and self</h3>
+                    <p th:text="${#strings.abbreviate(b.summary,150)}"></p>
+                    <a th:href="@{|/life-at-corpseed/blog/${b.slug}|}">Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="load-btn-center mb-5">
+        <button class="load-more-button">Load More</button>
+    </div>
+    <div class="modal fade" id="vedioshow" tabindex="-1"
+         aria-labelledby="exampleStartUpModal" aria-hidden="true">
+        <div class="modal-dialog  modal-lg modal-dialog-centered">
+            <div class="modal-content rounded border-0 shadow-lg">
+                <div class="modal-header bg-primary">
+
+                    <button type="button" class="close text-white" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body px-0 px-md-3 px-lg-12 bg-primary">
+                    <iframe width="840" height="360" class="note-video-clip"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade service-video" id="lifevideoshow" tabindex="-1"
+         aria-labelledby="exampleStartUpModal" aria-hidden="true">
+        <div class="modal-dialog  modal-lg modal-dialog-centered">
+            <div class="modal-content rounded border-0 shadow-lg">
+                <div class="modal-header">
+                    <b class="text-white" id="lifeVideoHead" style="font: 18px"></b>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body px-0 px-md-3 px-lg-12">
+                    <iframe width="840" height="360" class="note-video-clip"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="users/includes/footer :: footer"></div>
+    <div id="messageBar"></div>
+    <div th:replace="users/includes/javascript :: javascript"></div>
+    <script type="text/javascript">
+        function playLifeVideo(url,heading){
+            $("#lifeVideoHead").html("Life At Corpseed : "+heading);
+            let videoUrl=url+"?autoplay=1&mute=1&enablejsapi=1";
+            $('#lifevideoshow .modal-body').html('<iframe src="'+videoUrl+'" width="840" height="360" class="note-video-clip" allowfullscreen></iframe>');
+            $("#lifevideoshow").modal("show");
+        }
+        $(document).ready(function() {
+            $('#vedioshow').on('show.bs.modal', function (e) {
+                // var idVideo = $(e.relatedTarget).data('id');
+                $('#vedioshow .modal-body').html('<iframe src="//www.youtube.com/embed/hhs7iQYnWgs?autoplay=1&amp;mute=1&amp;enablejsapi=1" width="840" height="360" class="note-video-clip" allowfullscreen></iframe>');
+            });
+            //on close remove
+            $('#vedioshow').on('hidden.bs.modal', function () {
+                $('#vedioshow .modal-body').empty();
+            });
+            $('#lifevideoshow').on('hidden.bs.modal', function () {
+                $('#lifevideoshow .modal-body').empty();
+            });
+        });
+    </script>
+</main>
+</body>
+</html>

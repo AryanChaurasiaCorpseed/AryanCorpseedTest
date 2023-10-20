@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+               <div class="container-fluid" th:fragment="corpseedBodyContent">
+              	<div class="row">
+                	<div class="col-xl-12">
+                    	<div class="card">
+                        	<div class="card-body">
+                            	<div class="d-flex align-items center justify-content-between mb-3">
+                                	<h4 class="mb-0 card-title">All User</h4>
+                                 	<a th:href="@{/admin/users/add}" class="btn btn-sm btn-info">Add User</a>
+                            	</div>
+                            	<h5 class="card-subtitle"></h5>
+                            	<div class="table-responsive">
+									<table id="dataTable" class="table table-striped table-hover mb-0">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>Role</th>
+                                        	<th>Title</th>
+                                        	<th>Email</th>
+                                        	<th>Status</th>
+                                        	<th>Action</th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="user, sn : ${users}">
+                                        		<td th:text="${user.id}"></td>
+                                        		<td th:text="${#strings.substring(user.role,5)}"></td>
+                                        		<td th:text="${user.firstName}+' '+${user.lastName}"></td>
+                                        		<td th:text="${user.email}"></td>
+												<td th:text="${user.displayStatus=='1'} ? 'Enable' : 'Disbale'"></td>
+												<td>
+												<div th:if="${user.role!='ROLE_ADMIN'}">
+												<a th:href="@{|/admin/users/edit/${user.uuid}|}"><i class="las la-edit"  data-toggle="tooltip" data-placement="left" title="Edit"></i></a>
+												<span th:if="${session.role=='ROLE_ADMIN'}">												
+												<a th:href="@{|/admin/users/change-password/${user.uuid}|}"> | <i class="las la-lock"  data-toggle="tooltip" data-placement="left" title="Change Password"></i></a>
+												<a class="pointer" href="javascript:void(0)" th:attr="onclick='activateDeactivate(\''+${user.uuid}+'\',\''+${user.accountStatus}+'\')'"> | <i th:class="${user.accountStatus==1}?'las la-user':'las la-user-slash'"  data-toggle="tooltip" data-placement="left" th:title="${user.accountStatus==1}?'Active':'Inactive'"></i></a>
+												<a class="pointer" th:attr="onclick='deleteUser(\''+${user.uuid}+'\')'"> | <i class="las la-trash"  data-toggle="tooltip" data-placement="left" title="Delete"></i></a>
+												</span>
+												</div>
+												</td>
+											</tr>
+                                    </tbody>
+                                </table>
+                            </div>                            
+                        	</div>
+                    	</div>
+                	</div>
+              	</div>
+              	<!-- Modal -->
+				<div class="modal fade-in" id="WarningDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to delete this user ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body"><b>Warning : </b> 
+				      	<span class="text-danger">Deleting the user will result into the loss of all related data for the current user role. Please deactivate the user before deleting the account</span><br>
+				        Password : <input type="password" id="verificationPassword" class="form-control" placeholder="Enter your login password.." aria-describedby="emailHelp">
+				      </div>
+				      <input type="hidden" id="UsersUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return deleteUser('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<div class="modal fade-in" id="WarningActivateDeactivate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabelUser">
+				        Are you sure want to activate this user ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body" id="activateDeactivateModal"><b>NOTE : </b>
+				      	<span class="text-warning">Please Select the active user from dropdown to transfer the task and records published by current user.</span><br>
+				        User : 
+				        <select id="verificationUser" class="form-control" aria-describedby="emailHelp">
+				        	<option value="">Select User</option>
+				        	<option th:each="u:${users}" th:if="${u.accountStatus==1}" th:value="${u.uuid}" th:text="${u.firstName+' '+u.lastName}">user1</option>				        	
+				        </select>
+				      </div>
+				      <input type="hidden" id="UsersActivateUuid"/>
+				      <input type="hidden" id="UsersActivateStatus"/>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return activateDeactivate('NA','0')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+              	<div th:replace="admin/includes/javascript :: javascript"></div>
+              	<script type="text/javascript">
+              	function activateDeactivate(uuid,status){
+              		
+              		if(uuid!="NA"&&Number(status)==2){
+			    		 $("#UsersActivateUuid").val(uuid);
+			    		 $("#UsersActivateStatus").val(status);
+			    		 $("#exampleModalLabelUser").html("Are you sure want to activate this user ?");
+			    		 $("#activateDeactivateModal").hide();
+			    		 $("#WarningActivateDeactivate").modal("show");			    		 
+			    	 }else if(uuid!="NA"&&Number(status)==1){
+			    		 $("#verificationUser option").show();
+			    		 $("#verificationUser option[value='"+uuid+"']").each(function() {
+		              		    $(this).hide();
+		              		});
+			    		 $("#UsersActivateUuid").val(uuid);
+			    		 $("#UsersActivateStatus").val(status);
+			    		 $("#exampleModalLabelUser").html("Are you sure want to inactivate this user ?");
+			    		 $("#activateDeactivateModal").show();
+			    		 $("#WarningActivateDeactivate").modal("show");			    		 
+			    	 }else{
+			    		 var blogUserUid=$("#verificationUser").val();
+			    		 status=$("#UsersActivateStatus").val();
+			    		 
+			    		 if(Number(status)==1&&(blogUserUid==null||blogUserUid=="")){
+			    			 $("#verificationUser").addClass('is-invalid');
+			    			 return false;
+			    		 }
+			    		 $("#WarningActivateDeactivate").modal("hide");
+			    		 uuid=$("#UsersActivateUuid").val();
+			    		 
+			    		 if(Number(status)==1)status=2;
+			    		 else if(Number(status)==2)status=1;
+			    		 
+			    		 $.ajax({
+			     			type : "PUT",
+			     			url : "/admin/users/enabledisable",
+			     			dataType : "HTML",
+			     			data : {
+			     				blogUserUid : blogUserUid,
+			     				uuid : uuid,
+			     				status : status
+			     			},
+			     			success : function(response){
+			     				if(response=="pass"){
+			     					location.reload();
+			     				}else{
+			     					alert("Something Wrong, Please Try-again later ")
+			     				}
+			     				
+			     			}
+			     		});
+			    	 }
+              	}
+			     function deleteUser(uuid){
+			    	 if(uuid!="NA"){
+			    		 $("#UsersUuid").val(uuid);
+			    		 $("#WarningDelete").modal("show");
+			    	 }else{
+			    		 var password=$("#verificationPassword").val();
+			    		 if(password==""){
+			    			 $("#verificationPassword").addClass('is-invalid');
+			    			 return false;
+			    		 }
+			    		 $("#WarningDelete").modal("hide");
+			    		 uuid=$("#UsersUuid").val();
+			    		 
+			    		 $.ajax({
+			     			type : "GET",
+			     			url : "/admin/users/delete/",
+			     			dataType : "HTML",
+			     			data : {
+			     				password : password,
+			     				uuid : uuid
+			     			},
+			     			success : function(response){
+			     				if(response=="pass"){
+			     					location.reload(true);
+			     				}else{
+			     					alert("Password didn't match ")
+			     				}
+			     				
+			     			}
+			     		});
+			    	 }
+			     }
+			     </script> 
+            </div>            
+</body>
+</html>

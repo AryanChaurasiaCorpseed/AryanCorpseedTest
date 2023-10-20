@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+    <main th:fragment="corpseedBodyContent">
+        <section class="calculator">
+            <div class="container position-relative ">
+                <div class="row mb-5 py-5">
+                    <div class="col-lg-5 d-flex align-items-center">
+                        <div class="position-relative">
+                            <h1 class="display-4 font-weight-medium text-primary text-capitalize">
+                                Calculate your MCA fees
+                            </h1>
+                            <h4 class="text-muted">
+                                We make you move easy.
+                            </h4>
+                            <picture class="d-md-flex d-none">   
+                                <img th:src="@{/assets/svg/calcul.svg}" alt="calculator" class="w-50 mx-auto mt-4 img-fluid"/>
+                            </picture>
+                            <span class="animate circle"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 ml-auto">
+                        <div class="card shadow mt-5 mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title">Get Started</h4>
+                                <form  id="calcFind" method="post">
+	                                <ul class="list-group list-group-flush  ">
+	                                    <li class="list-group-item" style="flex-wrap:wrap;">
+	                                        <label for="#">Select State</label>
+	                                        <select name="state" id="state" class="custom-select">
+	                                            <option value="">--- Choose State ---</option>
+	                                            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+												<option value="Andhra Pradesh">Andhra Pradesh</option>
+												<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+												<option value="Assam">Assam</option>
+												<option value="Bihar">Bihar</option>
+												<option value="Chandigarh">Chandigarh</option>
+												<option value="Chhattisgarh">Chhattisgarh</option>
+												<option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+												<option value="Daman and Diu">Daman and Diu</option>
+												<option value="Delhi" selected="">Delhi</option>
+												<option value="Goa">Goa</option>
+												<option value="Gujarat">Gujarat</option>
+												<option value="Haryana">Haryana</option>
+												<option value="Himachal Pradesh">Himachal Pradesh</option>
+												<option value="Jammu and Kashmir">Jammu and Kashmir</option>
+												<option value="Jharkhand">Jharkhand</option>
+												<option value="Karnataka">Karnataka</option>
+												<option value="Kenmore">Kenmore</option>
+												<option value="Kerala">Kerala</option>
+												<option value="Lakshadweep">Lakshadweep</option>
+												<option value="Madhya Pradesh">Madhya Pradesh</option>
+												<option value="Maharashtra">Maharashtra</option>
+												<option value="Manipur">Manipur</option>
+												<option value="Meghalaya">Meghalaya</option>
+												<option value="Mizoram">Mizoram</option>
+												<option value="Nagaland">Nagaland</option>
+												<option value="Narora">Narora</option>
+												<option value="Natwar">Natwar</option>
+												<option value="Odisha">Odisha</option>
+												<option value="Paschim Medinipur">Paschim Medinipur</option>
+												<option value="Pondicherry">Pondicherry</option>
+												<option value="Punjab">Punjab</option>
+												<option value="Rajasthan">Rajasthan</option>
+												<option value="Sikkim">Sikkim</option>
+												<option value="Tamil Nadu">Tamil Nadu</option>
+												<option value="Telangana">Telangana</option>
+												<option value="Tripura">Tripura</option>
+												<option value="Uttar Pradesh">Uttar Pradesh</option>
+												<option value="Uttarakhand">Uttarakhand</option>
+												<option value="Vaishali">Vaishali</option>
+												<option value="West Bengal">West Bengal</option>
+	                                          </select>
+	                                    </li>
+	                                    <li class="list-group-item" style="flex-wrap:wrap;">
+	                                        <label for="#">Company Type</label>
+	                                        <select name="ctype" id="ctype" class="custom-select">
+	                                            <option value="">--- Choose Company Type ---</option>
+	                                            <option value="Public Limited Company" selected="">Public Limited Company</option>
+	                                            <option value="Private Limited Company">Private Limited Company</option>
+	                                            <option value="Nidhi Company">Nidhi Company</option>
+	                                         </select>
+	                                    </li>
+	                                    <li class="list-group-item" style="flex-wrap:wrap;">
+	                                        <label for="#">Captial Amount</label>
+	                                        <input type="text" name="capitalAmt" id="capitalAmt" class="custom-select" value="10000000"/>
+	                                    </li>
+	                                    
+	                                    <li class="list-group-item">
+	                                    	<button type="submit" name="submit" class="btn btn-primary btn-pill px-4 btn-md rounded">Submit</button> 
+	                                    </li>
+	                                </ul>
+	                        	</form>
+                            </div>
+                        </div>
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title">Stamp Duties</h4>
+                                <span id="userTable"></span>
+                                <ul class="list-group stamp-duties">
+                                	<li class=" d-flex justify-content-between align-items-center">
+                                      State
+                                      <span class="badge price">
+                                          <span class="text-dark" id="states">Delhi</span>
+                                      </span>
+                                    </li>
+                                    <li class=" d-flex justify-content-between align-items-center">
+                                      Company Type
+                                      <span class="badge price">
+                                          <span class="text-dark" id="ctypes">Public Limited Company</span>
+                                      </span>
+                                    </li>
+                                    <li class=" d-flex justify-content-between align-items-center">
+                                      Normal
+                                      <span class="badge price">
+                                          <span class="text-primary">₹</span>
+                                          <span class="text-dark" id="normal">500</span>
+                                      </span>
+                                    </li>
+                                    <li class=" d-flex justify-content-between align-items-center">
+                                      MOA Fees
+                                      <span class="badge price">
+                                          <span class="text-primary">₹</span>
+                                          <span class="text-dark" id="moa">206000</span>
+                                      </span>
+                                    </li>
+                                    <li class=" d-flex justify-content-between align-items-center">
+                                      AOA Fees
+                                      <span class="badge price">
+                                          <span class="text-primary">₹</span>
+                                          <span class="text-dark" id="aoa">600</span>
+                                      </span>
+                                    </li>
+                                    <li class=" d-flex justify-content-between align-items-center">
+                                        Stamp Duty
+                                        <span class="badge price">
+                                            <span class="text-primary">₹</span>
+                                            <span class="text-dark" id="stamp">0</span>
+                                        </span>                                    
+                                    </li>
+                                    <li class=" d-flex justify-content-between align-items-center">
+                                        Stamp Duty AOA
+                                        <span class="badge price">
+                                            <span class="text-primary">₹</span>
+                                            <span class="text-dark" id="stampAoa">0</span>
+                                        </span>                                    
+                                    </li>
+                                    <li class=" d-flex justify-content-between align-items-center">
+                                        Stamp Duty MOA
+                                        <span class="badge price">
+                                            <span class="text-primary">₹</span>
+                                            <span class="text-dark" id="stampMoa">0</span>
+                                        </span>                                  
+                                    </li>
+                                  </ul>
+                            </div>
+                        </div>
+                        <div class="card card-success shadow border-0 bg-success">
+                            <div class="card-body text-white">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <strong class="ls-1">TOTAL</strong>
+                                    <span class="badge price">
+                                        <span class="h2">₹</span>
+                                        <span class="h2 mb-0" id="total">207100</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row mt-5 mb-5 py-5">
+                    <div class="col-lg-6 d-flex align-items-center">
+                        <div class="">
+                            <h4 class="font-weight-bold text-capitalize mb-4">
+                                How it works?
+                            </h4>
+                            <picture class="d-flex p-3 pr-3 pr-md-5">
+                                <img th:src="@{/assets/svg/undraw_Helpful_sign_re_8ms5.svg}" alt="how work" class="img-fluid mx-auto px-3 pr-md-5"/>
+                            </picture>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="list-group how-works">
+                            <li class="d-flex mb-3">
+                                <span class="num">1</span>
+                                <div>
+                                    <h4 class="text-dark mb-3">Company you want Incorporate</h4>
+                                    <p class="text-muted">
+                                        Tell us about the type of company you want to Incorporate.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <span class="num">2</span>
+                                <div>
+                                    <h4 class="text-dark mb-3">Select State</h4>
+                                    <p class="text-muted">
+                                        Select the state where you want to incorporate the entity.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <span class="num">3</span>
+                                <div>
+                                    <h4 class="text-dark mb-3">Add Capital amount</h4>
+                                    <p class="text-muted">
+                                        We are ready to go, just write down the capital amount you are investing.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <span class="num">4</span>
+                                <div>
+                                    <h4 class="text-dark mb-3">Your Stamp Duties</h4>
+                                    <p class="text-muted">
+                                        Stamp duties and fees are the largest cost.
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div><!--- ./row -->
+                <div class="row mt-5 pb-10">
+                    
+                    <div class="col-lg-8 mx-auto col-md-10">
+                        <h3 class="h1 font-weight-light text-center mb-4">
+                            Frequently Asked Questions?
+                        </h3>
+						<div class="accordion" id="accordionfaq">
+                                <div class="item">
+	                                <div class="item-header" id="headingOne">
+	                                    <h2 class="mb-0">
+	                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+	                                            data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+	                                            Benefits of taking services from Corpseed ?
+	                                         <img th:src="@{/assets/img/right-chevron.png}" alt="right-chevron" class=" img-fluid"/>
+	                                        </button>
+	                                    </h2>
+	                                </div>
+	                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+	                                    data-parent="#accordionfaq">
+	                                    	<div class="content">
+	                                    		At Corpseed, we are committed to offer our services to the entrepreneurs and businesses as a very cost-effective proposition. We believe that a customer is always right and the focus of any business activity should be to serve the customer with utmost loyalty. All our services come with SLAs (Service Level Agreements) for on-time service delivery and money back guarantee to ensure high level of customer satisfaction.
+	                                    	</div>
+		                            </div>
+	                            </div>
+                                <div class="item">
+	                                <div class="item-header" id="heading1">
+	                                    <h2 class="mb-0">
+	                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+	                                            data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+	                                            What if I'm not happy with the service?
+	                                         <img th:src="@{/assets/img/right-chevron.png}" alt="right chevron1" class=" img-fluid"/>
+	                                        </button>
+	                                    </h2>
+	                                </div>
+	                                <div id="collapse1" class="collapse" aria-labelledby="heading1"
+	                                    data-parent="#accordionfaq">
+	                                    	<div class="content">
+	                                    		At Corpseed, our valued customers are always kept in the loop as far as service delivery timeline is concerned and we inform our customers every time a milestone is achieved during each stage of service request processing. But we also believe that we may come across a customer who is not satisfied with our efforts. For that we have a very responsive Customer Care Department which work 24x7 to attend to and solve customer complaints. We also have a money back guarantee for those, who want their service charges to be refunded.
+	                                    	</div>
+		                            </div>
+	                            </div>	
+                                <div class="item">
+	                                <div class="item-header" id="heading2">
+	                                    <h2 class="mb-0">
+	                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+	                                            data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+	                                            How can I be sure that my documents are safe?
+	                                         <img th:src="@{/assets/img/right-chevron.png}" alt="right chevron2" class=" img-fluid"/>
+	                                        </button>
+	                                    </h2>
+	                                </div>
+	                                <div id="collapse2" class="collapse" aria-labelledby="heading2"
+	                                    data-parent="#accordionfaq">
+	                                    	<div class="content">
+	                                    		At Corpseed, We believe it is our responsibility to protect our customer information from unauthorized access. We have put systems and processes in place to make sure that the customer information is safe with us during its storage and transfer between in house and third party servers. We continuously test our systems and processes for security breach and vulnerabilities are identified and fixed at a regular basis.
+	                                    	</div>
+		                            </div>
+	                            </div>
+                                <div class="item">
+	                                <div class="item-header" id="heading3">
+	                                    <h2 class="mb-0">
+	                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+	                                            data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+	                                            What is Corpseed cashback policy?
+	                                         <img th:src="@{/assets/img/right-chevron.png}" alt="right chevron3" class=" img-fluid"/>
+	                                        </button>
+	                                    </h2>
+	                                </div>
+	                                <div id="collapse3" class="collapse" aria-labelledby="heading3"
+	                                    data-parent="#accordionfaq">
+	                                    	<div class="content">
+	                                    		If a customer is not satisfied with the service we provided and if he contacts our customer care helpline and files a formal complaint within 15 days of service delivery date, Corpseed would refund the entire or partial amount of Professional Fee charged for that particular service.
+	                                    	</div>
+		                            </div>
+	                            </div>
+                                <div class="item">
+	                                <div class="item-header" id="heading4">
+	                                    <h2 class="mb-0">
+	                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+	                                            data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+	                                            Process to register customer complaints?
+	                                         <img th:src="@{/assets/img/right-chevron.png}" alt="right chevron4" class=" img-fluid"/>
+	                                        </button>
+	                                    </h2>
+	                                </div>
+	                                <div id="collapse4" class="collapse" aria-labelledby="heading4"
+	                                    data-parent="#accordionfaq">
+	                                    	<div class="content">
+	                                    		If a customer is having issues with our service delivery process, he has various alternatives available at his disposal to register his grievance with us. He can either email his complaint at complaints@corpseed.com or he can call our 24x7 Customer Care Helpline. Also, any customer is always welcome to visit our office to lodge a complaint with the senior management.
+	                                    	</div>
+		                            </div>
+	                            </div>
+                                <div class="item">
+	                                <div class="item-header" id="heading5">
+	                                    <h2 class="mb-0">
+	                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+	                                            data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+	                                            What is the process for online payment?
+	                                         <img th:src="@{/assets/img/right-chevron.png}" alt="right chevron5" class="img-fluid"/>
+	                                        </button>
+	                                    </h2>
+	                                </div>
+	                                <div id="collapse5" class="collapse" aria-labelledby="heading5"
+	                                    data-parent="#accordionfaq">
+	                                    	<div class="content">
+	                                    		A customer can buy our services directly from our online platform, for which he need to make online payment. Once he clicks on "Apply Now", a new window will open, a customer is required to submit the information in the respective fields and click "Make Payment". A unique ticket number will be auto generated, the customer need to quote this number as reference for any enquiry regarding his service request.
+	                                    	</div>
+		                            </div>
+	                            </div>
+                                <div class="item">
+	                                <div class="item-header" id="heading6">
+	                                    <h2 class="mb-0">
+	                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+	                                            data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+	                                            Is the online payment secured?
+	                                         <img th:src="@{/assets/img/right-chevron.png}" alt="right chevron6" class="img-fluid"/>
+	                                        </button>
+	                                    </h2>
+	                                </div>
+	                                <div id="collapse6" class="collapse" aria-labelledby="heading6"
+	                                    data-parent="#accordionfaq">
+	                                    	<div class="content">
+	                                    		All the monetary transactions performed on Corpseed online platform are secured with SSL System Protocol. We encrypt the customer information such as credit card and bank account details, before these are transmitted anywhere. We adhere to PCI DSS for data security standards for payment processing.
+	                                    	</div>
+		                            </div>
+	                            </div>	                            	                            	                            	                            	                                                        
+                                	
+                              	</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+        <div th:replace="users/includes/javascript :: javascript"></div>
+    </main>   	
+</body>
+</html>

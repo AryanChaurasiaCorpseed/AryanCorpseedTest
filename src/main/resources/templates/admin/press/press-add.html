@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+<div class="container-fluid" th:fragment="corpseedBodyContent">
+  <div class="row">
+    <form th:action="@{/press/save}" method="post" id="add_press"
+          enctype="multipart/form-data" th:object="${press}">
+      <div class="col-lg-9">
+        <div class="card grid-margin stretch-card mb-3">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h4 class="card-title">Add Press Release</h4>
+              <a th:href="@{/press/}" class="btn btn-sm btn-outline-secondary"> Back</a>
+            </div>
+            <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+              <p class="text-center" th:text="${session.message.content}"></p>
+              <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+            </div>
+            <label for="categoryId" class="form-group">
+              Category
+              <select class="form-control select2-search" name="categoryId" id="categoryId">
+                <option value="">---- Select Category ----</option>
+                <option th:each="n:${pressCategory}" th:value="${n.id}" th:text="${n.title}">Start Company</option>
+              </select>
+            </label>
+            <label for="user" class="form-group">
+              Author
+              <select class="form-control select2-search select2-author" th:field="*{user}" aria-describedby="emailHelp">
+                <option th:each="u:${users}" th:value="${u.id}" th:text="${u.firstName+' '+u.lastName}">Kaushal</option>
+              </select>
+            </label>
+            <label class="form-group">
+              Title
+              <input type="text" th:field="*{title}"
+                     th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" aria-describedby="emailHelp" class="form-control" placeholder="Enter blogs title..." onload="convertToSlug(this.value)" onkeyup="convertToSlug(this.value)">
+              <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+            </label>
+            <label class="form-group">
+              Slug
+              <input type="text" th:field="*{slug}" th:classappend="${#fields.hasErrors('slug') ? 'is-invalid':''}"
+                     aria-describedby="emailHelp"  class="form-control" placeholder="Enter slug...">
+              <span class="invalid-feedback" th:each="e : ${#fields.errors('slug')}" th:text="${e}"></span>
+            </label>
+            <label class="form-group">
+              Image
+              <input type="file" name="file" class="form-control">
+            </label>
+            <label class="form-group">
+              Summary
+              <textarea th:field="*{summary}" th:classappend="${#fields.hasErrors('summary') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                        class="form-control" rows="3" placeholder="Enter press release summary..."></textarea>
+              <span class="invalid-feedback" th:each="e : ${#fields.errors('summary')}" th:text="${e}"></span>
+            </label>
+
+            <div class="position-relative">
+              <button type="button" class="enquirybtn" title="Enquiry form">E <span>|</span></button>
+              <button type="button" class="pdfbtn" data-toggle="modal" data-target="#file"><i class="las la-file-alt" title="Upload file"></i><span>|</span></button>
+              <button type="button" class="servicebtn" data-toggle="modal" data-target="#" title="Select service">Service <span>|</span></button>
+            </div>
+            <label class="form-group">
+              Description
+              <textarea th:field="*{description}" class="form-control" rows="3"
+                        th:classappend="${#fields.hasErrors('description') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                        placeholder="Enter press release description..."></textarea>
+              <span class="invalid-feedback" th:each="e : ${#fields.errors('description')}" th:text="${e}"></span>
+            </label>
+          </div>
+        </div>
+        <div class="card grid-margin stretch-card mb-3">
+          <div class="card-body">
+            <h4 class="card-title">SEO</h4>
+            <label for="#" class="form-group">
+              Meta Title
+              <input type="text" placeholder="Enter meta title..."
+                     th:classappend="${#fields.hasErrors('metaTitle') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                     th:field="*{metaTitle}" class="form-control">
+              <span class="invalid-feedback" th:each="e : ${#fields.errors('metaTitle')}" th:text="${e}"></span>
+            </label>
+
+            <label for="#" class="form-group">
+              Meta Keyword
+              <input type="text" placeholder="Enter meta keyword..."
+                     th:classappend="${#fields.hasErrors('metaKeyword') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                     th:field="*{metaKeyword}" class="form-control">
+              <span class="invalid-feedback" th:each="e : ${#fields.errors('metaKeyword')}" th:text="${e}"></span>
+            </label>
+            <label for="#" class="form-group">
+              Meta Description
+              <textarea th:field="*{metaDescription}" placeholder="Enter meta description..."
+                        th:classappend="${#fields.hasErrors('metaDescription') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                        class="form-control" rows="5"></textarea>
+              <span class="invalid-feedback" th:each="e : ${#fields.errors('metaDescription')}" th:text="${e}"></span>
+            </label>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <label for="displayStatus" class="form-group">
+              Display Status
+              <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                <input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" checked>
+                <label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+              </div>
+              <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                <input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2">
+                <label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+              </div>
+            </label>
+            <input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+            <input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 mx-auto ">
+        <div class="card grid-margin stret ch-card">
+          <div class="card-body">
+            <h4 class="card-title">Post Status</h4>
+            <div class="alert alert-info">
+              <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+            </div>
+            <div class="alert bg-light alert-secondary">
+              Revisions: <span class="text-secondary">4 Revisions</span>
+            </div>
+            <div class="custom-control custom-checkbox mx-1 mb-2">
+              <input type="checkbox" class="custom-control-input" id="customCheck4651">
+              <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+            </div>
+            <p class="text-muted mb-2 px-1">
+              <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+            </p>
+            <p class="text-muted px-1 mb-0">
+              <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+            </p>
+          </div>
+          <div class="card-footer">
+            <div class="d-flex justify-content-between">
+              <button type="button" onclick="goBack()" class="btn btn-outline-danger btn-sm">
+                Discard
+              </button>
+              <button class="btn d-none btn-outline-secondary btn-sm">
+                Save as draft
+              </button>
+              <button type="submit" class="btn btn-primary btn-sm disableMePlease">
+                <i class="las la-upload mr-1"></i>  Publish
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal file" id="file" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="javascript:void(0)" id="UploadFormData">
+            <div class="row">
+              <div class="col-sm-12">
+                <input type="file" name="file" class="form-control col-sm-8">
+                <div class="col-sm-3 p-0">
+                  <button type="submit" name="uploadFormBtn" class="btn btn-primary btn-sm ">Upload</button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 mt-2">
+                <h5> Get Link</h5>
+                <input type="text" name="getFileLink" autocomplete="off" id="getFileLink" class="form-control link col-sm-8" readonly="readonly">
+                <div class="col-sm-3 p-0">
+                  <button type="button" class="btn copy" onclick="copyLink()">Copy Link</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div th:replace="admin/includes/javascript :: javascript"></div>
+  <script type="text/javascript">
+
+    $(document).ready(function(){
+      $('.select2-author').select2({
+        placeholder:  'Select Author',
+        allowClear: true
+      });
+      CKEDITOR.replace('description',{
+        filebrowserImageUploadUrl: '/ckeditor/upload',
+        height: 300
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    $(function() {
+      $("#add_press").validate({
+        // Specify validation rules
+        rules: {
+          categoryId: "required",
+          authorId: "required",
+          title: "required",
+          slug: "required",
+          summary: "required",
+          description: "required",
+          metaTitle: "required",
+          metaKeyword: "required",
+          metaDescription: "required",
+          ratingUser: "required",
+          ratingValue: "required"},
+        // Specify validation error messages
+        messages: {
+          categoryId: "Please select category",
+          authorId: "Please select author",
+          title: "Please enter title",
+          slug: "Please enter slug",
+          summary: "Please enter summary",
+          description:"Please enter description",
+          metaTitle:"Please enter meta title",
+          metaKeyword:"Please enter meta keyword",
+          metaDescription:"Please enter meta Description",
+          ratingUser:"Please enter rating User",
+          ratingValue:"Please enter rating Value out of 5"
+        },
+        submitHandler: function(form) {
+          $(".disableMePlease").attr("disabled","disabled");
+          form.submit();
+        }
+      });
+    });
+
+  </script>
+</div>
+
+</body>
+</html>

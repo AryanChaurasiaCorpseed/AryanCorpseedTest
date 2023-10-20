@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="candidates/base::layout(~{::corpseedBodyContent})">
+
+<body>     
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <!-- info row-->
+                <div class="row">
+                    <div class="col-lg-12 grid-margin card-stretch">
+                        <div class="card">
+                            <div class="card-body">
+                                
+                <div class="career">                
+                <div class="col-xl-12">
+                        <div class="card rounded-lg w-100 ">
+                            <div class="card-body py-5 px-4 px-md-5">
+                                <div class="d-flex flex-column flex-sm-row justify-content-between mb-5 align-items-center">
+                                    <h3 class="card-title text-uppercase h3 mb-3 mb-sm-0 text-left" th:text="${job.title}">PHP DEVELOPER</h3>
+                                    <div class="d-flex">
+                                        <a href="#" class="btn-light rounded mr-3 btn">Share</a>
+                                        <a th:href="@{|/candidate/apply-job/${job.uuid}|}" class="btn-primary rounded btn">Apply</a>
+                                    </div>
+                                </div>
+                                <article>
+                                    <h4 class="card-title mb-4">Job Summary</h4>
+                                    <ul>
+                                    	<li>Qualification : <span th:text="${job.qualification}"></span></li>
+                                    	<li>Experience    : <span th:text="${job.experience}"></span></li>
+                                    	<li>Salary        : <span th:text="${job.salary}"></span></li>
+                                    	<li>Location      : <span th:text="${job.jobLocation}"></span></li>
+                                    	<li>Post Date     : <span th:text="${job.postDate}"></span></li>
+                                    </ul>
+                                </article>
+                                <hr class="my-5">
+                                <article>
+                                    <h4 class="card-title mb-4">Job Description : </h4>
+                                    <p class="card-text" th:text="${job.description}"></p>
+                                </article>
+                            </div>
+                        </div>
+                        <a th:href="@{/candidate/open-roles}" class="btn btn-link mt-5 py-4 btn-block">View all jobs</a>
+                    </div>
+                
+               </div>                 
+                                
+                                                               
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <div th:replace="candidates/includes/javascript :: javascript"></div>
+                
+            </div>           
+</body>
+</html>

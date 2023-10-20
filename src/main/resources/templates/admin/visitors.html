@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+              	<div class="row">
+                	<div class="col-xl-12">
+                    	<div class="card">
+                        	<div class="card-body">
+                            	<div class="d-flex align-items center justify-content-between mb-3">
+                                	<h4 class="card-title">All Visitors</h4>                                 	
+                            	</div>
+                            	<h5 class="card-subtitle"></h5>
+                            	<div class="table-responsive" th:with="esn=${visitors.size*(cpage-1)}">
+									<table id="visitorTable" class="table table-striped table-hover mb-0">
+                                		<thead th:with="url=@{/admin/master/visitors}">
+                                        	<th><a class="sorting" th:classappend="${column=='id'}?'sorting_'+${order}:''" data-toggle="tooltip" data-placement="left" th:title="${column=='id'}?${sortTitle}:'Sort By Id'" th:href="@{${url}(size=${visitors.size},page=${cpage},col=id,ord=${order})}">#</a></th>
+                                        	<th><a class="sorting" th:classappend="${column=='visitedDate'}?'sorting_'+${order}:''" data-toggle="tooltip" data-placement="left" th:title="${column=='visitedDate'}?${sortTitle}:'Sort By Visited Date'" th:href="@{${url}(size=${visitors.size},page=${cpage},col=visitedDate,ord=${order})}">Date</a></th>
+                                        	<th><a class="sorting" th:classappend="${column=='type'}?'sorting_'+${order}:''" data-toggle="tooltip" data-placement="left" th:title="${column=='type'}?${sortTitle}:'Sort By Type'" th:href="@{${url}(size=${visitors.size},page=${cpage},col=type,ord=${order})}">Type</a></th>
+                                        	<th><a class="sorting" th:classappend="${column=='title'}?'sorting_'+${order}:''" data-toggle="tooltip" data-placement="left" th:title="${column=='title'}?${sortTitle}:'Sort By Title'" th:href="@{${url}(size=${visitors.size},page=${cpage},col=title,ord=${order})}">Title</a></th>
+                                        	<th><a class="sorting" th:classappend="${column=='ipAddress'}?'sorting_'+${order}:''" data-toggle="tooltip" data-placement="left" th:title="${column=='ipAddress'}?${sortTitle}:'Sort By IP Address'" th:href="@{${url}(size=${visitors.size},page=${cpage},col=ipAddress,ord=${order})}">IP Address</a></th>  
+                                        	<th><a class="sorting" th:classappend="${column=='operatingSystem'}?'sorting_'+${order}:''" data-toggle="tooltip" data-placement="left" th:title="${column=='operatingSystem'}?${sortTitle}:'Sort By Operating System'" th:href="@{${url}(size=${visitors.size},page=${cpage},col=operatingSystem,ord=${order})}">OS</a></th>                                       	
+                                        	<th><a class="sorting" th:classappend="${column=='visited'}?'sorting_'+${order}:''" data-toggle="tooltip" data-placement="left" th:title="${column=='visited'}?${sortTitle}:'Sort By No. Of times visited'" th:href="@{${url}(size=${visitors.size},page=${cpage},col=visited,ord=${order})}">Visited</a></th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="visitor, sn : ${visitors.content}">
+                                        		<td th:text="${cpage==1}? ${sn.index+1}:${esn+sn.index+1}"></td>
+                                        		<td th:text="${visitor.visitedDate}"></td>
+                                        		<td th:text="${visitor.type}"></td>
+                                        		<td th:text="${visitor.title}" data-toggle="tooltip" th:title="${visitor.title}"></td>
+                                        		<td th:text="${visitor.ipAddress}"></td>	
+                                        		<td th:text="${visitor.operatingSystem}"></td>											
+												<td th:text="${visitor.visited==1}?'Once':${visitor.visited+' times'}"></td>
+											</tr>
+                                    </tbody>
+                                </table>
+                                  <div class="datapagntn">
+                                   <p> Showing [[${esn+1}]] to [[${esn+visitors.getNumberOfElements()}]] of [[${totalRecords}]] entries</p>
+				                    <ul class="pagination">
+				                    <li class="page-item" th:if="${cpage!=1}">
+								      <a class="page-link text-primary" th:href="@{/admin/master/visitors(size=${visitors.size}, page=1)}">First</a>
+								    </li>
+				                    <li class="page-item">				                    
+								      <a class="page-link" th:classappend="${cpage==1} ? text-muted:text-primary" th:href="${cpage!=1}?@{/admin/master/visitors(size=${visitors.size}, page=${cpage-1})}:'javascript:void(0)'">Previous</a>
+								    </li>
+									    <li th:if="${totalPages > 1}" class="page-item" th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==visitors.number + 1} ? active">
+										    <a class="page-link" th:href="@{/admin/master/visitors(size=${visitors.size}, page=${pageNumber})}" th:text=${pageNumber}></a>
+										 </li>
+									   <li class="page-item">
+									      <a class="page-link" th:classappend="${cpage==totalPages} ? 'text-muted':'text-primary'" th:href="${cpage!=totalPages} ? @{/admin/master/visitors(size=${visitors.size}, page=${cpage+1})}:'javascript:void(0)'">Next</a>
+									   </li>
+									   <li th:unless="${cpage==totalPages}" class="page-item">
+									      <a class="page-link text-primary" th:href="@{/admin/master/visitors(size=${visitors.size}, page=${totalPages})}">Last</a>
+									   </li>
+									</ul>
+									</div>
+                         	</div>                            
+                        	</div>
+                    	</div>
+                	</div>
+              	</div> 
+              	<div th:replace="admin/includes/javascript :: javascript"></div>              	
+            </div>           
+</body>
+</html>

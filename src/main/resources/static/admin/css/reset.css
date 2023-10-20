@@ -1,0 +1,125 @@
+h1, h2, h3, h4, h5, h6 {
+  text-transform: unset;
+  letter-spacing: 1px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+}
+
+body.scroll-lock {
+  overflow: hidden;
+}
+
+.ic {
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
+
+.card {
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid #f2f3f4;
+  -webkit-box-shadow: 0px 5px 25px rgba(0, 85, 204, 0.15);
+          box-shadow: 0px 5px 25px rgba(0, 85, 204, 0.15);
+  border-radius: 8px;
+}
+
+.card .card-title {
+  color: #001737;
+  margin-bottom: .75rem;
+  text-transform: capitalize;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.card .card-description {
+  margin-bottom: .875rem;
+  font-weight: 400;
+  color: #76838f;
+}
+
+.alert {
+  border-radius: .5rem;
+}
+
+.info-card {
+  margin-bottom: 1rem;
+}
+
+.widget-body .traffic-source-legend .legend-label {
+  padding: 7px 0;
+}
+
+.widget-body .traffic-source-legend .legend-label span {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-right: .5rem;
+}
+
+.grid-margin {
+  margin-bottom: 1rem;
+}
+
+.stretch-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  -webkit-box-pack: stretch;
+      -ms-flex-pack: stretch;
+          justify-content: stretch;
+}
+
+.badge-secondary {
+  background-color:#f3f3f8;
+}
+
+.table th, .table td {
+  padding: .75rem 1.5rem;
+  vertical-align: middle;
+}
+
+.table th .thumb, .table td .thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+}
+
+.table th .d-flex.mx-n3, .table td .d-flex.mx-n3 {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+label.form-group {
+  width: 100%;
+}
+
+.btn {
+  border-radius: 0.25rem;
+}
+
+.form-control {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #454546;
+  font-size: 1rem;
+}
+
+#editor {
+  min-height: 260px;
+}
+/*# sourceMappingURL=reset.css.map */

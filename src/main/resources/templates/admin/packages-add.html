@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{|/admin/services/packages/add/${serviceUUID}|}" id="add_package" method="post" 
+                	th:object="${servicePackages}">
+                    <div class="col-lg-9 ">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Service Packages</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+                                <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>
+                                <input type="hidden" name="serviceId" th:value="${serviceid}">
+                                <label class="form-group"> Package Name
+                                    <input type="text" name="packageName" th:value="${servicePackages.packageName}"
+                                    th:classappend="${#fields.hasErrors('packageName') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     id="packageName" class="form-control" placeholder="Enter package name like silver,gold,basic package etc...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('packageName')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group"> Show Price
+                                    <input type="text" name="showPrice" th:value="${servicePackages.showPrice}" id="showPrice"
+                                    th:classappend="${#fields.hasErrors('showPrice') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" placeholder="Enter show price...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('showPrice')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group"> Professional Fees
+                                    <input type="text" name="professionalFees" th:value="${servicePackages.professionalFees}"
+                                    th:classappend="${#fields.hasErrors('professionalFees') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     id="professionalFees" class="form-control" placeholder="Enter professional fees...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('professionalFees')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group"> Government Fees
+                                    <input type="text" name="governmentFees" th:value="${servicePackages.governmentFees}"
+                                    th:classappend="${#fields.hasErrors('governmentFees') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     id="governmentFees" class="form-control" placeholder="Enter government fees...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('governmentFees')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group"> Other Miscellaneous Fees
+                                    <input type="text" name="miscellaneousFees" th:value="${servicePackages.miscellaneousFees}"
+                                    th:classappend="${#fields.hasErrors('miscellaneousFees') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     id="miscellaneousFees" class="form-control" placeholder="Enter other miscellaneous fees...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('miscellaneousFees')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group"> Package Price
+                                    <input type="text" name="packagePrice" th:value="${servicePackages.packagePrice}"
+                                    th:classappend="${#fields.hasErrors('packagePrice') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     id="packagePrice" class="form-control" placeholder="Enter package price...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('packagePrice')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group"> Summary
+                                    <textarea name="summary" id="summary" class="form-control" rows="3"
+                                    th:classappend="${#fields.hasErrors('summary') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter summary description..." th:text="${servicePackages.summary}"></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('summary')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">Default Package
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="defaultPackage1" name="defaultPackageStatus" class="custom-control-input" value="1" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="defaultPackage1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="defaultPackage0" name="defaultPackageStatus" class="custom-control-input" value="2">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="defaultPackage0">No</label>
+								    </div>
+								</label>
+                                <label for="#" class="form-group">Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								</label>
+								<input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+							</div>
+						</div> 
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Post Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <a href="javascript:void(0)" onclick="goBack()"><button type="button" class="btn btn-outline-danger btn-sm">
+                                        Discard
+                                    </button></a>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <div class="col-lg-4  ml-auto">
+                        
+                    </div>
+                </div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(function() {     
+             	   $("#add_package").validate({
+             	      // Specify validation rules    	          
+             	      rules: {
+             	    	 packageName: "required",
+             	    	showPrice: "required",
+             	    	professionalFees: "required",
+             	    	governmentFees: "required",
+             	    	miscellaneousFees: "required",
+             	    	packagePrice: "required",
+             	    	summary:"required"},
+             	      // Specify validation error messages
+             	      messages: {
+             	    	 packageName: "Please enter package name",
+             	    	showPrice: "Please enter show price",
+             	    	professionalFees: "Please enter professional fees",
+             	    	governmentFees: "Please enter government fee",
+             	    	miscellaneousFees: "Please enter miscellaneous fee",
+             	    	packagePrice:"Please enter package price",
+             	    	summary:"Please enter summary"},
+             	     submitHandler: function(form) {
+             	    	 $(".disableMePlease").attr("disabled","disabled");
+             	        form.submit();
+             	      }
+             	    });
+             	  }); 
+                </script>
+            </div>            
+</body>
+</html>

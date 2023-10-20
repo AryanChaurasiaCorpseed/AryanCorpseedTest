@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/admin/master/address/add}" method="post" id="add_address" 
+                	th:object="${contactAddress}">
+                    <div class="col-lg-9 ">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Contact Address</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+                                <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>
+                                <label class="form-group">
+                                    Title
+                                    <input type="text" name="title" id="title" class="form-control" 
+                                    placeholder="Enter office title..." th:value="${contactAddress.title}"
+                                     th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group"> Email
+                                    <input type="email" name="email" id="email" class="form-control" 
+                                    placeholder="Enter office email id..." th:value="${contactAddress.email}"
+                                     th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group"> Mobile No.
+                                    <input type="number" name="mobile" id="mobile" th:value="${contactAddress.mobile}"
+                                     th:classappend="${#fields.hasErrors('mobile') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                    oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" placeholder="Enter office email id...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('mobile')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group"> Address
+                                    <textarea name="address" id="address" class="form-control" placeholder="Enter office address..."
+                                     th:classappend="${#fields.hasErrors('address') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     th:text="${contactAddress.address}"></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('address')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('displayStatus')}" th:text="${e}"></span>
+								</label>								
+								<input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+							</div>
+						</div> 
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Post Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between"><a th:href="@{/admin/master/address}">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                        Discard
+                                    </button></a>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <div class="col-lg-4  ml-auto">
+                        
+                    </div>
+                </div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(function() {   
+              	   $("#add_address").validate({
+              	      // Specify validation rules
+              	      rules: {
+              	    	 title: "required",
+              	    	 email: "required",
+              	    	 mobile: "required",
+              	    	 address: "required"},
+              	      // Specify validation error messages
+              	      messages: {
+              	    	 title: "Please enter title !!",
+              	    	 email: "Please enter email !!",
+              	    	 mobile: "Please enter mobile !!",
+              	    	 address:"Please enter address !!"},
+              	     submitHandler: function(form) {
+              	    	 $(".disableMePlease").attr("disabled","disabled");
+              	        form.submit();
+              	      }
+              	    });
+              	  });
+                </script>
+            </div>            
+</body>
+</html>

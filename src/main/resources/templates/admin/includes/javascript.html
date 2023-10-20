@@ -1,0 +1,276 @@
+<div  th:fragment="javascript">
+<script th:src="@{/admin/js/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/admin/js/jquery.validate.min.js}"></script>
+<script th:src="@{/admin/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/admin/js/waves.js}"></script>
+<script th:src="@{/admin/js/quill.js}"></script>
+<script th:src="@{/admin/js/Chart.min.js}"></script>
+<script th:src="@{/admin/js/ckeditor/ckeditor.js}"></script>
+<script th:src="@{/admin/js/select2.min.js}"></script>
+<script th:src="@{/admin/js/main.js}"></script>
+	
+<script th:src="@{/admin/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/admin/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/admin/js/jszip.min.js}"></script>
+<script th:src="@{/admin/js/pdfmake.min.js}"></script>
+<script th:src="@{/admin/js/vfs_fonts.js}"></script>
+<script th:src="@{/admin/js/buttons.html5.min.js}"></script>
+<script th:src="@{/admin/js/buttons.print.min.js}"></script>
+<script th:src="@{/admin/js/buttons.colVis.min.js}"></script>	
+<script th:src="@{/admin/js/dataTables.select.min.js}"></script>	
+<script type="text/javascript">
+  /* $(document).ready(function() {
+	    $('.select2-search').select2();
+	}); */
+    $(document).ready(function() {
+    	$('#dataTableTrack').DataTable({
+    		dom: 'Bfrtip',
+       	 lengthMenu: [
+                [ 10, 25, 50,100],
+                [ '10 rows', '25 rows', '50 rows','100 rows']
+            ],
+           buttons: [
+               {
+                   extend: 'pageLength',
+                   text:'Rows'  
+               }                
+           ],
+           select: true,
+           responsive: true,
+           bInfo: false,
+           paging:false,
+           ordering: false
+    		 
+    	});
+    	$('#dataTableTrack').on( 'length.dt', function ( e, settings, len ) {
+    		window.location="/hrm/track-application/?size="+len+"&page=1";
+    	} );
+        $('#dataTable').DataTable( {
+        	dom: 'Bfrtip',
+        	 lengthMenu: [
+                 [ 10, 25, 50,100],
+                 [ '10 rows', '25 rows', '50 rows','100 rows']
+             ],
+            buttons: [            	
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [ 0, ':visible' ]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                    	columns: ':visible'                                               
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    autoFilter: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    postfixButtons: [ 'colvisRestore' ]   
+                },
+                ,
+                {
+                    extend: 'pageLength',
+                    text:'Show rows'  
+                }                
+            ],
+            select: true,
+            responsive: true
+        } );  
+        
+        var visitorTable=$('#visitorTable').DataTable( {
+    		dom: 'Bfrtip',    	
+        	 lengthMenu: [
+                 [ 10, 25, 50,100],
+                 [ '10 rows', '25 rows', '50 rows','100 rows']
+             ],
+            buttons: [            	
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [ 0, ':visible' ]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                    	columns: ':visible'                                               
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    autoFilter: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    postfixButtons: [ 'colvisRestore' ]   
+                },
+                ,
+                {
+                    extend: 'pageLength',
+                    text:'Show rows'
+                }               
+            ],
+            select: true,
+            responsive: true,
+            bInfo: false,
+            paging:false,
+            ordering: false
+        } );  
+        
+    	$('#visitorTable').on( 'length.dt', function ( e, settings, len ) {
+    		window.location="/admin/master/visitors?size="+len+"&page=1";
+    	} );
+        
+	var enqTable=$('#EnqDataTable').DataTable( {
+		dom: 'Bfrtip',    	
+    	 lengthMenu: [
+             [ 10, 25, 50,100],
+             [ '10 rows', '25 rows', '50 rows','100 rows']
+         ],
+        buttons: [            	
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                	columns: ':visible'                                               
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                autoFilter: true,
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'colvis',
+                postfixButtons: [ 'colvisRestore' ]   
+            },
+            ,
+            {
+                extend: 'pageLength',
+                text:'Show rows'
+            },
+            {
+                text: 'Push On Bitrix24',
+                action: function ( e, dt, node, config ) {
+                	var enqUuid=[];
+                	$.map(enqTable.rows('.selected').data(), function (item) {                		
+                		var uuid=item[6];
+                		uuid=uuid.substring(37);                		
+                		var start=uuid.indexOf("deleteEnquiry(");
+                		var end=uuid.indexOf(')">');                		
+                		uuid=uuid.substring(Number(start)+15,Number(end)-1);
+                		enqUuid.push(uuid);                		
+                    });
+                	if(enqUuid.length!=0){
+	                	pushOnBitrix(enqUuid);
+	                	enqTable.rows('.selected').deselect();
+                	}else{
+                		alert("Select Rows to push data on Bitrix24........");
+                	}
+                } 
+            }
+        ],
+        select: true,
+        responsive: true,
+        bInfo: false,
+        paging:false,
+        ordering: false
+    } );  
+	$('#EnqDataTable').on( 'length.dt', function ( e, settings, len ) {
+		window.location="/admin/master/enquiry?size="+len+"&page=1";
+	} );
+	
+	$('#dataTableNoFooter').DataTable( {
+    	dom: 'Bfrtip',
+    	 lengthMenu: [
+             [ 10, 25, 50,100],
+             [ '10 rows', '25 rows', '50 rows','100 rows']
+         ],
+        buttons: [            	
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                	columns: ':visible'                                               
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                autoFilter: true,
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'colvis',
+                postfixButtons: [ 'colvisRestore' ]   
+            },
+            ,
+            {
+                extend: 'pageLength',
+                text:'Show rows'  
+            }                
+        ],
+        select: true,
+        responsive: true,
+        bInfo: false,
+        paging:false,
+        ordering: false           
+    } ); 
+	$('#dataTableNoFooter').on( 'length.dt', function ( e, settings, len ) {
+		window.location="/hrm/job-application/?size="+len+"&page=1";
+	} );
+	
+    });
+	 $(function () {
+    	  $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
+</div>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <title th:text="${title}"></title>
+    <meta name="description" th:content="${metaDescription}"/>
+    <meta name="keywords" th:content="${metaKeyword}"/>
+     <link rel="shortcut icon" type="image/png" th:href="@{/assets/img/fav.png}"/>
+    <link rel="stylesheet" th:href="@{/admin/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/admin/css/main.css}"/>
+</head>
+<body>    
+    <div class="wrapper d-flex">
+        <main class="p-0 m-0">
+            <div class="container-fluid p-0 h-100">
+                <div class="col-xl-12 col-lg-12 h-100 col-md-10 mx-auto">
+                    <div class="login-form d-flex h-100 align-items-center">
+                    	<form th:action="@{/login}" method="post" class="form-signin form-validate bg-white rounded-lg shadow px-4">
+							<div class="text-center mb-4">
+                              	<img class="my-3" th:src="@{/assets/img/logo.png}" alt="Logo" width="140">
+                              	<h1 class="h3 mb-3 font-weight-normal">Lets Get Started</h1>
+                                <div th:if="${param.error}">
+									<div class="alert alert-danger">Invalid username or password.</div>
+								</div>
+								<div th:if="${param.inactive}">
+									<div class="alert alert-danger">Account deactivated, Contact to Admin !!</div>
+								</div>
+								<div th:if="${param.logout}">
+									<div class="alert alert-info">You have been logged out.</div>
+								</div>
+								<div th:if="${message}" th:classappend="${message.type}" class="alert" role="alert" style="background: #0055cc12">
+			  	               	     <p class="text-center" th:text="${message.content}"></p>  	           
+					             </div>
+                            </div>
+                          
+                            <div class="form-label-group">
+                            	<input type="email" id="username" name="username" class="form-control" placeholder="Email address" required="required" autofocus=""/>
+                              	<label for="inputEmail">Email address</label>
+                              	<div class="invalid-feedback">
+                                	Please enter a valid Email address.
+                              	</div>
+                            </div>
+                          
+                            <div class="form-label-group">
+                              <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required"/>
+                              <label for="inputPassword">Password</label>
+
+                            </div>
+                          
+                            <div class="custom-control custom-checkbox mb-3">
+                                <input type="checkbox" class="custom-control-input" name="remember-me" id="customCheck1"/>
+                                <label class="custom-control-label" for="customCheck1">Remember me</label>
+                            </div>							
+                            <button class="btn btn-primary btn-block submit-valid mb-2" type="submit">Sign in</button>
+                            <a th:href="@{/forget-password}" style="float: right;">Forget password ?</a>
+                            <p class="mt-5 mb-3 text-muted text-center">
+                                &copy; <span id="year"></span>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div> 
+        </main>
+    </div>
+<script>
+	document.getElementById("year").innerHTML = new Date().getFullYear();
+</script>
+<script th:src="@{/admin/js/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/admin/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/admin/js/main.js}"></script>
+<script type="text/javascript">
+    $(".submit-valid").click(function() {
+        //Fetch form to apply custom Bootstrap validation
+        var form = $(".form-validate")
+        // console.log(form.prop('id')); //test to ensure calling form correctly
+        // console.log($('#fileInput')[0].files[0]);
+        if (form[0].checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+        }
+        form.addClass('was-validated')
+    });
+</script>
+</body>
+</html>

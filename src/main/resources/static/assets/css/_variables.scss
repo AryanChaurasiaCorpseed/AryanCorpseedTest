@@ -1,0 +1,77 @@
+////////////  variables colors
+$dark-black: #272d30;
+// $blue: darken(#2ab1e7, 15%);
+$blue: #2b63f9;
+
+// $blue: #02c94b;
+$light-grey: #90a4ae;
+
+////////// variables media queries
+$sm: 575.98px;
+$md: 767.98px;
+$lg: 991.98px;
+$xl: 1199.98px;
+$xx: 1299.98px;
+
+///////////////// mixins ////////
+@mixin mediaq($xy) {
+  @media only screen and (max-width: $xy) {
+    @content;
+  }
+}
+
+.btn:focus,
+.btn.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0rem rgba(43, 99, 249, 0.25);
+}
+.btn:not(.btn-lg) {
+  font-size: 0.9rem;
+}
+.t-grey {
+  color: #5f6368;
+}
+
+.form-check-input {
+  margin-top: 0.25rem;
+}
+.cookie {
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 99;
+  margin-bottom: 0;
+  transform: translateY(150px);
+  @include mediaq($sm) {
+    font-size: 85%;
+  }
+}
+.anim-up {
+  -webkit-animation: fade-in-bottom 0.6s 3s forwards;
+  animation: fade-in-bottom 0.6s 3s forwards;
+}
+@-webkit-keyframes fade-in-bottom {
+  0% {
+    -webkit-transform: translateY(100px);
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in-bottom {
+  0% {
+    -webkit-transform: translateY(150px);
+    transform: translateY(150px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

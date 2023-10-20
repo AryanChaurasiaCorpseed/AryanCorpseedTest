@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{|/admin/blogs/faq/add/${bloguuid}|}" id="add_faq" method="post"
+                	th:object="${faq}">
+                    <div class="col-lg-9">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Create FAQ`s</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+                                <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div> 
+                                <label class="form-group">
+                                    Title
+                                    <input type="text" name="title" id="title" class="form-control" placeholder="Enter faq`s title..."
+                                     th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" th:value="${faq.title}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+                                </label>
+                                <div class="position-relative">
+                                <button type="button" class="pdfbtn" title="Select File"><i class="las la-file-alt" title="Upload file"></i><span>|</span></button>
+                                <button type="button" class="servicebtn" title="Select service">Service <span>|</span></button>
+                                </div>
+                                <label class="form-group">
+                                    Description
+                                    <textarea name="description" id="description" class="form-control" rows="3" placeholder="Enter faq`s description..."
+                                    th:classappend="${#fields.hasErrors('description') ? 'is-invalid':''}" aria-describedby="emailHelp" th:text="${faq.description}"></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('description')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								</label>
+								<input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+							</div>
+						</div> 
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Post Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <a href="javascript:void(0)" onclick="goBack()"><button type="button" class="btn btn-outline-danger btn-sm">
+                                        Discard
+                                    </button></a>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <div class="col-lg-4  ml-auto">
+                        
+                    </div>
+                </div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                CKEDITOR.replace('description',{
+					 filebrowserImageUploadUrl: '/ckeditor/upload',
+					 height: 300
+				 });
+				 $(function() {
+			    	   $("#add_faq").validate({ 
+			    	      // Specify validation rules    	          
+			    	      rules: {
+			    	    	  title: "required"},
+			    	      // Specify validation error messages
+			    	      messages: {
+			    	    	  title: "Please enter title"},
+			    	     submitHandler: function(form) {
+			    	    	 $(".disableMePlease").attr("disabled","disabled");
+			    	        form.submit();
+			    	      }
+			    	    });
+			    	  }); 
+                </script>
+            </div>            
+</body>
+</html>

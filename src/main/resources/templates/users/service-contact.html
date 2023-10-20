@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+<main th:fragment="corpseedBodyContent">
+    <div class="container p-3 service-contact">
+        <div class="row">
+            <div class="col-xs-12 col-md-7 content ">
+                <div class="row">
+
+                    <div class="col-sm-3 ">
+                        <div class="contact">
+                            <img class="img-fluid" th:src="${@environment.getProperty('azure_path')+user.profilePicture}" th:alt="${user.profilePicture}"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-9 ">
+                        <h1 th:text="${user.firstName+' '+user.lastName}">Louise Scott</h1>
+                        <p th:text="${user.jobTitle}"></p>
+                            <div class="text-component" th:utext="${user.aboutMe}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-4 col-md-offset-1">
+
+                <div class="contact-detail">
+                    <div class="col-xs-12">
+                        <h2>Contact details</h2>
+                        <p>
+                            <span>Tel:
+                                <a th:href="${'tel:'+user.mobile}" th:text="${user.mobile}">+44 (0)7734 958 942</a>
+                            </span>
+                        </p>
+                        <p>
+                            Email : <a th:href="${'mailto:'+user.email}" th:text="${user.email}"> Email </a>
+                        </p>
+                        <div class="contact__social">
+                             <a th:if="${user.linkedin!=null && user.linkedin!=''}" th:href="${user.linkedin}" target="_blank"><img class="img-fluid" th:src="@{/assets/images/linkdin.webp}" alt="linkdin" th:width="24"/></a>
+                             <a th:if="${user.twitter!=null && user.twitter!=''}" th:href="${user.twitter}" target="_blank"><img class="img-fluid" th:src="@{/assets/images/twitter.webp}" alt="twitter" th:width="32"/></a>
+                             <a th:if="${user.facebook!=null && user.facebook!=''}" th:href="${user.facebook}" target="_blank"><img class="img-fluid" th:src="@{/assets/images/facebook.webp}" alt="facebook" th:width="32"/></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="side_news">
+                    <h4 class="text-dark font-weight-light"><span class="bg-primary text-white padding-5-10">Latest</span> Articles</h4>
+                    <nav class="nav flex-column">
+                        <div class="col-sm-12" th:each="b:${articles}">
+                            <a th:href="@{|/knowledge-centre/${b.slug}|}" class="nav-link">
+                                <div class="col-sm-8 label" th:text="${b.title}"></div>
+                                <div class="col-sm-4">
+                                    <img th:src="${b.image!=null && b.image!=''}?${@environment.getProperty('azure_path')+b.image}:''"
+                                         th:alt="${b.image!=null && b.image!=''}?${b.image}:'blog-image'"/>
+                                </div>
+                            </a>
+                        </div>
+                    </nav>
+                    <div class="col-sm-12 mt-2"><u><a class="text-dark" th:href="@{|/knowledge-centre/author/${user.slug}|}">View All</a></u></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="users/includes/footer :: footer"></div>
+    <div th:replace="users/includes/javascript :: javascript"></div>
+</main>
+</body>
+</html>

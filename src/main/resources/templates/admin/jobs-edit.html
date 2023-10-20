@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/hrm/jobs/update/}+${jobsUUID}" method="post" id="edit_job" th:object="${jobs}">
+                    <div class="col-lg-9">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Edit Jobs</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+                                <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>
+                                <label class="form-group">
+                                    Title
+                                    <input type="text" name="title" id="title" th:value="${jobs.title}" class="form-control"
+                                    th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter job title..." onload="convertToSlug(this.value)" onkeyup="convertToSlug(this.value)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Slug
+                                    <input type="text" name="slug" id="slug" th:value="${jobs.slug}" class="form-control"
+                                    th:classappend="${#fields.hasErrors('slug') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter job slug...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('slug')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Position
+                                    <input type="text" name="position" th:value="${jobs.position}" id="position"
+                                    th:classappend="${#fields.hasErrors('position') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" placeholder="Enter job position...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('position')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    No. Of Positions
+                                    <input type="text" th:field="*{noOfPosition}"
+                                    th:classappend="${#fields.hasErrors('noOfPosition') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" placeholder="Enter no. of  positions open..." onkeypress="return isNumber(event)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('noOfPosition')}" th:text="${e}"></span>
+                                </label>
+                                <div class="position-relative">
+                                <button type="button" class="pdfbtn" data-toggle="modal" data-target="#file"><i class="las la-file-alt" title="Upload file"></i><span>|</span></button>
+                                <button type="button" class="servicebtn" data-toggle="modal" data-target="#service" title="Select service">Service <span>|</span></button>
+                                </div>
+                                <label class="form-group">
+                                    Description
+                                    <textarea name="description" id="description" class="form-control" rows="3"
+                                    th:classappend="${#fields.hasErrors('description') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter job description..." th:text="${jobs.description}"></textarea>
+                                	<span class="invalid-feedback" th:each="e : ${#fields.errors('description')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">Job Type
+                                    <select th:field="*{jobTitle}" name="jobTitle" id="jobTitle" class="form-control"th:classappend="${#fields.hasErrors('jobTitle') ? 'is-invalid':''}" 
+                                    aria-describedby="emailHelp" required>
+                                        <option value="">--- Select Job Type----</option>
+                                        <option value="it">IT</option>
+                                        <option value="sales">Sales</option>
+                                        <option value="delivery">Delivery</option>
+                                        <option value="hr">HR</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="legal">Legal</option>
+                                    </select>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('jobTitle')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Email
+                                    <input type="text" id="email" th:value="${jobs.email}" name="email" class="form-control"
+                                    th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter job application email">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></span>
+                                </label>
+                               
+                                <label for="#" class="form-group">
+                                    Qualification
+                                    <input type="text" id="qualification" th:value="${jobs.qualification}" name="qualification"
+                                    th:classappend="${#fields.hasErrors('qualification') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" placeholder="Enter required highest qualification">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('qualification')}" th:text="${e}"></span>
+                                </label>
+                                
+                                <label for="#" class="form-group">
+                                    Experience
+                                    <input type="text" id="experience" th:value="${jobs.experience}" name="experience"
+                                    th:classappend="${#fields.hasErrors('experience') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" placeholder="Enter total required job experience">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('experience')}" th:text="${e}"></span>
+                                </label>
+                                
+                                <label for="#" class="form-group">
+                                    Salary/Month
+                                    <input type="text" id="salary" th:value="${jobs.salary}" name="salary" class="form-control"
+                                    th:classappend="${#fields.hasErrors('salary') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter salary in hand..." onkeypress="return isNumberKey(event)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('salary')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Location
+                                    <input type="text" id="jobLocation" th:value="${jobs.jobLocation}" name="jobLocation"
+                                    th:classappend="${#fields.hasErrors('jobLocation') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" placeholder="Enter job location like Noida, Delhi...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('jobLocation')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Expire Date
+                                    <input type="date" th:field="*{expireDate}"
+                                    th:classappend="${#fields.hasErrors('expireDate') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" placeholder="Enter job expire date...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('expireDate')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" th:checked="${jobs.displayStatus=='1'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2" th:checked="${jobs.displayStatus=='2'}">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('displayStatus')}" th:text="${e}"></span>
+								</label>
+								<input type="hidden" th:field="*{positionFilled}">
+								<input type="hidden" th:field="*{id}">
+								<input type="hidden" th:field="*{uuid}">
+								<input type="hidden" name="postDate" th:value="${jobs.postDate}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+							</div>
+						</div> 
+						<div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title">SEO</h4>
+                                <label for="#" class="form-group">
+                                    Meta Title
+                                    <input type="text" th:field="*{metaTitle}" class="form-control" placeholder="Enter meta title..."
+                                     th:classappend="${#fields.hasErrors('metaTitle') ? 'is-invalid':''}" th:value="${metaTitle}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('metaTitle')}" th:text="${e}"></span>
+                                </label>
+                               
+                                <label for="#" class="form-group">
+                                    Meta Keyword
+                                    <input type="text" th:field="*{metaKeyword}" class="form-control" placeholder="Enter meta keyword...."
+                                     th:classappend="${#fields.hasErrors('metaKeyword') ? 'is-invalid':''}" th:value="${metaKeyword}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('metaKeyword')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Meta Description
+                                   <input type="text" th:field="*{metaDescription}" class="form-control" placeholder="Enter meta description..."
+                                   th:classappend="${#fields.hasErrors('metaDescription') ? 'is-invalid':''}" aria-describedby="emailHelp" th:value="${metaDescription}">
+                                   <span class="invalid-feedback" th:each="e : ${#fields.errors('metaDescription')}" th:text="${e}"></span>
+                                </label>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Jobs Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="goBack()">
+                                        Discard
+                                    </button>
+                                    <button type="submit" class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal file" id="file" tabindex="-1" role="dialog">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title">Upload File</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+						<div class="modal-body">
+						<form action="javascript:void(0)" id="UploadFormData">
+					      <div class="row">
+					       <div class="col-sm-12">
+					      <input type="file" name="file" class="form-control col-sm-8">
+					       <div class="col-sm-3 p-0">
+					      <button type="submit" name="uploadFormBtn" class="btn btn-primary btn-sm ">Upload</button>
+					      </div>
+					      </div>
+					       </div>
+					        <div class="row">
+					       <div class="col-sm-12 mt-2">
+					        <h5> Get Link</h5>
+					       <input type="text" name="getFileLink" id="getFileLink" class="form-control link col-sm-8" readonly="readonly">
+					        <div class="col-sm-3 p-0">
+					        <button type="button" class="btn copy" onclick="copyLink()">Copy Link</button>
+					      </div>
+					       </div>
+					    </div>
+					    </form>
+					     </div> 
+				       </div>
+				  </div>
+				</div>
+				<div class="modal file" id="service" tabindex="-1" role="dialog">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title">Select Service</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+						<div class="modal-body">
+						<form action="javascript:void(0)" id="ServiceFormData">
+					      <div class="row">
+					       <div class="col-sm-12">
+					        <div class="row">
+					        <div class="col-sm-8">
+					       <select class="form-control col-sm-8 select" name="selectService" id="selectService" multiple="multiple">
+					       	<option th:each="service:${services}" th:value="${service.slug}" th:text="${service.serviceName}">Start Company</option>
+					       	<option th:each="industry:${industries}" th:value="${industry.slug}" th:text="${industry.industryName}">Start Company</option>
+					       </select>
+					       </div>
+					       <div class="col-sm-3">
+					      <button type="submit" name="serviceCode" class="btn btn-primary btn-sm">Generate</button>
+					      </div>
+					       </div>
+					      </div>
+					       </div>
+					        <div class="row">
+					       <div class="col-sm-12 mt-2">
+					        <h5> Get Code</h5>
+					       <input type="text" name="getServiceLink" autocomplete="name" id="getServiceLink" class="form-control link col-sm-8" readonly="readonly">
+					        <div class="col-sm-3 p-0">
+					        <button type="button" class="btn copy" onclick="copyCode()">Copy Code</button>
+					      </div>
+					       </div>
+					    </div>
+					    </form>
+					     </div> 
+				       </div>
+				  </div>
+				</div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(document).ready(function(){
+                	CKEDITOR.replace('description',{
+						 filebrowserImageUploadUrl: '/ckeditor/upload',
+						 height: 300
+					 });
+                	$('.select').select2({
+  		    		  placeholder: 'Select service',
+  		    		  allowClear: true
+      				});
+                });
+                $(function() {         
+               	   $("#edit_job").validate({
+               	      // Specify validation rules
+               	      rules: {
+               	    	 title: "required",
+               	  	  	 slug: "required",
+               	  	 	 position: "required",
+ 	              	  	 noOfPosition: "required",
+ 	              	  	 description: "required",
+ 	              	  	 jobTitle:"required",
+ 	              	     email: "required",
+ 		              	 qualification: "required",
+ 		              	 experience: "required",
+ 		              	 salary: "required",
+ 		              	 jobLocation: "required",
+ 		              	 expireDate: "required",
+               	  	  	 metaTitle: "required",
+               	  	  	 metaKeyword: "required",
+               	  		 metaDescription: "required"},
+               	      // Specify validation error messages
+               	      messages: {
+               	    	 title: "Please enter title",
+               	         slug: "Please enter slug",
+               	       	 position: "Please enter position",
+               	       	 noOfPosition: "Please enter no. of positions",
+               	     	 description: "Please enter description",
+               	     	 jobTitle: "Please enter job title",
+               	   		 email: "Please enter email",
+               	 		 qualification: "Please enter qualification",
+ 		              	 experience: "Please enter experience",
+ 		              	 salary: "Please enter salary",
+ 		              	 jobLocation: "Please enter job location",
+ 		              	 expireDate: "Please enter job expire date",
+               	  	     metaTitle:"Please enter meta title",
+               	  	     metaKeyword:"Please enter meta keyword",
+               	  		 metaDescription:"Please enter meta Description"},
+               	     submitHandler: function(form) {
+               	    	 $(".disableMePlease").attr("disabled","disabled");
+               	        form.submit();
+               	      }
+               	    });
+               	  });
+                </script>
+            </div>
+            
+</body>
+</html>

@@ -1,0 +1,78 @@
+.d-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.bg-light {
+  background-color: #f7f7f7;
+}
+
+.bg-primary {
+  background: #084ee5;
+}
+
+.bg-grey {
+  background: #f7f7f7;
+}
+
+.bg-warning {
+  background: #f39915;
+}
+
+.bg-danger {
+  background: #F52A3D;
+}
+
+.bg-info {
+  background: #05A19C;
+}
+
+.bg-secondary {
+  background: #f7f8f9;
+}
+
+@-webkit-keyframes preloader11 {
+  0%, 100% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+  25% {
+    -webkit-transform: translate(160%);
+            transform: translate(160%);
+  }
+  50% {
+    -webkit-transform: translate(160%, 160%);
+            transform: translate(160%, 160%);
+  }
+  75% {
+    -webkit-transform: translate(0, 160%);
+            transform: translate(0, 160%);
+  }
+}
+
+@keyframes preloader11 {
+  0%, 100% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+  25% {
+    -webkit-transform: translate(160%);
+            transform: translate(160%);
+  }
+  50% {
+    -webkit-transform: translate(160%, 160%);
+            transform: translate(160%, 160%);
+  }
+  75% {
+    -webkit-transform: translate(0, 160%);
+            transform: translate(0, 160%);
+  }
+}
+/*# sourceMappingURL=variables.css.map */

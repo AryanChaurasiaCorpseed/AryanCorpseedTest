@@ -1,0 +1,18 @@
+.btn:focus, .btn.focus {
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0rem rgba(43, 99, 249, 0.25);
+          box-shadow: 0 0 0 0rem rgba(43, 99, 249, 0.25);
+}
+
+.btn:not(.btn-lg) {
+  font-size: .9rem;
+}
+
+.t-grey {
+  color: #5F6368;
+}
+
+.form-check-input {
+  margin-top: 0.25rem;
+}
+/*# sourceMappingURL=variables.css.map */

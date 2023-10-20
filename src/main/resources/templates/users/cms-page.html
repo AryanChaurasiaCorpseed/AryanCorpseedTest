@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+    <main th:fragment="corpseedBodyContent">
+        <div class="container">
+            <div class="row cms-page">
+                <div class="col-xl-8 col-lg-9 col-md-10 col-sm-11 mx-auto">
+                    <h1 class="py-5 mb-0 text-dark text-capitalize text-center" th:text="${page.title}">
+                        Page title goes here
+                    </h1>
+					<div class="blog-text text page" th:utext="${page.description}">....</div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+        <div th:replace="users/includes/javascript :: javascript"></div>
+    </main>
+    
+</body>
+
+</html>

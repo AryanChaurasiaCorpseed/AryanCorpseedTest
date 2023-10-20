@@ -1,0 +1,63 @@
+// $primary: #0e53cd;
+$primary: rgb(8,78,229);
+$blue: rgb(0, 85, 204);
+$secondary:#e4e6f6;
+
+$red: #F52A3D;
+$teal:  #05A19C;
+$green: #63CC32;
+$yellow: #f39915;
+
+$l-blue: rgba(0, 85, 204,.2);
+$l-red: rgba(245, 42, 61,0.2);
+$l-teal:  rgba(5, 161, 156,.2);
+$l-green: rgba(99, 204, 50,.2);
+$l-yellow: rgba(243, 154, 21, 0.2);
+
+$sidebar-width: 240px;
+////// mixins 
+@mixin center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin around {
+    @include center;
+    justify-content: space-between;
+}
+
+.d-center{
+    @include center;
+}
+.bg-light{
+    background-color: #f7f7f7;
+}
+.bg-primary{
+    background: $primary;
+}
+.bg-grey{
+    background: #f7f7f7;
+}
+.bg-warning{
+    background: $yellow;
+}
+.bg-danger{
+    background: $red;
+}
+.bg-info{
+    background: $teal;
+}
+.bg-secondary{
+    background: #f7f8f9;
+}
+
+
+@keyframes preloader11{
+    0%,100%{transform:translate(0)}
+    25%{transform:translate(160%)}
+    50%{transform:translate(160%, 160%)}
+    75%{transform:translate(0, 160%)}
+  }
+
+

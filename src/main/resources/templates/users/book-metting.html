@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+<body>
+    <main th:fragment="corpseedBodyContent">
+        <section class="contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="py-4 border-bottom border-light my-4">
+                            <h1 class="display-4 text-center">Book meeting now </h1>
+                            <p class="h3 text-center text-muted">Thanks for your interest in Corpseed</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-6">
+                        <div class="contact-form">
+                            <h4 class="text-center text-capitalize my-3">get a free meeting</h4>
+                            <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+		  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+		  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					         </div><!-- th:action="@{/book-meeting}" -->
+                            <form th:action="@{/book-meeting}"  method="post" id="bookMeeting" th:object="${meeting}">
+                                <div class="form-group mb-0">
+                                    <label for="name" class="inp">
+                                        <input th:field="*{name}" type="text" required="required"
+                                        th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}" 
+                                        aria-describedby="emailHelp" placeholder="Name *"/>
+                                        <span class="focus-bg"></span>
+                                        <span class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label for="email" class="inp">
+                                        <input th:field="*{email}" type="email" required="required" placeholder="Email *"
+                                        th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}" aria-describedby="emailHelp"/>
+                                        <span class="focus-bg"></span>
+                                        <span class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label for="mobile" class="mobile-num">
+                                        <input th:field="*{mobile}" type="tel" required="required" placeholder="Phone Number*"
+                                        th:classappend="${#fields.hasErrors('mobile') ? 'is-invalid':''}" minlength="10" maxlength="15" aria-describedby="emailHelp"/>
+                                        <span class="focus-bg"></span>
+                                        <span class="invalid-feedback" th:each="e : ${#fields.errors('mobile')}" th:text="${e}"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group mb-0">
+	                               	<label for="city" class="inp">
+	                                    <input th:field="*{city}" type="text" placeholder="City *" required="required"
+	                                    th:classappend="${#fields.hasErrors('city') ? 'is-invalid':''}" aria-describedby="emailHelp"/>
+	                                    <span id="citysearch"></span>
+	                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('city')}" th:text="${e}"></span>
+	                                </label>
+	                            </div>
+                                <div class="form-group mb-1">
+                                    <label for="dateTime" class="inp">
+                                        <input th:field="*{dateTime}" type="datetime-local" required="required" placeholder="Date Time *"
+                                         th:classappend="${#fields.hasErrors('dateTime') ? 'is-invalid':''}" aria-describedby="emailHelp"/>
+                                        <span class="focus-bg"></span>
+                                        <span class="invalid-feedback" th:each="e : ${#fields.errors('dateTime')}" th:text="${e}"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="message" class="inp">
+                                        <textarea th:field="*{message}" required="required" rows="5" cols="0"
+                                            placeholder="Message *" th:classappend="${#fields.hasErrors('message') ? 'is-invalid':''}" aria-describedby="emailHelp"></textarea>
+                                        <span class="focus-bg"></span>
+                                        <span class="invalid-feedback" th:each="e : ${#fields.errors('message')}" th:text="${e}"></span>
+                                    </label>
+                                </div>
+                                <input type="hidden" name="otp" id="varifyedOTP">
+                                <input type="hidden" name="mobile_country"/>
+                                <input type="hidden" name="displayStatus" th:value="1"/>
+                                <input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+                                <div class="form-group mb-0">
+                                    <button class="btn rounded px-5 py-2 btn-primary" id="meetingBtn" type="submit">Book Meeting</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-7 d-flex align-items-center bg-light rounded-lg">
+                            <div class="timeline">
+                            <div class="timeline-item bg-white rounded ml-3 p-4 shadow">
+                                <div class="timeline-arrow"></div>
+                                <h2 class="h5 mb-0">STEP 1</h2>
+                                <h4 class="card-title">Connect With Corpseed
+                                </h4>
+                                <p class="text-small mt-2 font-weight-light">
+                                    Connect with the team corpseed to discuss specific requirements for your
+                                    business at IVR: <a th:if="${contact==null}" href="tel:+917558640644">+91 7558 640 644</a><a th:unless="${contact==null}" th:href="|tel:${contact.mobile}|" th:text="${contact.mobile}">+91 7558 640 644</a> or
+                                    <a th:if="${contact==null}" href="mailto:hello@corpseed.com">hello@corpseed.com</a><a th:unless="${contact==null}" th:href="|mailto:${contact.email}|" th:text="${contact.email}">hello@corpseed.com</a>. It takes 20-25
+                                    minutes to discuss requirement.
+                                </p>
+                            </div>
+                            <div class="timeline-item bg-white rounded ml-3 p-4 shadow">
+                                <div class="timeline-arrow"></div>
+                                <h2 class="h5 mb-0">STEP 2</h2>
+                                <h4 class="card-title">Dedicated Manager
+                                </h4>
+                                <p class="text-small mt-2 font-weight-light">Once you discuss the requirement,
+                                    we will align a dedicated Account managers to understand your business needs
+                                    and provide solutions and assist entire process.
+                                </p>
+                            </div>
+                            <div class="timeline-item bg-white rounded ml-3 p-4 shadow">
+                                <div class="timeline-arrow"></div>
+                                <h2 class="h5 mb-0">STEP 3</h2>
+                                <h4 class="card-title">Real Time Update
+                                </h4>
+                                <p class="text-small mt-2 font-weight-light">Use our platform to track progress
+                                    of application and many more. Always know what is going on with your
+                                    project, what is in progress, and what is done.
+                                </p>
+                            </div>
+                            <div class="timeline-item bg-white rounded ml-3 p-4 shadow">
+                                <div class="timeline-arrow"></div>
+                                <h2 class="h5 mb-0">STEP 4</h2>
+                                <h4 class="card-title">Job Completed
+                                </h4>
+                                <p class="text-small mt-2 font-weight-light">Once job is completed, you will
+                                    receive complete registrations & certifications directly to your email ID
+                                    and at your doorstep
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="other mt-5 py-4 mb-5 ">
+                            <p class="lead">
+                                Have questions? Visit our <a th:href="@{/faq}">FAQs</a>. If you've are our excisting
+                                customer and have feedback on how we improve, please let us know.
+                            </p>
+                            <p class="lead">
+                                For job opportunities, please view our <a th:href="@{/join-our-team}">open roles</a>.
+                            </p>
+                            <p class="lead">
+                                For business partnerships, please visit our <a th:href="@{/partner}">form</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div> <!-- ./row -->
+            </div>
+        </section>
+<div class="modal fade" id="otpModal" tabindex="-1" role="dialog" 
+aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content rounded">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalOtp"></h6>        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="javascript:void(0)" method="post" id="verifyOtpInput" 
+      class="digit-group" data-group-name="digits" data-autosubmit="false" 
+      autocomplete="off">
+      <div class="modal-body text-center">      
+       <input type="text" name="OTP1" id="OTP1" data-next="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP2" id="OTP2" data-next="OTP3" data-previous="OTP1" class="form-input" required="required">
+       <input type="text" name="OTP3" id="OTP3" data-next="OTP4" data-previous="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP4" id="OTP4" data-previous="OTP3" class="form-input" required="required">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" id="buttonVerifyOtpMeeting">Verify OTP</button>
+        <p class="col-12 text-right flex-column justify-content-end align-items-end d-none" id="resendOTP">
+           Didn't receive code?<br>
+           <a href="javascript:void(0)" class="text-decoration-none" onclick="sendOtp('resendOTP','resendOTPTime')">Resend OTP</a>
+         </p>
+         <span id="resendOTPTime" class="col-12 text-center">&nbsp;</span>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>        
+        <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+    	    	<script th:src="@{/js/intlTelInput.js}"></script>
+    	<script type="text/javascript">
+    	var mobile_intel1 = document.querySelector("#mobile");
+  	     window.intlTelInput(mobile_intel1, {
+  		  separateDialCode:true,
+  		   initialCountry:"in",
+  		    excludeCountries: ['ba'],
+  		    hiddenInput: "full",
+  		    utilsScript: "/js/utils.js"
+  	  });
+    	</script>
+        <div th:replace="users/includes/javascript :: javascript"></div>
+    </main>    
+</body>
+
+</html>

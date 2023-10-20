@@ -1,0 +1,11 @@
+User-agent: *
+
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /hrm
+Disallow: /404
+Disallow: /candidate
+Disallow: /my-profiler
+
+Sitemap: https://www.corpseed.com/sitemap.xml

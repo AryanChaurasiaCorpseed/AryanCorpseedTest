@@ -1,0 +1,265 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-transform: unset;
+    letter-spacing: 1px;
+}
+
+///////////////////////////////////////////////// general styling
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+
+    &.scroll-lock {
+        overflow: hidden;
+    }
+    a,input,textarea,.custom-select,.input-group-text{font-weight: 500;}
+}
+
+.ic {
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+
+.card {
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #f2f3f4;
+    box-shadow: 0px 5px 25px rgba(0, 85, 204, 0.15);
+    border-radius: 8px;
+
+    .card-title {
+        color: #001737;
+        margin-bottom: .75rem;
+        text-transform: capitalize;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .card-description {
+        margin-bottom: .875rem;
+        font-weight: 400;
+        color: #76838f;
+    }
+}
+
+.alert {
+    border-radius: .5rem;
+}
+
+.info-card {
+    margin-bottom: 1rem;
+}
+
+.widget-body {
+    .traffic-source-legend .legend-label {
+        padding: 7px 0;
+
+        span {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-right: .5rem;
+        }
+    }
+}
+
+.grid-margin {
+    margin-bottom: 1rem;
+}
+
+.stretch-card {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+}
+
+.badge-secondary {
+    background-color: #f3f3f8;
+}
+
+.table {
+
+    th,
+    td {
+        padding: .75rem 1.5rem;
+        vertical-align: middle;
+
+        .thumb {
+            width: 36px;
+            height: 36px;
+            border-radius: 100%;
+        }
+
+        .d-flex.mx-n3 {
+            align-items: center;
+        }
+    }
+}
+
+label.form-group {
+    width: 100%;
+
+}
+
+.btn {
+    border-radius: 0.25rem;
+
+    &.btn-primary {
+        background: $blue;
+
+        &:hover {
+            background: lighten($blue, 5);
+        }
+    }
+}
+
+input.form-control {
+    &:focus {
+        background-color: #fff;
+        outline: none;
+        border: 1px solid lighten($blue, 15);
+    }
+}
+
+.custom-file-input {
+    background: #fff;
+}
+
+.form-control {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #454546;
+    font-weight: 500;
+    border-radius: 4px;
+
+    &:not(.form-control-sm) {
+        font-size: 1rem;
+
+    }
+}
+
+#editor {
+    min-height: 260px;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 420px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.form-label-group input,
+.form-label-group label {
+    height: 3.125rem;
+    padding: .75rem;
+}
+
+.form-label-group label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    /* Override default `<label>` margin */
+    line-height: 1.5;
+    color: #495057;
+    pointer-events: none;
+    cursor: text;
+    /* Match the input under the label */
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+    color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+    color: transparent;
+}
+
+.form-label-group input:-ms-input-placeholder {
+    color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+    color: transparent;
+}
+
+.form-label-group input::placeholder {
+    color: transparent;
+}
+
+.form-label-group input:not(:-moz-placeholder-shown) {
+    padding-top: 1.25rem;
+    padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:-ms-input-placeholder) {
+    padding-top: 1.25rem;
+    padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+    padding-top: 1.25rem;
+    padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:-moz-placeholder-shown)~label {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-size: 12px;
+    color: #777;
+}
+
+.form-label-group input:not(:-ms-input-placeholder)~label {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-size: 12px;
+    color: #777;
+}
+
+.form-label-group input:not(:placeholder-shown)~label {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-size: 12px;
+    color: #777;
+}
+
+/* Fallback for Edge
+  -------------------------------------------------- */
+@supports (-ms-ime-align: auto) {
+    .form-label-group {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column-reverse;
+        flex-direction: column-reverse;
+    }
+
+    .form-label-group label {
+        position: static;
+    }
+
+    .form-label-group input::-ms-input-placeholder {
+        color: #777;
+    }
+}

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+    <main th:fragment="corpseedBodyContent">
+        <div class="container all-blog mt-5">
+            <div class="row">
+                <div class="col-lg-8 blog-cont">
+                    <div class="row mb-4">
+                    	<div class="col-md-6" th:each="blog, state : ${blogs.content}">
+                        	<div class="card">
+                            	<img th:id="myImg+${state.index+1}" th:src="${blog.image!=null && blog.image!=''}?${@environment.getProperty('azure_path')+blog.image}:''" th:alt="${blog.image}" class="card-img-top myImg"/>
+                                <div class="card-body">
+                                    <h5 class="card-title line-2 h5-limit"><a th:href="@{/knowledge-centre/} + ${blog.slug}" th:text="${blog.title}">Creative day off</a></h5>
+                                    <h6 class="text-muted small mb-3">by [[${blog.postedByName}]] on <span th:text="${blog.postDate}"></span></h6>
+                                    <p class="detail" th:text="${blog.summary}">Vestibulum ante�</p>
+                                </div>
+                                <div class="card-footer">
+                                    <span class="small tag text-uppercase text-muted" th:text="${blog.category.title}">Business</span>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                    <nav th:if="${!blogs.content.isEmpty}" aria-label="Page navigation" class="overflow-auto">
+                    <ul class="pagination"> 
+                    <li class="page-item" th:if="${cpage!=1}">
+					      <a class="page-link text-primary" th:href="@{${#httpServletRequest.requestURI}(size=${blogs.size}, page=1)}">First</a>
+					</li>
+                    <li class="page-item">
+				      <a class="page-link" th:classappend="${cpage==1} ? 'text-muted':'text-primary'" th:href="${cpage!=1}?@{${#httpServletRequest.requestURI}(size=${blogs.size}, page=${cpage-1})}:'javascript:void(0)'">Previous</a>
+				    </li>                   
+					    <li th:if="${blogs.totalPages > 1}" class="page-item" th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==blogs.number + 1} ? active">
+					    <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(size=${blogs.size}, page=${pageNumber})}"
+					        th:text="${pageNumber}"></a>
+					    </li>
+					   <li class="page-item">
+					      <a class="page-link" th:classappend="${cpage==totalPages} ? 'text-muted':'text-primary'" th:href="${cpage!=totalPages}?@{${#httpServletRequest.requestURI}(size=${blogs.size}, page=${cpage+1})}:'javascript:void(0)'">Next</a>
+					   </li>
+					   <li th:unless="${cpage==totalPages}" class="page-item">
+					      <a class="page-link text-primary" th:href="@{${#httpServletRequest.requestURI}(size=${blogs.size}, page=${totalPages})}">Last</a>
+					   </li>
+					</ul>
+					</nav>             
+                </div>
+                <aside class="col-lg-4 sidebar mx-auto side_news">
+                	<div class="widget">
+						<div class="form-search shadow mb-5">
+                        	<form action="#">
+                            	<div class="input-group">
+                                	<input type="search" id="blog-search" onkeyup="searchBlogs(this.value)" onsearch="$('#blogsearch').html('')" name="search" class="form-control align-items-stretch" placeholder="Search blog..." autocomplete="off" />                                    
+                                </div>
+                                <span id="blogsearch"></span>
+                            </form>
+                        </div>
+
+                        <div class="categories mb-5">
+                            <h4 class="text-dark font-weight-light">Categories</h4>
+                            <nav class="nav flex-column">
+                                <a th:each="topCategory : ${topCategory}" th:href="@{/knowledge-centre(size=6, page=1,filter=${topCategory.slug})}" 
+                                class="nav-link" th:classappend="${#strings.equalsIgnoreCase(param.filter,topCategory.slug)} ? active"> 
+                                <small>[[${topCategory.title}]]</small></a>
+                                <a th:href="@{/knowledge-centre}" class="nav-link">View All</a>                                
+                            </nav>
+                        </div>
+
+                        <div class="tags-cloud mb-5">
+                            <h4 class="text-dark font-weight-light">Tags</h4>
+                            <div class="tags">
+                                <span class="tag" th:each="tag:${hotTags}"><a th:href="@{|/service/${tag.services.slug}|}" th:text="${tag.name}">boat</a></span>                               
+                            </div>
+                        </div>
+                        <div class="categories mb-5">
+				            <h4 class="text-dark font-weight-light">Top Articles</h4>
+				            <nav class="nav flex-column">
+				               <div class="col-sm-12" th:each="b:${topBlogs}">
+				                <a th:href="@{|/knowledge-centre/${b.slug}|}" class="nav-link"> 
+				                <div class="col-sm-8 label" th:text="${b.title}"></div>
+				                <div class="col-sm-4">
+				                <img th:src="${b.image!=null && b.image!=''}?${@environment.getProperty('azure_path')+b.image}:''"
+                                     th:alt="${b.image!=null && b.image!=''}?${b.image}:'article-image'"/>
+				                </div>
+				                </a>
+				               </div>                
+				            </nav>
+			            </div>
+                        <div class="form-inqry call-back-sec mb-5">
+                         <div class="card call-back position-static">
+                            <form action="#" id="CallBackSubmit" class="valid-check">
+                                <input type="hidden" id="message" value="Knowledge Centre"/>
+                                <input type="hidden" name="page" id="page" value="knowledge-centre"/>
+                                <input type="hidden" name="whatsApp" id="whatsApp" value="1"/>
+                                
+                                    <h3>Schedule a call back</h3>                                                                        
+                                     <div class="row">
+                                     <div class="col-12">
+                                     <div class="col">                                            
+                                            <label for="enq_name" class="inp">
+                                            <input type="text" id="enq_name" name="name" placeholder="Name*" required="required">
+                                            <span class="focus-bg"></span>
+                                        </label>
+                                        	</div>
+                                     <div class="col d-none">                                            
+                                            <label for="enq_email" class="inp">
+                                            <input type="email" id="enq_email" onchange="validateEmail('enq_email','NA')" name="email" placeholder="Email" required="required" value="NA">
+                                            <span class="focus-bg"></span>
+                                        </label>
+                                        	</div>
+                                        <div class="col"> 	
+                                            <label for="mobile" class="mobile-num">
+                                            <input type="tel" name="mobile" id="mobile" minlength="10" oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" maxlength="14" placeholder="Phone Number"
+                                            autocomplete="off" required="required"/>
+                                             <span class="focus-bg"></span>
+                                             <!-- <button class="btn submit position-absolute" type="submit">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <g opacity="0.7">
+                                                        <path
+                                                            d="M15.54 11.29L9.87998 5.64001C9.78702 5.54628 9.67642 5.47188 9.55456 5.42111C9.4327 5.37035 9.30199 5.34421 9.16998 5.34421C9.03797 5.34421 8.90726 5.37035 8.78541 5.42111C8.66355 5.47188 8.55294 5.54628 8.45998 5.64001C8.27373 5.82737 8.16919 6.08082 8.16919 6.34501C8.16919 6.60919 8.27373 6.86264 8.45998 7.05001L13.41 12.05L8.45998 17C8.27373 17.1874 8.16919 17.4408 8.16919 17.705C8.16919 17.9692 8.27373 18.2226 8.45998 18.41C8.5526 18.5045 8.66304 18.5797 8.78492 18.6312C8.90679 18.6827 9.03767 18.7095 9.16998 18.71C9.30229 18.7095 9.43317 18.6827 9.55505 18.6312C9.67692 18.5797 9.78737 18.5045 9.87998 18.41L15.54 12.76C15.6415 12.6664 15.7225 12.5527 15.7779 12.4262C15.8333 12.2997 15.8619 12.1631 15.8619 12.025C15.8619 11.8869 15.8333 11.7503 15.7779 11.6238C15.7225 11.4973 15.6415 11.3836 15.54 11.29Z"
+                                                            fill="black" />
+                                                    </g>
+                                                </svg>
+                                            </button> -->
+                                             </label>
+                                             <a href="javascript:void(0)" class="whatsapupdate">                                              
+                                             Get updates on whatsApp<div class="toogleSlider">
+												<label class="switch" data-placement="left" title="" data-original-title="Show Form Enable/Disable">
+												  <input type="checkbox" id="CheckBox1" checked="checked" onchange="updateWhatsApp('CheckBox1')"/>
+												  <span class="slider round"></span>
+												</label>											
+												</div></a>
+												</div>
+                                              </div>
+                                   </div> 
+                                  <button class="btn btn-primary btn-pill rounded px-5 btn-lg mt-3 btn-block" type="submit">Submit</button>                               
+                            </form>
+                            </div>
+                        </div>
+						
+                        <!-- social media -->
+                        <div class="social-media">
+                            <h4 class="text-dark font-weight-light">Follow us</h4>
+                            <div class="nav">
+                                <a href="https://www.facebook.com/CorpseedGroup/" target="_blank" class="nav-link">
+                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.5 14.5C3.63401 14.5 0.5 11.366 0.5 7.5C0.5 3.63401 3.63401 0.5 7.5 0.5C11.366 0.5 14.5 3.63401 14.5 7.5C14.5 11.366 11.366 14.5 7.5 14.5ZM7.5 14.5V6.5C7.5 5.39543 8.39543 4.5 9.5 4.5H10M5 8.5H10" stroke="black"/>
+                                    </svg>                                       
+                                </a>
+                                <a href="https://www.instagram.com/corpseed/" target="_blank" class="nav-link">
+                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 3.5H12M4.5 0.5H10.5C12.7091 0.5 14.5 2.29086 14.5 4.5V10.5C14.5 12.7091 12.7091 14.5 10.5 14.5H4.5C2.29086 14.5 0.5 12.7091 0.5 10.5V4.5C0.5 2.29086 2.29086 0.5 4.5 0.5ZM7.5 10.5C5.84315 10.5 4.5 9.15685 4.5 7.5C4.5 5.84315 5.84315 4.5 7.5 4.5C9.15685 4.5 10.5 5.84315 10.5 7.5C10.5 9.15685 9.15685 10.5 7.5 10.5Z" stroke="black"/>
+                                    </svg>    
+                                </a>
+                                
+                                <a href="https://www.linkedin.com/company/corpseed/" target="_blank" class="nav-link">
+                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.5 6V11M10.5 11V8.5C10.5 7.39543 9.60457 6.5 8.5 6.5C7.39543 6.5 6.5 7.39543 6.5 8.5V11V6M4 4.5H5M1.5 0.5H13.5C14.0523 0.5 14.5 0.947715 14.5 1.5V13.5C14.5 14.0523 14.0523 14.5 13.5 14.5H1.5C0.947716 14.5 0.5 14.0523 0.5 13.5V1.5C0.5 0.947716 0.947715 0.5 1.5 0.5Z" stroke="black"/>
+                                    </svg> 
+                                </a>
+                                
+                                <a href="https://www.youtube.com/channel/UCk19GzvT2hLrGQsskedcn2w" target="_blank" class="nav-link">
+                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1.61087 12.738L1.5061 13.2269H1.5061L1.61087 12.738ZM13.3891 12.738L13.4939 13.2269L13.3891 12.738ZM13.3891 2.26196L13.4939 1.77306V1.77306L13.3891 2.26196ZM1.61087 2.26196L1.71563 2.75086L1.61087 2.26196ZM6.5 5.5L6.77735 5.08398C6.62392 4.98169 6.42665 4.97215 6.26407 5.05916C6.10149 5.14617 6 5.3156 6 5.5H6.5ZM6.5 9.5H6C6 9.6844 6.10149 9.85383 6.26407 9.94084C6.42665 10.0278 6.62392 10.0183 6.77735 9.91603L6.5 9.5ZM9.5 7.5L9.77735 7.91603C9.91645 7.82329 10 7.66718 10 7.5C10 7.33282 9.91645 7.17671 9.77735 7.08398L9.5 7.5ZM0 3.63609V11.3639H1V3.63609H0ZM15 11.3639V3.63609H14V11.3639H15ZM1.5061 13.2269C5.45719 14.0736 9.54281 14.0736 13.4939 13.2269L13.2844 12.2491C9.4714 13.0662 5.5286 13.0662 1.71563 12.2491L1.5061 13.2269ZM13.4939 1.77306C9.54281 0.926396 5.45719 0.926396 1.5061 1.77306L1.71563 2.75086C5.5286 1.9338 9.4714 1.9338 13.2844 2.75086L13.4939 1.77306ZM15 3.63609C15 2.73766 14.3724 1.9613 13.4939 1.77306L13.2844 2.75086C13.7018 2.84031 14 3.20919 14 3.63609H15ZM14 11.3639C14 11.7908 13.7018 12.1597 13.2844 12.2491L13.4939 13.2269C14.3724 13.0387 15 12.2623 15 11.3639H14ZM0 11.3639C0 12.2623 0.627614 13.0387 1.5061 13.2269L1.71563 12.2491C1.29821 12.1597 1 11.7908 1 11.3639H0ZM1 3.63609C1 3.20919 1.29821 2.84031 1.71563 2.75086L1.5061 1.77306C0.627614 1.9613 0 2.73766 0 3.63609H1ZM6 5.5V9.5H7V5.5H6ZM6.77735 9.91603L9.77735 7.91603L9.22265 7.08398L6.22265 9.08398L6.77735 9.91603ZM9.77735 7.08398L6.77735 5.08398L6.22265 5.91603L9.22265 7.91603L9.77735 7.08398Z" fill="black"/>
+                                    </svg>
+                                </a>
+                                
+                                <a href="skype:live:corpseedindia?chat" target="_blank" class="nav-link">
+                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13.8292 8.34061L13.3337 8.27388C13.3174 8.39507 13.346 8.51804 13.4143 8.61953L13.8292 8.34061ZM6.65938 1.17017L6.38046 1.58515C6.48133 1.65295 6.60344 1.68168 6.72396 1.66599L6.65938 1.17017ZM1.17018 6.65939L1.66585 6.72504C1.68186 6.60419 1.65316 6.48165 1.58515 6.38047L1.17018 6.65939ZM8.34 13.8298L8.61874 13.4147C8.51759 13.3468 8.39513 13.3182 8.27435 13.3342L8.34 13.8298ZM14.3247 8.40733C14.3638 8.11707 14.3913 7.81433 14.3913 7.5H13.3913C13.3913 7.75662 13.3689 8.01267 13.3337 8.27388L14.3247 8.40733ZM14.3913 7.5C14.3913 3.694 11.3053 0.608696 7.5 0.608696V1.6087C10.7531 1.6087 13.3913 4.24635 13.3913 7.5H14.3913ZM7.5 0.608696C7.18522 0.608696 6.88264 0.636873 6.59481 0.674361L6.72396 1.66599C6.98761 1.63165 7.24382 1.6087 7.5 1.6087V0.608696ZM6.93831 0.755201C6.22907 0.278494 5.37403 0 4.45652 0V1C5.1691 1 5.83091 1.21577 6.38046 1.58515L6.93831 0.755201ZM4.45652 0C1.99516 0 0 1.99516 0 4.45652H1C1 2.54745 2.54745 1 4.45652 1V0ZM0 4.45652C0 5.37468 0.278526 6.22912 0.755209 6.93831L1.58515 6.38047C1.21575 5.83088 1 5.16966 1 4.45652H0ZM0.674511 6.59374C0.636172 6.8832 0.608696 7.18572 0.608696 7.5H1.6087C1.6087 7.24332 1.63115 6.98706 1.66585 6.72504L0.674511 6.59374ZM0.608696 7.5C0.608696 11.306 3.69403 14.3913 7.5 14.3913V13.3913C4.24632 13.3913 1.6087 10.7537 1.6087 7.5H0.608696ZM7.5 14.3913C7.81368 14.3913 8.11621 14.3638 8.40565 14.3255L8.27435 13.3342C8.01231 13.3689 7.75605 13.3913 7.5 13.3913V14.3913ZM8.06127 14.2449C8.77094 14.7215 9.62528 15 10.5435 15V14C9.83037 14 9.16907 13.7843 8.61874 13.4147L8.06127 14.2449ZM10.5435 15C13.0042 15 15 13.0049 15 10.5435H14C14 12.4525 12.452 14 10.5435 14V15ZM15 10.5435C15 9.62506 14.7207 8.77067 14.2442 8.06169L13.4143 8.61953C13.7838 9.16933 14 9.83059 14 10.5435H15ZM7 8H8V7H7V8ZM9.94721 5.27639C9.55608 4.49413 8.75656 4 7.88197 4V5C8.37778 5 8.83105 5.28013 9.05279 5.72361L9.94721 5.27639ZM9 9C9 9.55229 8.55229 10 8 10V11C9.10457 11 10 10.1046 10 9H9ZM8 8C8.55228 8 9 8.44772 9 9H10C10 7.89543 9.10457 7 8 7V8ZM7.11803 10C6.62221 10 6.16895 9.71987 5.94721 9.27639L5.05279 9.72361C5.44392 10.5059 6.24344 11 7.11803 11V10ZM5 6C5 7.10457 5.89543 8 7 8V7C6.44772 7 6 6.55228 6 6H5ZM6 6C6 5.44772 6.44772 5 7 5V4C5.89543 4 5 4.89543 5 6H6ZM8 10H7.11803V11H8V10ZM7.88197 4H7V5H7.88197V4Z" fill="black"/>
+                                    </svg>   
+                                </a>    
+                            </div>
+                        </div>
+                        
+                        <div class="subscribe mt-3 px-3 py-3 d-none">
+                            <form action="#">
+                                <h4 class="text-dark font-weight-light mb-3">Subscribe for latest</h4>
+                                <div class="form-group mb-0 ">
+                                    <label for="i-name" class="inp">
+                                        <input type="text" id="i-name" required="required" placeholder=""/>
+                                        <span class="label">Email Address *</span>
+                                        <span class="focus-bg"></span>
+                                    </label>
+                                    <button class="btn position-absolute blog_btn_email" type="submit">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g opacity="0.7">
+                                                <path
+                                                    d="M15.54 11.29L9.87998 5.64001C9.78702 5.54628 9.67642 5.47188 9.55456 5.42111C9.4327 5.37035 9.30199 5.34421 9.16998 5.34421C9.03797 5.34421 8.90726 5.37035 8.78541 5.42111C8.66355 5.47188 8.55294 5.54628 8.45998 5.64001C8.27373 5.82737 8.16919 6.08082 8.16919 6.34501C8.16919 6.60919 8.27373 6.86264 8.45998 7.05001L13.41 12.05L8.45998 17C8.27373 17.1874 8.16919 17.4408 8.16919 17.705C8.16919 17.9692 8.27373 18.2226 8.45998 18.41C8.5526 18.5045 8.66304 18.5797 8.78492 18.6312C8.90679 18.6827 9.03767 18.7095 9.16998 18.71C9.30229 18.7095 9.43317 18.6827 9.55505 18.6312C9.67692 18.5797 9.78737 18.5045 9.87998 18.41L15.54 12.76C15.6415 12.6664 15.7225 12.5527 15.7779 12.4262C15.8333 12.2997 15.8619 12.1631 15.8619 12.025C15.8619 11.8869 15.8333 11.7503 15.7779 11.6238C15.7225 11.4973 15.6415 11.3836 15.54 11.29Z"
+                                                    fill="black" />
+                                            </g>
+                                        </svg>
+
+                                    </button>                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+        <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" 
+aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content rounded">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalOtp"></h6>        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="javascript:void(0)" method="post" id="verifyOtpInput" 
+      class="digit-group" data-group-name="digits" data-autosubmit="false" 
+      autocomplete="off">
+      <div class="modal-body text-center">      
+       <input type="text" name="OTP1" id="OTP1" data-next="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP2" id="OTP2" data-next="OTP3" data-previous="OTP1" class="form-input" required="required">
+       <input type="text" name="OTP3" id="OTP3" data-next="OTP4" data-previous="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP4" id="OTP4" data-previous="OTP3" class="form-input" required="required">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" id="buttonVerifyOtp">Verify OTP</button>
+        <p class="col-12 text-right flex-column justify-content-end align-items-end d-none" id="resendOTP">
+           Didn't receive code?<br>
+           <a href="javascript:void(0)" class="text-decoration-none" onclick="sendOtp('resendOTP','resendOTPTime')">Resend OTP</a>
+         </p>
+         <span id="resendOTPTime" class="col-12 text-center">&nbsp;</span>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+        <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+    	<script th:src="@{/assets/js/intlTelInput.js}"></script>
+     <script type="text/javascript">
+     var mobile_intel = document.querySelector("#mobile");
+	  window.intlTelInput(mobile_intel, {
+		  separateDialCode:true,
+		   initialCountry:"in",
+		    excludeCountries: ['ba'],
+		    hiddenInput: "full",
+		    utilsScript: "/assets/js/utils.js"
+	  });
+	  </script>
+        <div th:replace="users/includes/javascript :: javascript"></div>  
+       	
+        <script type="text/javascript">
+        function searchBlogs(str){
+        	var sqValue='';	
+        	if(str!=''){
+            	$.ajax({
+            			type : "GET",
+            			url : "/search/blogs/"+str,
+            			dataType : "HTML",
+            			data : {
+            			},
+            			success : function(response){
+            				if(Object.keys(response).length!=0){
+            				response = JSON.parse(response);		
+            				 var len = response.length;
+            				 $.each(response,function(key,value){
+            				 	var finalres = "<li><a href='/knowledge-centre/"+key+"'>"+value+"</a></li>";
+        					  	sqValue=sqValue+finalres;    					 
+            			     });
+            				 $("#blogsearch").html("<ul>"+sqValue+"</ul>");
+            				}else{
+            					 $("#blogsearch").html("");
+            				}		
+            			}
+            		}); 			
+            		}else{
+            		$("#blogsearch").html('');
+            		}
+        }
+        </script>     
+    </main>
+</body>
+</html>

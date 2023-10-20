@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+              <div class="container-fluid" th:fragment="corpseedBodyContent">
+              	<div class="row">
+                	<div class="col-xl-12">
+                    	<div class="card">
+                        	<div class="card-body">
+                            	<div class="d-flex align-items center justify-content-between mb-3">
+                                	<h4 class="mb-0 card-title">All City</h4>
+                                 	<a th:href="@{/admin/master/city/add}" class="btn btn-sm btn-info">Add City</a>
+                            	</div>
+                            	<h5 class="card-subtitle"></h5>
+                            	<div class="table-responsive" th:switch="${city}">
+                            		<h4 class="text-center" th:case="null">No City record found!</h4>
+									<table id="dataTable" class="table table-striped table-hover mb-0" th:case="*">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>Country</th>
+                                        	<th>State</th>
+                                        	<th>City</th>
+                                        	<th>Action</th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="cities, sn : ${city}">
+                                        		<td th:text="${sn.index+1}"></td>
+                                        		<td th:text="${cities.state.country.countryName}"></td>
+                                        		<td th:text="${cities.state.stateName}"></td>
+												<td th:text="${cities.cityName}"></td>
+												<td><a th:href="@{/admin/master/city/edit/} + ${cities.uuid}"><i class="las la-edit" data-toggle="tooltip" data-placement="left" title="Edit"></i></a><span th:if="${session.role=='ROLE_ADMIN'}"><a class="pointer" th:attr="onclick='deleteCity(\''+${cities.uuid}+'\')'"> | <i class="las la-trash"  data-toggle="tooltip" data-placement="left" title="Delete"></i></a></span></td>
+											</tr>
+                                    </tbody>
+                                </table>
+                            </div>                            
+                        	</div>
+                    	</div>
+                	</div>
+              	</div>
+              	<!-- Modal -->
+				<div class="modal fade-in" id="WarningDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to delete this city ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <input type="hidden" id="CityUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return deleteCity('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+              	<div th:replace="admin/includes/javascript :: javascript"></div>
+              	<script type="text/javascript">
+                function deleteCity(uuid){
+               	 if(uuid!="NA"){
+               		 $("#CityUuid").val(uuid);
+               		 $("#WarningDelete").modal("show");
+               	 }else{               		 
+               		 $("#WarningDelete").modal("hide");
+               		 var cityUuid=$("#CityUuid").val();
+               		 location.href="/admin/master/city/delete/"+cityUuid;
+               	 }
+                }
+                </script>
+            </div>
+            
+</body>
+</html>

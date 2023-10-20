@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <!-- info row-->
+                <div class="row">
+                    <div class="col-lg-12 grid-margin card-stretch">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h3 class="mb-0 card-title">Old jobs History</h3>                                    
+                                </div>
+                                <div class="table-responsive">
+									<table id="dataTable" class="table table-striped table-hover mb-0">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>Title</th>
+                                        	<th>Location</th>
+                                        	<th>Qualification</th>
+                                        	<th>Experience</th>
+                                        	<th>Position Opened</th>
+                                        	<th>Posted on</th>
+                                        	<th>Action</th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="job, sn : ${jobs}">
+                                        		<td th:text="${sn.index+1}"></td>
+                                        		<td th:text="${job.title}"></td>
+                                        		<td th:text="${job.jobLocation}"></td>
+                                        		<td th:text="${job.qualification}"></td>
+                                        		<td th:text="${job.experience}"></td>
+                                        		<td th:text="${job.noOfPosition}"></td>
+												<td th:text="${job.postDate}"></td>			
+												<td><a th:href="@{|/hrm/jobs/${job.uuid}/repost|}">Repost</a>
+												<a th:if="${session.role=='ROLE_ADMIN'}" class="pointer" 
+												th:attr="onclick='deleteJob(\''+${job.uuid}+'\')'"> | <i class="las la-trash" 
+												data-toggle="tooltip" data-placement="left" title="Delete"></i></a>
+												</td>										
+											</tr>
+                                    	</tbody>
+                                	</table>
+                            	</div>                                
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <!-- Modal -->
+				<div class="modal fade-in" id="WarningDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to delete this job ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <input type="hidden" id="JobUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return deleteJob('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>  
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                function deleteJob(uuid){
+               	 if(uuid!="NA"){
+               		 $("#JobUuid").val(uuid);
+               		 $("#WarningDelete").modal("show");
+               	 }else{               		 
+               		 $("#WarningDelete").modal("hide");
+               		 var jobuuid=$("#JobUuid").val();
+               		 location.href="/hrm/jobs/delete/"+jobuuid;
+               	 }
+                }
+                </script>
+            </div>
+            
+</body>
+</html>

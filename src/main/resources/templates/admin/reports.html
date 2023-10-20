@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+              	<div class="row">
+                	<div class="col-xl-12">
+                    	<div class="card">
+                        	<div class="card-body">
+                            	<div class="d-flex align-items center justify-content-between mb-3">
+                                	<h4 class="card-title">Joining Reports</h4>                                 	
+                            	</div>
+                            	<h5 class="card-subtitle"></h5>
+                            	<div class="table-responsive">
+									<table id="dataTable" class="table table-striped table-hover mb-0">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>HR</th>
+                                        	<th>Name</th>
+                                        	<th>Designation</th>  
+                                        	<th>Offer Date</th>        
+                                        	<th>Reporting Auth.</th>
+                                        	<th>H.O. Reporting</th>
+                                        	<th>Job Posted</th>
+                                        	<th>Offer Letter</th> 
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="report,sn:${reports}">
+                                        		<td th:text="${sn.index+1}">1</td>
+                                        		<td th:text="${report.hrName}">Renu Mayal</td>
+                                        		<td th:text="${report.offerLetter.trackApplication.jobApplication.name}">Ajay Kumar</td>
+                                        		<td th:text="${report.offerLetter.trackApplication.jobApplication.jobs.position}">java Devloper</td>
+                                        		<td th:text="${report.offerLetter.joiningDate}">19-05-2021</td>
+                                        		<td th:text="${report.reportingAuthority}">Suneeta Tikoo</td>
+                                        		<td th:text="${report.offerLetter.hOReporting}">Vipan sir</td>
+                                        		<td th:text="${report.offerLetter.trackApplication.jobApplication.jobs.postDate}">10-05-2021</td>
+                                        		<td><a th:href="${@environment.getProperty('azure_path')+report.offerLetter.offerLetterAttachment}" target="_blank">Letter</a></td>                                          		
+											</tr>
+                                    </tbody>
+                                </table>
+                         	</div>                            
+                        	</div>
+                    	</div>
+                	</div>
+              	</div> 
+              	<div th:replace="admin/includes/javascript :: javascript"></div>  
+              	            	
+            </div>           
+</body>
+</html>

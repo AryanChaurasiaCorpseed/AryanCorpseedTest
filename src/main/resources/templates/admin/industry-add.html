@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/admin/industry/add}" method="post" id="add_industry" 
+                	th:object="${industry}">
+                    <div class="col-lg-9 ">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">New Industry</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" id="goLivePreview"><i class="las la-eye mr-1 my-n1 ml-n1 ic"></i> Live Preview</a>
+                                </div>
+								 <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>
+                                 <label class="form-group">
+                                    Industry Name
+                                    <input type="text" name="industryName" id="industryName" class="form-control" 
+                                    th:classappend="${#fields.hasErrors('industryName') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter industry name..." th:value="${industry.industryName}">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('industryName')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Title
+                                    <input type="text" name="title" id="title" class="form-control" 
+                                    th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" aria-describedby="emailHelp" 
+                                    placeholder="Enter industry title..." th:value="${industry.title}" onload="convertToSlug(this.value)" onkeyup="convertToSlug(this.value)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+                                </label>                               
+                                <label class="form-group">
+                                    Slug
+                                    <input type="text" name="slug" id="slug" class="form-control" 
+                                    th:classappend="${#fields.hasErrors('slug') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter industry slug..." th:value="${industry.slug}">
+                                     <span class="invalid-feedback" th:each="e : ${#fields.errors('slug')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Video URL
+                                    <input type="text" th:field="*{videoUrl}" class="form-control"
+                                           th:classappend="${#fields.hasErrors('videoUrl') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                           placeholder="For youtube video starts with : https://www.youtube.com/embed/">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('videoUrl')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Summary
+                                    <textarea name="summary" th:field="*{summary}"
+                                      th:classappend="${#fields.hasErrors('summary') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" rows="3" placeholder="Enter industry summary..."></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('summary')}" th:text="${e}"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title">SEO</h4>
+                                <label for="#" class="form-group">
+                                    Meta Title
+                                    <input type="text" id="metaTitle" name="metaTitle" class="form-control" placeholder="Enter meta title..."
+                                     th:classappend="${#fields.hasErrors('metaTitle') ? 'is-invalid':''}" th:value="${industry.metaTitle}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('metaTitle')}" th:text="${e}"></span>
+                                </label>
+                               
+                                <label for="#" class="form-group">
+                                    Meta Keyword
+                                    <input type="text" id="metaKeyword" name="metaKeyword" class="form-control" placeholder="Enter meta keyword...."
+                                     th:classappend="${#fields.hasErrors('metaKeyword') ? 'is-invalid':''}" th:value="${industry.metaKeyword}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('metaKeyword')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Meta Description
+                                   <textarea name="metaDescription" id="metaSummary" class="form-control" placeholder="Enter meta description..."
+                                   th:classappend="${#fields.hasErrors('metaDescription') ? 'is-invalid':''}" aria-describedby="emailHelp" cols="30" rows="5" th:text="${industry.metaDescription}"></textarea>
+                                   <span class="invalid-feedback" th:each="e : ${#fields.errors('metaDescription')}" th:text="${e}"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <label for="#" class="form-group">
+                                    Rating User
+                                    <input type="text" id="ratingUser" name="ratingUser" class="form-control" 
+                                    th:classappend="${#fields.hasErrors('ratingUser') ? 'is-invalid':''}" th:value="${industry.ratingUser}" aria-describedby="emailHelp"
+                                     placeholder="Total rating user..." onkeypress="return isNumber(event)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('ratingUser')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Rating Value
+                                    <input type="text" id="ratingCount" name="ratingValue" 
+                                    th:classappend="${#fields.hasErrors('ratingValue') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" th:maxlength="3" th:value="${industry.ratingValue}" placeholder="Total rating given by each user..." onkeypress="return isNumberKey(event)">
+                                     <span class="invalid-feedback" th:each="e : ${#fields.errors('ratingValue')}" th:text="${e}"></span>
+                                </label>                               
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('displayStatus')}" th:text="${e}"></span>
+								</label>
+								<input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Post Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" onclick="goBack()" class="btn btn-outline-danger btn-sm">
+                                        Discard
+                                    </button>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal file livePreview" id="livePreview" tabindex="-1" role="dialog">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title">Industry Preview</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+						<div class="modal-body">
+						
+						<div class="container ">
+                <div class="row ">
+                    <div class="col-lg-5 col-md-5">
+                        <div class="reg-hero">
+                            
+                                <span class="badge blue">Includes free support</span>
+                                <h1>Start your <span class="text-primary" id="industryTitle">Private Company Registration</span> today!</h1>
+                                
+                                <p id="industrySummary">Private Company Registration</p>
+                                <div class="star-rating">
+                                    <div class="starts">                                      
+                                		<svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.5 14.0938L4.08594 17.375L5.52148 11.2227L0.763672 7.08008L7.03906 6.54688L9.5 0.763672L11.9609 6.54688L18.2363 7.08008L13.4785 11.2227L14.9141 17.375L9.5 14.0938Z" fill="#FFC20F"></path>
+                                        </svg>
+                                        <small>[Rated <b id="industryRating">5</b> stars by customers like you]</small>
+                                </div>
+                                </div>
+                            
+
+                            <span class="triangle">
+                                <svg width="147" height="141" viewBox="0 0 147 141" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path opacity="0.5" d="M98.5247 32.7666L95.2258 140.341L0.270416 76.69L98.5247 32.7666Z" fill="#C4C4C4" fill-opacity="0.5"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+						
+					 	</div> 
+					  </div>
+				  </div>
+				</div> 
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(function() {
+             	   $("#add_industry").validate({
+             	      // Specify validation rules
+             	      rules: {
+             	    	 industryName: "required",
+             	         title: "required",
+             	  	  	 slug: "required",
+             	  		 summary: "required",
+             	  	  	 metaTitle: "required",
+             	  	  	 metaKeyword: "required",
+             	  		 metaDescription: "required",
+             	  	  	 ratingUser: "required",
+             	  	  	 ratingValue: "required"},
+             	      // Specify validation error messages
+             	      messages: {
+             	    	 industryName: "Please enter industry name",
+             	         title: "Please enter title",
+             	         slug: "Please enter slug",
+             	         summary: "Please enter summary",
+             	  	     metaTitle:"Please enter meta title",
+             	  	     metaKeyword:"Please enter meta keyword",
+             	  		 metaDescription:"Please enter meta Description",
+             	  	  	 ratingUser:"Please enter rating User",
+             	  	  	 ratingValue:"Please enter rating Value out of 5"
+             	      },
+             	     submitHandler: function(form) {
+             	    	 $(".disableMePlease").attr("disabled","disabled");
+             	        form.submit();
+             	      }
+             	    });
+             	  });
+                $("#goLivePreview").click(function(){	 
+                  	 var title =document.forms["add_industry"]["title"];
+                       var summary =document.forms["add_industry"]["summary"];
+                       var ratingValue =document.forms["add_industry"]["ratingValue"];
+                      
+                       if (title.value == "") {
+                           window.alert("Please enter title.");
+                           title.focus();
+                           return false;
+                       }
+                       if (summary.value == "") {
+                           window.alert("Please enter summary.");
+                           summary.focus();
+                           return false;
+                       }
+                       if (ratingValue.value == "") {
+                           window.alert("Please enter rating value.");
+                           ratingValue.focus();
+                           return false;
+                       }
+                       $("#industryTitle").html(title.value);
+                       $("#industrySummary").html(summary.value);
+                       $("#industryRating").html(ratingValue.value);
+                       $("#livePreview").modal("show");
+                         
+                   });  
+                </script>
+            </div>            
+</body>
+</html>

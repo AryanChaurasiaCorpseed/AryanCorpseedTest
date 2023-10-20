@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+<div class="container-fluid" th:fragment="corpseedBodyContent">
+  <div class="row">
+    <form th:action="@{/admin/product/update}" method="post" id="edit_blog" enctype="multipart/form-data" th:object="${product}">
+      <div class="col-lg-9 ">
+        <div class="card grid-margin stretch-card mb-3">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h4 class="card-title">Edit blog</h4>
+              <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" id="goLivePreview"><i class="las la-eye mr-1 my-n1 ml-n1 ic"></i> Live Preview</a>
+            </div>
+            <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+              <p class="text-center" th:text="${session.message.content}"></p>
+              <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+            </div>
+            <label for="#" class="form-group">
+              Parent Category
+              <select class="form-control select2-search" th:field="*{category}" id="categoryId" >
+                <option value="">---- Select Category ----</option>
+                <option th:each="cat:${category}" th:value="${cat.id}" th:text="${cat.subCategoryName}">Select Category</option>
+              </select>
+            </label>
+            <label for="#" class="form-group">
+              Services
+              <select class="form-control select2-search select2" th:field="*{services}" id="ServicesId"
+                      aria-describedby="emailHelp" >
+                <option th:each="service:${services}" th:value="${service.id}" th:text="${service.serviceName}">Start Company</option>
+              </select>
+            </label>
+            <label for="#" class="form-group">
+              Product Author
+              <select class="form-control select2-search select2-author" th:field="*{user}">
+                <option  th:each="user:${users}" th:value="${user.id}" th:text="${user.firstName+' '+user.lastName}" >Corpseed</option>
+              </select>
+            </label>
+            <label class="form-group">
+              Product Name
+              <input type="text" aria-describedby="emailHelp" class="form-control" placeholder="Enter Product Name..."  th:field="*{name}" th:text="${product.name}" >
+              <span class="invalid-feedback" ></span>
+            </label>
+            <label class="form-group">
+              Title
+              <input type="text" th:field="*{title}"
+                     th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" aria-describedby="emailHelp" class="form-control" placeholder="Enter product title..." onload="convertToSlug(this.value)" onkeyup="convertToSlug(this.value)">
+              <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+            </label>
+            <label class="form-group">
+              Slug
+              <input type="text" th:field="*{slug}"   aria-describedby="emailHelp"  class="form-control" placeholder="Enter product slug...">
+              <span class="invalid-feedback" ></span>
+            </label>
+            <label class="form-group">
+              Image<small>(160 X 145)</small>
+              <input type="file"  th:text="${product.image}"  name="file" id="ProductImage" class="form-control" >
+            </label>
+            <label class="form-group">
+              Summary
+              <textarea th:field="*{summary}" th:text="${product.summary}"  aria-describedby="emailHelp"
+                        class="form-control" rows="3" placeholder="Enter product summary..."></textarea>
+              <span class="invalid-feedback" ></span>
+            </label>
+
+            <div class="position-relative">
+              <button type="button" class="enquirybtn" title="Enquiry form" onclick="enquiryForm()">E <span>|</span></button>
+              <button type="button" class="pdfbtn" data-toggle="modal" data-target="#file"><i class="las la-file-alt" title="Upload file"></i><span>|</span></button>
+              <button type="button" class="servicebtn" data-toggle="modal" data-target="#service" title="Select service">Service <span>|</span></button>
+              <button type="button" class="productbtn" data-toggle="modal" data-target="#product" title="Select Product">Product</button>
+
+            </div>
+            <label class="form-group">
+              Description
+              <textarea name="description" id="description" class="form-control" rows="3"
+                        aria-describedby="emailHelp"
+                        placeholder="Enter blogs description..."   th:text="${product.description}" ></textarea>
+              <span class="invalid-feedback" ></span>
+            </label>
+          </div>
+        </div>
+        <div class="card grid-margin stretch-card mb-3">
+          <div class="card-body">
+            <h4 class="card-title">SEO</h4>
+            <label for="#" class="form-group">
+              Meta Title
+              <input type="text" placeholder="Enter meta title..." th:field="*{metaTitle}"
+                     class="form-control">
+              <span class="invalid-feedback" ></span>
+            </label>
+
+            <label for="#" class="form-group">
+              Meta Keyword
+              <input type="text" placeholder="Enter meta keyword..."  th:field="*{metaKeyword}"
+                     class="form-control">
+              <span class="invalid-feedback" ></span>
+            </label>
+            <label for="#" class="form-group">
+              Meta Description
+              <textarea placeholder="Enter meta description..."
+                        aria-describedby="emailHelp"
+                        class="form-control" cols="30" rows="5"  th:field="*{metaDescription}" ></textarea>
+              <span class="invalid-feedback" ></span>
+            </label>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <label for="#" class="form-group">
+              Rating User
+              <input type="text" th:field="*{ratingUser}"
+                     class="form-control" placeholder="Total rating user..." onkeypress="return isNumber(event)">
+            </label>
+            <label for="#" class="form-group">
+              Rating Value
+              <input type="text"  aria-describedby="emailHelp" th:field="*{ratingValue}"
+                     class="form-control" placeholder="Total rating given by each user..." onkeypress="return isNumberKey(event)">
+            </label>
+            <label for="#" class="form-group">
+              Display Status
+              <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                <input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" checked>
+                <label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+              </div>
+              <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                <input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2">
+                <label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+              </div>
+            </label>
+
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{image}">
+            <input type="hidden" th:field="*{category}">
+            <input type="hidden" name="postDate" th:value="${product.postDate}">
+            <input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+            <input type="hidden" th:value="${@environment.getProperty('azure_path')+product.image}" id="editBlogImgPrev">
+            <!--                  // this function will take system date and time and save in database automatically-->
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 mx-auto ">
+        <div class="card grid-margin stret ch-card">
+          <div class="card-body">
+            <h4 class="card-title">Post Status</h4>
+            <div class="alert alert-info">
+              <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+            </div>
+            <div class="alert bg-light alert-secondary">
+              Revisions: <span class="text-secondary">4 Revisions</span>
+            </div>
+            <div class="custom-control custom-checkbox mx-1 mb-2">
+              <input type="checkbox" class="custom-control-input" id="customCheck4651">
+              <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+            </div>
+            <p class="text-muted mb-2 px-1">
+              <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+            </p>
+            <p class="text-muted px-1 mb-0">
+              <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+            </p>
+          </div>
+          <div class="card-footer">
+            <div class="d-flex justify-content-between">
+              <button type="button" onclick="goBack()" class="btn btn-outline-danger btn-sm">
+                Discard
+              </button>
+              <button class="btn d-none btn-outline-secondary btn-sm">
+                Save as draft
+              </button>
+              <button type="submit" class="btn btn-primary btn-sm disableMePlease" onclick="return isFormValid()">
+                <i class="las la-upload mr-1"></i>  Publish
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal file" id="file" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="javascript:void(0)" id="UploadFormData">
+            <div class="row">
+              <div class="col-sm-12">
+                <input type="file" name="file" class="form-control col-sm-8">
+                <div class="col-sm-3 p-0">
+                  <button type="submit" name="uploadFormBtn" class="btn btn-primary btn-sm ">Upload</button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 mt-2">
+                <h5> Get Link</h5>
+                <input type="text" name="getFileLink" id="getFileLink" class="form-control link col-sm-8" readonly="readonly">
+                <div class="col-sm-3 p-0">
+                  <button type="button" class="btn copy" onclick="copyLink()">Copy Link</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal file" id="service" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Select Service</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="javascript:void(0)" id="ServiceFormData">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <select class="form-control col-sm-8 select" name="selectService" id="selectService" multiple="multiple">
+                      <option th:each="service:${services1}" th:value="${service.slug}" th:text="${service.serviceName}">Start Company</option>
+                      <option th:each="industry:${industries}" th:value="${industry.slug}" th:text="${industry.industryName}">Start Company</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-3">
+                    <button type="submit" name="serviceCode" class="btn btn-primary btn-sm">Generate</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 mt-2">
+                <h5> Get Code</h5>
+                <input type="text" name="getServiceLink" autocomplete="name" id="getServiceLink" class="form-control link col-sm-8" readonly="readonly">
+                <div class="col-sm-3 p-0">
+                  <button type="button" class="btn copy" onclick="copyCode()">Copy Code</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal file" id="product" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Select Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="javascript:void(0)" id="ProductFormData">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <select class="form-control col-sm-8 select product-select2" name="selectProduct" id="selectProduct" multiple="multiple">
+                      <option th:each="p:${products}" th:value="${p.slug}" th:text="${p.name}" >All Product</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-3">
+                    <button type="submit" name="productCode" class="btn btn-primary btn-sm">Generate</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 mt-2">
+                <h5> Get Code</h5>
+                <input type="text" name="getproductLink" autocomplete="name" id="getProductLink" class="form-control link col-sm-8" readonly="readonly">
+                <div class="col-sm-3 p-0">
+                  <button type="button" class="btn copy" onclick="copyProductCode()">Copy Code</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal file livePreview" id="livePreview" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Blog Preview</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="blog-home">
+            <div class="row justify-content-center">
+              <div class="col-xl-10 col-lg-10  col-md-10">
+                <div class="bg-image mt-2">
+                  <!-- blog image -->
+                  <img id="blogImgPreview" src="" alt="">
+                  <div class="card call-back bg-grey">
+                    <h3>Contact Us</h3>
+                    <p class="text-muted">
+                      Questions?
+                    </p>
+                    <div class="d-flex">
+                                <span class="t-primary mb-3 d-inline-flex">
+
+                                    <a href="tel:7558-640-644" class="t-primary">Call 7558-640-644 - Shalini Micheal</a>
+                                </span>
+                      <svg class="ml-2" width="28" height="23" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.68917 6.29417C5.70917 7.945 7.3525 9.2925 9.35708 10.1383L10.9154 8.855C11.1067 8.6975 11.39 8.645 11.6379 8.715C12.4312 8.93083 13.2883 9.0475 14.1667 9.0475C14.5562 9.0475 14.875 9.31 14.875 9.63083V11.6667C14.875 11.9875 14.5562 12.25 14.1667 12.25C7.51542 12.25 2.125 7.81083 2.125 2.33333C2.125 2.0125 2.44375 1.75 2.83333 1.75H5.3125C5.70208 1.75 6.02083 2.0125 6.02083 2.33333C6.02083 3.0625 6.1625 3.7625 6.42458 4.41583C6.5025 4.62 6.44583 4.8475 6.2475 5.01083L4.68917 6.29417Z" fill="black"></path>
+                      </svg>
+                    </div>
+
+                    <small class="text-muted">
+                      wea're available 24/7
+                    </small>
+                  </div>
+                </div>
+                <h1 class="mtitle">ISI Registration for Open Well Pumps: IS 14220: 2018</h1>
+                <div class="call-back-form">
+                  <div class="form-container bg-white p-3 p-lg-4  ">
+                    <div class="form-inner">
+                      <div class="text-dark text-center mb-lg-4 mb-4">
+                        <h4 class="">
+                          BOOK A FREE CONSULTATION
+                        </h4>
+                        <p class="text-body">Get help from an experienced legal adviser. Schedule your
+                          consultation at a time
+                          that works for you and it's absolutely FREE.
+                        </p>
+                      </div>
+                      <form action="javascript:void(0)" class="valid-check" novalidate="novalidate">
+                        <div class="form-row justifyt-content-between w-100">
+                          <label class="col-md-4">
+                            <input type="text" name="name" id="name" placeholder="Name" class="form-control" required="">
+                          </label>
+                          <label class="col-md-4">
+                            <input type="email" name="email" id="email" onchange="validateEmail('email','')" placeholder="Email" class="form-control" required="">
+                          </label>
+                          <label class="col-md-4">
+                            <input type="number" name="mobile" id="mobile"  placeholder="Phone" class="form-control" required="">
+                          </label>
+                          <label class="col-md-auto mt-3 mx-auto">
+                            <button type="button" class="btn btn-primary btn-pill rounded px-3 btn-md submit-validation" name="blogSubmit1">Submit</button>
+                          </label>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="blog-text text text-justify"></div>
+                <div class="call-back-form">
+                  <div class="form-container bg-white p-3 p-lg-4  ">
+                    <div class="form-inner">
+                      <div class="text-dark text-center mb-lg-4 mb-4">
+                        <h4 class="">
+                          BOOK A FREE CONSULTATION
+                        </h4>
+                        <p class="text-body">Get help from an experienced legal adviser. Schedule your
+                          consultation at a time
+                          that works for you and it's absolutely FREE.
+                        </p>
+                      </div>
+                      <form action="javascript:void(0)" class="valid-check" novalidate="novalidate">
+                        <div class="form-row justifyt-content-between w-100">
+                          <label class="col-md-4">
+                            <input type="text" name="name" id="name" placeholder="Name" class="form-control" required="">
+                          </label>
+                          <label class="col-md-4">
+                            <input type="email" name="email" id="email" onchange="validateEmail('email','')" placeholder="Email" class="form-control" required="">
+                          </label>
+                          <label class="col-md-4">
+                            <input type="number" name="mobile" id="mobile"  placeholder="Phone" class="form-control" required="">
+                          </label>
+                          <label class="col-md-auto mt-3 mx-auto">
+                            <button type="button" class="btn btn-primary btn-pill rounded px-3 btn-md submit-validation" name="blogSubmit1">Submit</button>
+                          </label>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div id="authorPrevData"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div th:replace="admin/includes/javascript :: javascript"></div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.select2,.select').select2({
+        placeholder: 'Select service',
+        allowClear: true
+      });
+      $('.product-select2').select2({
+        placeholder: 'Select Product',
+        allowClear: true
+      });
+      $('.select2-author').select2({
+        placeholder: 'Select author',
+        allowClear: true
+      });
+      CKEDITOR.replace('description',{
+        filebrowserImageUploadUrl: '/ckeditor/upload',
+        height: 300
+      });
+
+    });
+    function getAllServices(categoryId){
+      var categoryName=$("#categoryId").val();
+      $("#ServicesId").empty();
+      $("#ServicesId").append("<option value=''>---- Select Services ----</option>");
+      $.ajax({
+        type : "GET",
+        url : "/admin/services/GetServicesByCategory",
+        dataType : "HTML",
+        data : {
+          categoryName : categoryName,
+          categoryId : categoryId
+        },
+        success : function(response){
+          if(Object.keys(response).length!=0){
+            response = JSON.parse(response);
+            var len = response.length;
+            $.each(response,function(key,value){
+              $("#ServicesId").append("<option value='"+key+"'>"+value+"</option>");
+            });
+          }
+        }
+      });
+    }
+
+    function getSubCategory(category){
+      $("#SubcategoryId").empty();
+      $("#ServicesId").empty();
+      $("#SubcategoryId").append("<option value=''>---- Select Sub-Category ----</option>");
+      $("#ServicesId").append("<option value=''>---- Select Services ----</option>");
+      $.ajax({
+        type : "GET",
+        url : "/admin/category/GetSubcategory",
+        dataType : "HTML",
+        data : {
+          category : category
+        },
+        success : function(response){
+          if(Object.keys(response).length!=0){
+            response = JSON.parse(response);
+            var len = response.length;
+            $.each(response,function(key,value){
+              $("#SubcategoryId").append("<option value='"+key+"'>"+value+"</option>");
+            });
+          }
+        }
+      });
+    }
+  </script>
+  <script type="text/javascript">
+    $(function() {
+      $("#edit_blog").validate({
+        // Specify validation rules
+        rules: {
+          categoryUuid: "required",
+          serviceName: "required",
+          postedByUuid: "required",
+          title: "required",
+          slug: "required",
+          summary: "required",
+          description: "required",
+          metaTitle: "required",
+          metaKeyword: "required",
+          metaDescription: "required",
+          ratingUser: "required",
+          ratingValue: "required"},
+        // Specify validation error messages
+        messages: {
+          categoryUuid: "Please select category",
+          serviceName: "Please select service",
+          postedByUuid: "Select author",
+          title: "Please enter title",
+          slug: "Please enter slug",
+          summary: "Please enter summary",
+          description:"Please enter description",
+          metaTitle:"Please enter meta title",
+          metaKeyword:"Please enter meta keyword",
+          metaDescription:"Please enter meta Description",
+          ratingUser:"Please enter rating User",
+          ratingValue:"Please enter rating Value out of 5"
+        },
+        submitHandler: function(form) {
+          $(".disableMePlease").attr("disabled","disabled");
+          form.submit();
+        }
+      });
+    });
+
+    $("#ChooseNewFile").change(function(event){
+      $("#blogImgPreview").attr("src",URL.createObjectURL(event.target.files[0]));
+    });
+    $("#goLivePreview").click(function(){
+      var title =document.forms["edit_blog"]["title"];
+      var summary =document.forms["edit_blog"]["summary"];
+      var description =document.forms["edit_blog"]["description"];
+      var file =document.forms["edit_blog"]["file"];
+      var postedByUuid =document.forms["edit_blog"]["postedByUuid"];
+      var blogImg=$("#editBlogImgPrev").val();
+
+
+      if (title.value == "") {
+        window.alert("Please enter blog title.");
+        title.focus();
+        return false;
+      }
+      if (summary.value == "") {
+        window.alert("Please enter blog summary.");
+        summary.focus();
+        return false;
+      }
+      if (file.value == ""&&blogImg=="") {
+        window.alert("Please upload file.");
+        file.focus();
+        return false;
+      }
+      if (postedByUuid.value == "") {
+        window.alert("Please select author.");
+        postedByUuid.focus();
+        return false;
+      }
+      if (CKEDITOR.instances.description.getData() == "") {
+        window.alert("Please enter description.");
+        description.focus();
+        return false;
+      }
+      $(".mtitle").html(title.value);
+      if(file.value==""){
+        $("#blogImgPreview").attr("src",blogImg);
+      }
+
+      var pdf='<iframe src="http://docs.google.com/gview?url=https://corpseeds.blob.core.windows.net/corpseed/123456.pdf&amp;embedded=true" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" style="width: 100%; height: 700px;"></iframe>';
+
+      var description=CKEDITOR.instances.description.getData();
+
+      while(description.indexOf("pdfview=")!=-1) {
+        description=description.replace("pdfview=", "<iframe src=\"https://docs.google.com/gview?url=");
+        description=description.replace("=pdfview", "&embedded=true\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen style=\"width: 100%; height: 700px;\"></iframe>");
+      }
+      $(".blog-text").html(description);
+      showAuthorData(postedByUuid.value);
+      $("#livePreview").modal("show");
+
+      const myTimeout = setTimeout(myGreeting, 200);
+      function myGreeting() {
+        var value=$(".serviceView").html();
+        $(".serviceView").map(function() {
+          var slugs=this.innerHTML;
+          const id=$(this);
+          $.ajax({
+            type : "POST",
+            url : "/service/service-card",
+            dataType : "HTML",
+            data : {slugs:slugs,location:"NA"},
+            success : function(response){
+              if(Object.keys(response).length!=0){
+                $(id).hide();
+                $(response).insertAfter(id);
+              }
+            }
+          });
+
+        }).get();
+      }
+    });
+    function showAuthorData(uuid){
+      $.ajax({
+        type : "POST",
+        url : "/admin/blogs/author",
+        dataType : "HTML",
+        data : {uuid:uuid},
+        success : function(response){
+          if(Object.keys(response).length!=0){
+            $("#authorPrevData").html(response);
+          }
+        }
+      });
+    }
+  </script>
+</div>
+
+</body>
+</html>

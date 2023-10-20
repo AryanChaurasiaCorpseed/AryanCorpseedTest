@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+              	<div class="row">
+                	<div class="col-xl-12">
+                    	<div class="card">
+                        	<div class="card-body">
+                            	<div class="d-flex align-items center justify-content-between mb-3">
+                                	<h4 class="card-title">All Triggers</h4>
+                                 	<a th:if="${!triggers.isEmpty}" href="javascript:void(0)" data-toggle="modal" data-target="#WarningTriggerAll" class="btn btn-sm btn-outline-info">Send All</a>
+                            	</div>
+                            	<h5 class="card-subtitle"></h5>
+                            	<div class="table-responsive">
+									<table id="dataTable" class="table table-striped table-hover mb-0">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>Date</th>                                        	 
+                                        	<th>Email</th>
+                                        	<th>Template Name</th> 
+                                        	<th>Status</th>                                          	                                     	
+                                        	<th>Action</th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="trigger, sn : ${triggers}">
+                                        		<td th:text="${sn.index+1}"></td>
+                                        		<td th:text="${trigger.postDate}"></td>
+                                        		<td th:text="${trigger.email}"></td>
+                                        		<td th:text="${trigger.updateName}"></td>		
+                                        		<td th:text="${trigger.displayStatus=='1'}?Open:Completed"></td>											
+												<td><a th:if="${trigger.displayStatus=='1'}" href="javascript:void(0)" th:attr="onclick='sendTrigger(\''+${trigger.uuid}+'\')'"><i class="las la-share"  data-toggle="tooltip" data-placement="left" title="Send"></i> | </a><span th:if="${session.role=='ROLE_ADMIN'}"><a class="pointer" th:attr="onclick='deleteTrigger(\''+${trigger.uuid}+'\')'"><i class="las la-trash"  data-toggle="tooltip" data-placement="left" title="Delete"></i></a></span></td>
+											</tr>
+                                    </tbody>
+                                </table>
+                         	</div>                            
+                        	</div>
+                    	</div>
+                	</div>
+              	</div>
+              	<!-- Modal -->
+              	<div class="modal fade-in" id="WarningTriggerAll" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to send all triggers ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="sendAllTrigger()">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+              	<div class="modal fade-in" id="WarningTrigger" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to send this trigger ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return sendTrigger('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+				<div class="modal fade-in" id="WarningDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to delete this trigger ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <input type="hidden" id="TriggerUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return deleteTrigger('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+              	<div th:replace="admin/includes/javascript :: javascript"></div>
+              	<script type="text/javascript">
+              	function sendAllTrigger(){
+              		$("#WarningTriggerAll").modal("hide");
+              		location.href="/admin/subscriber/trigger/send-all/";
+              	}
+              	function sendTrigger(uuid){
+              		 if(uuid!="NA"){
+                   		 $("#TriggerUuid").val(uuid);
+                   		 $("#WarningTrigger").modal("show");
+                   	 }else{               		 
+                   		 $("#WarningTrigger").modal("hide");
+                   		 var triggerUuid=$("#TriggerUuid").val();
+                   		 location.href="/admin/subscriber/trigger/send/"+triggerUuid;
+                   	 }
+              	}
+                function deleteTrigger(uuid){
+               	 if(uuid!="NA"){
+               		 $("#TriggerUuid").val(uuid);
+               		 $("#WarningDelete").modal("show");
+               	 }else{               		 
+               		 $("#WarningDelete").modal("hide");
+               		 var triggerUuid=$("#TriggerUuid").val();
+               		 location.href="/admin/subscriber/trigger/delete/"+triggerUuid;
+               	 }
+                }
+                </script>
+            </div>           
+</body>
+</html>

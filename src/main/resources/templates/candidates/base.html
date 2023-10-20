@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+ th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/admin/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/Chart.min.css}"> 
+    <link rel="stylesheet" th:href="@{/admin/css/main.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/choices.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/jquery.dataTables.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/css/buttons.dataTables.min.css}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" th:href="@{/admin/css/css2.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/line-awesome.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/css/summernote.css}">
+	<link rel="stylesheet" th:href="@{/admin/css/select2.min.css}">
+</head>
+<body class="scroll-lock">
+    <div id="preloader" class=" justify-content-center align-items-center">
+        <div class="preloader11">
+            <hr/><hr/><hr/><hr/>
+        </div>
+    </div>
+  <div class="wrapper d-flex">
+<!--       <div th:include="admins/includes/sidebar"></div> -->
+ 			<div th:replace="candidates/includes/sidebar :: sidebar"></div>
+       <main>
+            <div th:replace="candidates/includes/header :: header"></div>
+
+			<!--   Content area -->	
+			<div th:replace="${content}"></div>	
+			<!-- END Content area  -->
+
+ 	<div th:replace="candidates/includes/footer :: footer"></div>
+ 	<div id="messageBar"></div>
+       </main>
+    </div>
+	
+
+</body>
+</html>

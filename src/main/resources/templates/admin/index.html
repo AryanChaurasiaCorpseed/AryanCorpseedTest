@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+ 
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<div class="col-xl-3 col-md-6 col-sm-6">
+                        <div class="card info-card">
+                            <div class="card-body d-flex justify-content-between">
+                                <div class="text d-inline">
+                                    <h4 class="card-title text-muted"> Total Enquiry </h4>
+                                    <h3 class="text-dark font-weight-bolder mb-0"> <span th:text="${totalEnquiry}">369+ k</span></h3>
+                                </div>
+                                <div class="icon rounded">
+                                    <img th:src="@{/admin/assets/Group 3.svg}" alt="hero">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 col-sm-6">
+                        <div class="card info-card">
+                            <div class="card-body d-flex justify-content-between">
+                                <div class="text d-inline">
+                                    <h4 class="card-title text-muted"> Total User </h4>
+                                    <h3 class="text-dark font-weight-bolder mb-0"> <span th:text="${totalUsers}"></span></h3>
+                                </div>
+                                <div class="icon rounded">
+                                    <img th:src="@{/admin/assets/Group 2.svg}" alt="hero">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 col-sm-6">
+                        <div class="card info-card">
+                            <div class="card-body d-flex justify-content-between">
+                                <div class="text d-inline">
+                                    <h4 class="card-title text-muted">Total Blogs </h4>
+                                    <h3 class="text-dark font-weight-bolder mb-0"> <span th:text="${totalBlogs}"></span></h3>
+                                </div>
+                                <div class="icon rounded">
+                                    <img th:src="@{/admin/assets/Group 1.svg}" alt="hero">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 col-sm-6">
+                        <div class="card info-card">
+                            <div class="card-body d-flex justify-content-between">
+                                <div class="text d-inline">
+                                    <h4 class="card-title text-muted"> Total Service </h4>
+                                    <h3 class="text-dark font-weight-bolder mb-0"> <span th:text="${totalServices}"></span></h3>
+                                </div>
+                                <div class="icon rounded">
+                                    <img th:src="@{/admin/assets/Group 4.svg}" alt="hero">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div><!-- ./row -->
+                
+                <!-- alert row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-danger alert-dismissible fade show  shadow-sm" role="alert">
+                            <strong><i class="las la-exclamation-circle ic"></i> Sorry!</strong> 
+                            An Error has occurred please try again later! 
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                    </div>
+                </div>
+
+                
+
+                <!-- widget row 2  -->
+                <div class="row">
+                    <div class="col-xl-6 col-md-12 stretch-card grid-margin">
+                        <div class="card">  
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <h4 class="card-title">
+                                        Page Views
+                                    </h4>
+                                    
+                                    <div class="custom ml-auto">
+                                        <select class="custom-select custom-select-sm rounded" onchange="getVisitorsData(this.value)">
+                                            <option value="1" selected="selected">This Week</option>
+                                            <option value="2">Last Week</option>
+<!--                                             <option value="2">This Month</option> -->
+<!--                                             <option value="3">Last Month</option> -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <canvas id="most-visited"></canvas>
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <h4 class="card-title mb-0">
+                                       Recently Added
+                                    </h4>
+                                    
+                                    <div class="custom ml-auto">
+                                        <select class="custom-select custom-select-sm rounded" onchange="getRecentData(this.value)">
+                                            <option value="1">Blogs</option>
+                                            <option value="2">Services</option>
+                                            <option value="3">CMS Pages</option>
+<!--                                             <option value="4">Comments</option> -->
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <ul class="list-group list-group-added" id="RecentDataAppend">
+                                                                        
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- ./row -->
+                <!-- widget row 1 -->
+                <div class="row">
+                    <div class="col-xl-4 col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    Trending Search Keywords
+                                </h4>
+                                <div class="max-search">
+                                    <canvas id="most-searched">
+                                        Not available.
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Traffic Sources</h4>
+                                <p class="card-description">Here you can see public traffic sources</p>
+                                <div class="widget-body">
+                                    <div class="progress mb-3 rounded-sm">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" ></div>
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%;" ></div>
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%;"></div>
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 10%;"></div>
+                                        <div class="progress-bar bg-light" role="progressbar" style="width: 5%;"></div>
+                                    </div>
+                                    <div class="traffic-source-legend">
+                                        <div class="d-flex justify-content-between mb-1 mt-2">
+                                          <div class="font-weight-bold">SOURCE</div>
+                                          <div class="font-weight-bold">TOTAL</div>
+                                        </div>
+                                        <div class="d-flex justify-content-between legend-label">
+                                          <div><span class="bg-success"></span>Google Search</div>
+                                          <div>30%</div>
+                                        </div>
+                                        <div class="d-flex justify-content-between legend-label">
+                                          <div><span class="bg-info"></span>Social Media</div>
+                                          <div>20%</div>
+                                        </div>
+                                        <div class="d-flex justify-content-between legend-label">
+                                          <div><span class="bg-primary"></span>Referrals</div>
+                                          <div>10%</div>
+                                        </div>
+                                        <div class="d-flex justify-content-between legend-label">
+                                          <div><span class="bg-warning"></span>Organic Traffic</div>
+                                          <div>10%</div>
+                                        </div>
+                                        <div class="d-flex justify-content-between legend-label">
+                                          <div><span class="bg-light"></span>Email Marketing</div>
+                                          <div>25%</div>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!--./row -->
+
+                <div class="row">
+                    <div class="col-xl-8 col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    Recently Added Blogs
+                                </h4>
+                                <div class="table-responsive indexOverFlow">
+                                    <table class="table table-striped mb-0">
+                                        <thead>
+                                            <th>#</th>
+                                            <th>Blog Title</th>
+                                            <th>Posted by</th>
+                                            <th>Posted on</th>
+                                            <th>Status</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="blog, sn : ${recentBlog}">
+                                                <td th:text="${sn.index+1}">1</td>
+                                                <td><div class="d-flex mx-n3"><a th:href="@{|/knowledge-centre/${blog.slug}|}" target="_blank">
+                                                <img th:src="@{/admin/assets/img/blog.png}" alt="Posts" class="thumb mr-2"
+                                                 th:text="${#strings.abbreviate(blog.title,35)}"></a></div></td>
+                                                <td th:text="${blog.postedByName}"></td>
+                                                <td th:text="${blog.postDate}"></td>
+                                                <td><label class="badge badge-warning">Posted</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 col-md-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-3">Overall rating</h4>
+                                <div class="d-flex bg-light-danger text-danger">
+                                  <div>
+                                      <h4 class="text-dark font-weight-bold mb-2 mr-2">4.3</h4>
+                                  </div>
+                                  <div>
+                                    <div class="br-wrapper br-theme-fontawesome-stars">
+                                        <select id="over-all-rating" name="rating" autocomplete="off" style="display: none;">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    <div class="br-widget">
+                                        <a href="#" data-rating-value="1" data-rating-text="1" class="br-selected br-current"></a><a href="#" data-rating-value="2" data-rating-text="2"></a><a href="#" data-rating-value="3" data-rating-text="3"></a><a href="#" data-rating-value="4" data-rating-text="4"></a><a href="#" data-rating-value="5" data-rating-text="5"></a>
+                                    </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="alert alert-info mb-3">
+                                    This rating is based on overall rating on each page.
+                                </div>
+                                <p class="mb-4">Based on 186 reviews</p>
+                                <div class="row">
+                                  <div class="col-sm-2 pr-0">
+                                      <div class="d-flex">
+                                        <div>
+                                            <div class="text-dark font-weight-bold mb-2 mr-2">5</div>
+                                        </div>
+                                        <div>
+                                          <i class="la-star las text-warning"></i>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-9 pl-2">
+                                      <div class="row">
+                                        <div class="col-sm-10">
+                                          <div class="progress progress-lg mt-1">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2 p-lg-0">
+                                          80%
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-sm-2 pr-0">
+                                      <div class="d-flex">
+                                        <div>
+                                            <div class="text-dark font-weight-bold mb-2 mr-2">4</div>
+                                        </div>
+                                        <div>
+                                          <i class="la-star las text-warning"></i>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-9 pl-2">
+                                      <div class="row">
+                                        <div class="col-sm-10">
+                                          <div class="progress progress-lg mt-1">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2 p-lg-0">
+                                          45%
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-sm-2 pr-0">
+                                      <div class="d-flex">
+                                        <div>
+                                            <div class="text-dark font-weight-bold mb-2 mr-2">3</div>
+                                        </div>
+                                        <div>
+                                          <i class="la-star las text-warning"></i>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-9 pl-2">
+                                      <div class="row">
+                                        <div class="col-sm-10">
+                                          <div class="progress progress-lg mt-1">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2 p-lg-0">
+                                          30%
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-sm-2 pr-0">
+                                      <div class="d-flex">
+                                        <div>
+                                            <div class="text-dark font-weight-bold mb-2 mr-2">2</div>
+                                        </div>
+                                        <div>
+                                          <i class="la-star las text-warning"></i>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-9 pl-2">
+                                      <div class="row">
+                                        <div class="col-sm-10">
+                                          <div class="progress progress-lg mt-1">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 8%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2 p-lg-0">
+                                          8%
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-sm-2 pr-0">
+                                      <div class="d-flex">
+                                        <div>
+                                            <div class="text-dark font-weight-bold mb-2 mr-2">1</div>
+                                        </div>
+                                        <div>
+                                          <i class="la-star las text-warning"></i>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-9 pl-2">
+                                      <div class="row">
+                                        <div class="col-sm-10">
+                                          <div class="progress progress-lg mt-1">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 1%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-2 p-lg-0">
+                                          1%
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <small class="text-muted">
+                                        Data maybe older.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="todaysDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(document).ready(function(){
+                	 $.ajax({
+             			type : "GET",
+             			url : "/admin/GetSixRecentData",
+             			dataType : "HTML",
+             			data : {
+             				dataReq:"1"
+             			},
+             			success : function(response){
+             				if(Object.keys(response).length!=0){
+             				response = JSON.parse(response);       				 
+             				 $.each(response,function(key,value){
+             					 var time=key.split("#");
+             					 $("#RecentDataAppend").append('<li class="list-group-item d-flex justify-content-between align-items-center">'+value+'<span class="badge text-default badge-pill">'+time[0]+'</span></li>');                           
+             			     });
+             				}
+             			}
+             		});                	 
+                });  
+                function getRecentData(dataReq){
+                	$("#RecentDataAppend").html('');
+                	$.ajax({
+             			type : "GET",
+             			url : "/admin/GetSixRecentData",
+             			dataType : "HTML",
+             			data : {
+             				dataReq:dataReq
+             			},
+             			success : function(response){
+             				if(Object.keys(response).length!=0){
+             				response = JSON.parse(response);       				 
+             				 $.each(response,function(key,value){
+             					 var time=key.split("#");
+             					 $("#RecentDataAppend").append('<li class="list-group-item d-flex justify-content-between align-items-center">'+value+'<span class="badge text-default badge-pill">'+time[0]+'</span></li>');                           
+             			     });
+             				}
+             			}
+             		});
+                }
+
+                // let mostSearchedData = 
+				var myChart1;
+                $(document).ready(function(){	
+                	var tslabels=[];	
+                	var tsdataset=[];
+                	var tscolors=[];
+                	$.ajax({
+                		url: "/admin/trandingSearchData",
+                		type: 'GET',
+                		dataType: 'json',
+                		data: {},
+                		contentType: 'application/json',
+                		mimeType: 'application/json',                			
+                		success: function (data) {
+                        	$.each(data, function (index, article) {
+                            	    tslabels.push(article.searchName);
+                					tsdataset.push(article.searched);
+                					if(index==0){
+                						tscolors.push('rgba(0, 85, 204,1)');
+                					}else if(index==1){
+                						tscolors.push('rgba(245, 42, 61,1)');
+                					}else if(index==2){
+                						tscolors.push('rgba(5, 161, 156,1)');
+                					}else if(index==3){
+                						tscolors.push('rgba(99, 204, 50,1)');
+                					}else if(index==4){
+                						tscolors.push('rgba(243, 154, 21, 1)');
+                					}  
+                										    	            	
+                            }); 
+                        },
+                		error:function(data,status,er) {
+                			alert("error: "+data+" status: "+status+" er:"+er);
+                		}
+                	});	
+                	
+         ////////// most searched 
+                    let mostSearched = document.getElementById('most-searched').getContext('2d');
+                    var myChart = new Chart(mostSearched, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['FSSAi Basic','FSSAi License','Start company from bottom','FSSAI License process?','Nidhi'],
+                            datasets: [{
+                    			data: [12, 19, 3, 5, 2],
+                    			borderColor:'#e7e7e7',
+                                backgroundColor: [
+                    				'rgba(0, 85, 204,1)',
+                    				'rgba(245, 42, 61,1)',
+                    				'rgba(5, 161, 156,1)',
+                    				'rgba(99, 204, 50,1)',
+                    				'rgba(243, 154, 21, 1)'],
+                    			borderWidth: 1,
+                    		}
+                    	]
+                        },
+                        options: {
+                    		responsive: true,
+                    		padding: {
+                    			top: 25,
+                    		},
+                    		defaultFontSize: 14,
+                            animation: {
+                              animateScale: true,
+                              animateRotate: true
+                    		},
+                    		aspectRatio: 1.275,
+                    		legend: {
+                    			position: 'bottom',
+                    		}
+                        }
+                    });
+                    
+                	var circleChartData = {
+                	        labels: tslabels,
+                	        datasets: [{
+                				data: tsdataset,
+                				borderColor:'#e7e7e7',
+                	            backgroundColor: tscolors,
+                				borderWidth: 1,
+                			}]
+
+                	    }
+                	setTimeout(function(){
+                		myChart.data.datasets = circleChartData.datasets;
+                		myChart.data.labels = circleChartData.labels;
+                		myChart.update();
+                	}, 1000);	
+              	
+                	
+                	var mostVisited = document.getElementById('most-visited').getContext('2d');
+                	myChart1= new Chart(mostVisited, {
+                        type: 'line',
+                        data: {
+                            labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+                            datasets: [{
+                                label: ['Blogs'],
+                                data: [12, 19, 3, 5, 2,23,30],
+                                backgroundColor: 'rgba(0, 85, 204,1)',
+                                borderColor: 'rgba(0, 85, 204,1)',
+                    			borderWidth: 1,
+                    			fill: '#0000',
+                    		},
+                    		{
+                    			label: ['Services'],
+                                data: [2, 5, 8, 3, 25,15,12],
+                                backgroundColor: '#f39915',
+                                borderColor:'#f39915',
+                    			borderWidth: 1,
+                    			fill: '#0000',
+                    		}
+
+                    	]
+                        },
+                        options: {
+                    		responsive: true,
+                            animation: {
+                              animateScale: true,
+                              animateRotate: true
+                    		},
+                    		aspectRatio: 2,
+                        }
+                    });
+                	
+                	var sdataset=[0,0,0,0,0,0,0];
+                	var bdataset=[0,0,0,0,0,0,0];
+                	$.ajax({
+                		url: "/admin/GetVisitorsChartData/1",
+                		type: 'GET',
+                		dataType: 'json',
+                		data: {},
+                		contentType: 'application/json',
+                		mimeType: 'application/json',                			
+                		success: function (data) {
+                        	$.each(data, function (index, article) {
+                				if(article.type=="service"){
+                					switch(article.day){
+                						case "Monday":
+                							sdataset[0]=Number(sdataset[0])+1;							
+                						break;
+                						case "Tuesday":
+                							sdataset[1]=Number(sdataset[1])+1;							
+                						break;
+                						case "Wednesday":
+                							sdataset[2]=Number(sdataset[2])+1;							
+                						break;
+                						case "Thursday":
+                							sdataset[3]=Number(sdataset[3])+1;							
+                						break;
+                						case "Friday":
+                							sdataset[4]=Number(sdataset[4])+1;							
+                						break;
+                						case "Saturday":
+                							sdataset[5]=Number(sdataset[5])+1;							
+                						break;
+                						case "Sunday":
+                							sdataset[6]=Number(sdataset[6])+1;							
+                						break;
+                					}										
+                				}else if(article.type=="blog"){
+                					switch(article.day){
+                						case "Monday":
+                							bdataset[0]=Number(bdataset[0])+1;							
+                						break;
+                						case "Tuesday":
+                							bdataset[1]=Number(bdataset[1])+1;							
+                						break;
+                						case "Wednesday":
+                							bdataset[2]=Number(bdataset[2])+1;							
+                						break;
+                						case "Thursday":
+                							bdataset[3]=Number(bdataset[3])+1;							
+                						break;
+                						case "Friday":
+                							bdataset[4]=Number(bdataset[4])+1;							
+                						break;
+                						case "Saturday":
+                							bdataset[5]=Number(bdataset[5])+1;							
+                						break;
+                						case "Sunday":
+                							bdataset[6]=Number(bdataset[6])+1;							
+                						break;
+                					}
+                				}
+                				
+                				              	            	
+                            }); 
+                        },
+                		error:function(data,status,er) {
+                			alert("error: "+data+" status: "+status+" er:"+er);
+                		}
+                	});
+                 
+                 var lineChartData = {
+                        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+                        datasets: [{
+                            label: ['Blogs'],
+                            data: bdataset,
+                            backgroundColor: 'rgba(0, 85, 204,1)',
+                            borderColor: 'rgba(0, 85, 204,1)',
+                			borderWidth: 1,
+                			fill: '#0000',
+                		},
+                		{
+                			label: ['Services'],
+                            data: sdataset,
+                            backgroundColor: '#f39915',
+                            borderColor:'#f39915',
+                			borderWidth: 1,
+                			fill: '#0000',
+                		}]
+
+                    }
+                setTimeout(function(){
+                	myChart1.data.datasets = lineChartData.datasets;
+                	myChart1.data.labels = lineChartData.labels;
+                	myChart1.update();
+                }, 2000);
+                });      
+                function getVisitorsData(data){
+                	var sdataset=[0,0,0,0,0,0,0];
+                	var bdataset=[0,0,0,0,0,0,0];
+                	$.ajax({
+                		url: "/admin/GetVisitorsChartData/"+data,
+                		type: 'GET',
+                		dataType: 'json',
+                		data: {},
+                		contentType: 'application/json',
+                		mimeType: 'application/json',                			
+                		success: function (data) {
+                        	$.each(data, function (index, article) {
+                        		if(article.type=="service"){
+                					switch(article.day){
+                						case "Monday":
+                							sdataset[0]=Number(sdataset[0])+1;							
+                						break;
+                						case "Tuesday":
+                							sdataset[1]=Number(sdataset[1])+1;							
+                						break;
+                						case "Wednesday":
+                							sdataset[2]=Number(sdataset[2])+1;							
+                						break;
+                						case "Thursday":
+                							sdataset[3]=Number(sdataset[3])+1;							
+                						break;
+                						case "Friday":
+                							sdataset[4]=Number(sdataset[4])+1;							
+                						break;
+                						case "Saturday":
+                							sdataset[5]=Number(sdataset[5])+1;							
+                						break;
+                						case "Sunday":
+                							sdataset[6]=Number(sdataset[6])+1;							
+                						break;
+                					}										
+                				}else if(article.type=="blog"){
+                					switch(article.day){
+                						case "Monday":
+                							bdataset[0]=Number(bdataset[0])+1;							
+                						break;
+                						case "Tuesday":
+                							bdataset[1]=Number(bdataset[1])+1;							
+                						break;
+                						case "Wednesday":
+                							bdataset[2]=Number(bdataset[2])+1;							
+                						break;
+                						case "Thursday":
+                							bdataset[3]=Number(bdataset[3])+1;							
+                						break;
+                						case "Friday":
+                							bdataset[4]=Number(bdataset[4])+1;							
+                						break;
+                						case "Saturday":
+                							bdataset[5]=Number(bdataset[5])+1;							
+                						break;
+                						case "Sunday":
+                							bdataset[6]=Number(bdataset[6])+1;							
+                						break;
+                					}
+                				}
+                				
+                				              	            	
+                            }); 
+                        },
+                		error:function(data,status,er) {
+                			alert("error: "+data+" status: "+status+" er:"+er);
+                		}
+                	});
+                 
+                 var lineChartData = {
+                        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+                        datasets: [{
+                            label: ['Blogs'],
+                            data: bdataset,
+                            backgroundColor: 'rgba(0, 85, 204,1)',
+                            borderColor: 'rgba(0, 85, 204,1)',
+                			borderWidth: 1,
+                			fill: '#0000',
+                		},
+                		{
+                			label: ['Services'],
+                            data: sdataset,
+                            backgroundColor: '#f39915',
+                            borderColor:'#f39915',
+                			borderWidth: 1,
+                			fill: '#0000',
+                		}]
+
+                    }
+                setTimeout(function(){
+                	myChart1.data.datasets = lineChartData.datasets;
+                	myChart1.data.labels = lineChartData.labels;
+                	myChart1.update();
+                }, 2000);
+                }
+                </script>
+            </div>
+    
+           
+</body>
+</html>

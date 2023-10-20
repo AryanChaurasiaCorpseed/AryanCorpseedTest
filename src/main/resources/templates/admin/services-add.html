@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/admin/services/add}" id="add_service" method="post" 
+                	th:object="${service}" enctype="multipart/form-data">
+                    <div class="col-lg-9 ">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Create Services</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" id="goLivePreview"><i class="las la-eye mr-1 my-n1 ml-n1 ic"></i> Live Preview</a>
+                                </div>
+								 <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>                                
+                                <label for="categoryId" class="form-group">
+                                    Parent Category
+                                    <select class="form-control select2-search" name="categoryName" id="categoryId" onchange="getSubCategory(this.value)" aria-describedby="emailHelp" >
+                                    	<option value="">Select Category</option>
+                                    	<option value="Start Company">Start Company</option>
+                                    	<option value="License & Certification">License & Certification</option>
+                                    	<option value="Financial Services">Financial Services</option>
+                                    	<option value="Business Compliance">Business Compliance</option>
+                                    	<option value="Changes In Business">Changes In Business</option>
+                                    	<option value="Pollution Advisory">Pollution Advisory</option>
+                                    </select>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Sub Category
+                                    <select class="form-control select2-search" name="subCategoryID" id="SubcategoryId">
+                                    	<option value="">Select Sub-Category</option>
+                                    </select>
+                                </label>
+                                <label class="form-group">
+                                    Service Name
+                                    <input type="text" name="serviceName" id="serviceName"
+                                     th:classappend="${#fields.hasErrors('serviceName') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" th:value="${service.serviceName}" placeholder="Enter service name...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('serviceName')}" th:text="${e}"></span>
+                                </label>                            
+                                <label class="form-group">
+                                    Title
+                                    <input type="text" name="title" id="title" class="form-control"
+                                     th:classappend="${#fields.hasErrors('title') ? 'is-invalid':''}" aria-describedby="emailHelp" 
+                                    placeholder="Enter service title..." th:value="${service.title}" onload="convertToSlug(this.value)" onkeyup="convertToSlug(this.value)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('title')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Slug
+                                    <input type="text" name="slug" id="slug"
+                                     th:classappend="${#fields.hasErrors('slug') ? 'is-invalid':''}" aria-describedby="emailHelp" 
+                                     class="form-control" placeholder="Enter service slug..." th:value="${service.slug}">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('slug')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Video URL
+                                    <input type="text" th:field="*{videoUrl}" class="form-control"
+                                           th:classappend="${#fields.hasErrors('videoUrl') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                           placeholder="For youtube video starts with : https://www.youtube.com/embed/">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('videoUrl')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    CRM Product No.
+                                    <input type="text" th:field="*{productNo}"
+                                     th:classappend="${#fields.hasErrors('productNo') ? 'is-invalid':''}" aria-describedby="emailHelp" 
+                                     class="form-control" placeholder="Enter crm product no...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('productNo')}" th:text="${e}"></span>
+                                </label>                               
+                                <label class="form-group">
+                                    Summary
+                                    <textarea name="summary" id="summary"
+                                      th:classappend="${#fields.hasErrors('summary') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" rows="3" placeholder="Enter service summary..." th:text="${service.summary}"></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('summary')}" th:text="${e}"></span>
+                                </label>                                
+                            </div>
+                        </div>
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title">State/City Service</h4>
+                                <label for="#" class="form-group">
+                                    Select Parent Service
+                                    <select class="form-control select2-search select2" name="parentService" id="parentService">
+                                        <option></option>
+                                        <option th:each="s:${services}" th:value="${s.id}" th:text="${s.serviceName}">Select Parent Service</option>
+                                    </select>
+                                </label>
+                                <label for="#" class="form-group" id="stateDiv">
+                                    Select State
+                                    <select class="form-control select2-search" name="stateId" id="stateId">
+                                        <option value="">Select State</option>
+                                        <option th:each="s:${states}" th:value="${s.id}" th:text="${s.stateName}"></option>
+                                    </select>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Select City
+                                    <select class="form-control select2-search" name="cityId" id="cityId">
+                                        <option value="">Select City</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title">SEO</h4>
+                                <label for="#" class="form-group">
+                                    Meta Title
+                                    <input type="text" id="metaTitle" name="metaTitle" placeholder="Enter meta title..."
+                                      th:classappend="${#fields.hasErrors('metaTitle') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" th:value="${service.metaTitle}">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('metaTitle')}" th:text="${e}"></span>
+                                </label>
+                               
+                                <label for="#" class="form-group">
+                                    Meta Keyword
+                                    <input type="text" id="metaKeyword" name="metaKeyword" placeholder="Enter meta keyword..."
+                                      th:classappend="${#fields.hasErrors('metaKeyword') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" th:value="${service.metaKeyword}">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('metaKeyword')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Meta Description
+                                   <textarea name="metaDescription" id="metaDescription" class="form-control" placeholder="Enter meta description..."
+                                     th:classappend="${#fields.hasErrors('metaDescription') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                    cols="30" rows="5" th:text="${service.metaDescription}"></textarea>
+                                   <span class="invalid-feedback" th:each="e : ${#fields.errors('metaDescription')}" th:text="${e}"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <label for="#" class="form-group">
+                                    Video Link
+                                    <input type="text" id="videoLink" name="videoLink"
+                                      th:classappend="${#fields.hasErrors('videoLink') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     class="form-control" th:value="${service.videoLink}" placeholder="Enter video link...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('videoLink')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Legal Guide
+                                    <input type="file" id="legalGuide" name="legalGuideImage" class="form-control">
+<!--                                     <div class="invalid-feedback" th:each="e : ${#fields.errors('legalGuide')}" th:text="${e}"></div> -->
+                                </label>
+                                <label for="#" class="form-group">
+                                    Rating User
+                                    <input type="text" id="ratingUser" th:value="${service.ratingUser}" name="ratingUser" class="form-control"
+                                      th:classappend="${#fields.hasErrors('ratingUser') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Total rating user..." onkeypress="return isNumber(event)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('ratingUser')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Rating Value
+                                    <input type="text" id="ratingValue" th:value="${service.ratingValue}" name="ratingValue" class="form-control" 
+                                     th:classappend="${#fields.hasErrors('ratingValue') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Total rating given by each user..." th:maxlength="3" onkeypress="return isNumberKey(event)">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('ratingValue')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group"> Show On Menu
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="showMenu1" name="showMenuStatus" class="custom-control-input" value="1">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="showMenu1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="showMenu0" name="showMenuStatus" class="custom-control-input" value="2" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="showMenu0">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('showHomeStatus')}" th:text="${e}"></span>
+								</label>
+								<label for="#" class="form-group"> Show On Home
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="showHome1" name="showHomeStatus" class="custom-control-input" value="1">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="showHome1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="showHome0" name="showHomeStatus" class="custom-control-input" value="2" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="showHome0">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('showHomeStatus')}" th:text="${e}"></span>
+								</label>
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="displayStatus" name="displayStatus" class="custom-control-input" value="1" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="displayStatus">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="displayStatus1" name="displayStatus" class="custom-control-input" value="2">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="displayStatus1">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('displayStatus')}" th:text="${e}"></span>
+								</label>
+                                <label for="#" class="form-group">
+                                    Step Status
+                                    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                                        <input type="radio" id="stepStatus" name="stepStatus" class="custom-control-input" value="1" checked>
+                                        <label class="custom-control-label pmd-radio-ripple-effect" for="stepStatus">Show</label>
+                                    </div>
+                                    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                                        <input type="radio" id="stepStatus1" name="stepStatus" class="custom-control-input" value="2">
+                                        <label class="custom-control-label pmd-radio-ripple-effect" for="stepStatus1">Hide</label>
+                                    </div>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('stepStatus')}" th:text="${e}"></span>
+                                </label>
+								<input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Post Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" onclick="goBack()" class="btn btn-outline-danger btn-sm">
+                                        Discard
+                                    </button>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <!--<div class="col-lg-4  ml-auto">
+
+                    </div>-->
+                </div>
+                
+                <div class="modal file livePreview" id="livePreview" tabindex="-1" role="dialog">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title">Service Preview</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+						<div class="modal-body">
+						<div class="container ">
+                <div class="row ">
+                    <div class="col-lg-5 col-md-5">
+                        <div class="reg-hero">
+                                <span class="badge blue">Includes free support</span>
+                                <h1>Start your <span class="text-primary" id="serviceTitle">Private Company Registration</span> today!</h1>
+                                
+                                <p id="serviceSummary">Private Company Registration</p>
+                                <div class="star-rating">
+                                    <div class="starts">                                      
+                                		<svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.5 14.0938L4.08594 17.375L5.52148 11.2227L0.763672 7.08008L7.03906 6.54688L9.5 0.763672L11.9609 6.54688L18.2363 7.08008L13.4785 11.2227L14.9141 17.375L9.5 14.0938Z" fill="#FFC20F"></path>
+                                        </svg>
+                                        <small>[Rated <b id="serviceRating">5</b> stars by customers like you]</small>
+                                </div>
+                                </div>
+                            <span class="triangle">
+                                <svg width="147" height="141" viewBox="0 0 147 141" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path opacity="0.5" d="M98.5247 32.7666L95.2258 140.341L0.270416 76.69L98.5247 32.7666Z" fill="#C4C4C4" fill-opacity="0.5"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+			  </div>
+			</div>
+         </div>
+		</div>
+       <div th:replace="admin/includes/javascript :: javascript"></div>
+      <script type="text/javascript">
+          $(document).ready(function(){
+              $('.select2').select2({
+                  placeholder: 'Select Parent Services',
+                  allowClear: true
+              });
+              $("#parentService").change(function(e){
+                    let serviceId=$(this).val();
+                  $.ajax({
+                      type : "GET",
+                      url : "/admin/services/isStateService",
+                      dataType : "HTML",
+                      data : {
+                          serviceId : serviceId
+                      },
+                      success : function(response){
+                          if(Object.keys(response).length!=0){
+                              response = JSON.parse(response);
+                              $("#stateDiv").hide();
+                              $("#cityId").empty();
+                              $("#cityId").append("<option value=''>Select City</option>");
+                              $.each(response,function(key,value){
+                                  $("#cityId").append("<option value='"+key+"'>"+value+"</option>");
+                              });
+                          }else{
+                              $("#stateDiv").show();
+                              $("#cityId").empty();
+                              $("#cityId").append("<option value=''>Select City</option>");
+                          }
+                      }
+                  });
+              })
+          });
+       $(function() {
+    	   $("#add_service").validate({
+    	      // Specify validation rules    	          
+    	      rules: {
+    	        categoryName: "required",
+    	        subCategoryID: "required",
+    	        serviceName: "required",
+    	        title: "required",
+    	        slug: "required",
+    	        productNo: "required",
+    	        summary: "required",
+    	  	    metaTitle: "required",
+    	  	    metaKeyword: "required",
+    	  	    metaDescription: "required",
+    	  	    ratingUser: "required",
+    	  	    ratingValue: "required"},
+    	      // Specify validation error messages
+    	      messages: {
+    	    	 categoryName: "Please select category",
+    	    	 subCategoryID: "Please select sub-category",
+    	    	 serviceName: "Please enter service name",
+    	    	 title: "Please enter title",
+     	         slug: "Please enter slug",
+    	    	 productNo: "Please enter product no.",
+    	    	 summary: "Please enter summary",
+    	  	  	 metaTitle:"Please enter meta title",
+    	  	 	 metaKeyword:"Please enter meta keyword",
+    	  	     metaDescription:"Please enter meta Description",
+	    	  	 ratingUser:"Please enter rating User",
+	    	  	 ratingValue:"Please enter rating Value out of 5"
+    	      },
+    	     submitHandler: function(form) {
+    	    	 $(".disableMePlease").attr("disabled","disabled");
+    	        form.submit();
+    	      }
+    	    });
+    	  }); 
+       </script> 
+                <script type="text/javascript">              
+                function getSubCategory(category){
+                	$("#SubcategoryId").empty();
+                	 $("#SubcategoryId").append("<option value=''>---- Select Sub-Category ----</option>");
+            		$.ajax({
+            			type : "GET",
+            			url : "/admin/services/GetSubcategory",
+            			dataType : "HTML",
+            			data : {
+            				category : category
+            			},
+            			success : function(response){
+            				if(Object.keys(response).length!=0){
+            				response = JSON.parse(response);			
+            				 var len = response.length;
+            				 $.each(response,function(key,value){
+            					 $("#SubcategoryId").append("<option value='"+key+"'>"+value+"</option>");
+            			     });
+            				}
+            			}
+            		});
+                }
+                $("#goLivePreview").click(function(){	 
+               	 var title =document.forms["add_service"]["title"];
+                    var summary =document.forms["add_service"]["summary"];
+                    var ratingValue =document.forms["add_service"]["ratingValue"];
+                   
+                    if (title.value == "") {
+                        window.alert("Please enter title.");
+                        title.focus();
+                        return false;
+                    }
+                    if (summary.value == "") {
+                        window.alert("Please enter summary.");
+                        summary.focus();
+                        return false;
+                    }
+                    if (ratingValue.value == "") {
+                        window.alert("Please enter rating value.");
+                        ratingValue.focus();
+                        return false;
+                    }
+                    $("#serviceTitle").html(title.value);
+                    $("#serviceSummary").html(summary.value);
+                    $("#serviceRating").html(ratingValue.value);
+                    $("#livePreview").modal("show");
+                      
+                });                
+                </script>
+	 </div>
+	
+</body>
+</html>

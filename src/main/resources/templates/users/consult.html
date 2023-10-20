@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="msvalidate.01" content="6FE373E64B7D16AE4CC9FA10A4FCA067" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="google-site-verification" content="xay8w1fZXMUiEkwyejtBYvYYOCsKKki9Ha_6xg3fAog" />
+
+    <title th:text="${metaTitle}"></title>
+    <meta name="description" th:content="${metaDescription}"/>
+    <meta name="keywords" th:content="${metaKeyword}"/>
+    <meta property="og:title" th:content="${metaTitle}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.corpseed.com/" />
+    <meta property="og:description" th:content="${metaDescription}"/>
+    <meta property="og:site_name" content="CORPSEED ITES PRIVATE LIMITED" />
+    <meta property="og:image" content="https://www.corpseed.com/images/logo.png" />
+    <meta property="og:image:type" content="image/jpg" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="300" />
+    <meta property="og:image:alt" content="Corpseed | Business Compliance| Corporate Funding and Audit" />
+    <meta name="facebook-domain-verification" content="f3x050wlknq32peot77xkc2eviz6z6" />
+
+
+    <link rel="shortcut icon" type="image/png" th:href="@{/assets/img/fav.png}"/>
+    <link rel="canonical" th:with="uri=${#httpServletRequest.requestURI}" th:href="${uri.endsWith('/')}?${'https://www.corpseed.com'+uri.substring(0,uri.length()-1)}:${'https://www.corpseed.com'+uri}" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link th:href="@{/chat_boat/css/main.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/chat_boat/css/chatBot.css}" rel="stylesheet" type="text/css" />
+
+    <!-- Facebook Pixel Code -->
+    <script type="text/javascript">
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2066838230073662');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2066838230073662&ev=PageView&noscript=1" alt=""/></noscript>
+    <!-- End Facebook Pixel Code -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136513064-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136513064-1');
+</script>
+<!-- new code start -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-804992554"></script> 
+<script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-804992554'); </script>
+
+<!-- Event snippet for Website Leads conversion page In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. --> 
+<script> function gtag_report_conversion(url) { var callback = function () { if (typeof(url) != 'undefined') { window.location = url; } }; gtag('event', 'conversion', { 'send_to': 'AW-804992554/7K8VCM6g0bIDEKrs7P8C', 'event_callback': callback }); return false; } </script>
+
+<!-- new code end -->
+<!-- Google Tag Manager
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WQSBJZ4');</script>-->
+<!-- End Google Tag Manager -->   
+
+</head>
+<body class="scroll-lock" data-spy="scroll" data-target="#side-nav" data-offset="135" th:with="count_result = ${count}">
+	<input type="hidden" id="type" value="1"/>
+	<input type="hidden" id="type_id" th:value="${serviceId}"/>
+
+	<span id="msg"></span>
+    <div id="preloader">
+        <div class="inner justify-content-center align-items-center vh-100 w-100 position-fixed bg-white d-flex">
+            <div class="circle"></div>
+            <svg width="100" height="102" viewBox="0 0 100 102" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="100" height="102" fill="url(#pattern0)"/>
+                <defs>
+                    <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                        <use xlink:href="#image0" transform="scale(0.01 0.00980392)" />
+                    </pattern>
+                    <image id="image0" width="100" height="102" xlink:href="data:image/png;base64,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" />
+                </defs>
+            </svg>
+        </div>
+    </div>
+	<div th:include="users/includes/header"></div>
+    <div th:replace="~{users/includes/common}"></div>
+    <main>
+        <section class="home home-reg" >
+            <div class="container mt-n5">
+                <div class="row justify-content-md-between">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="reg-hero">
+                            <header>
+                                <span class="badge blue">Includes free support</span>
+                                <h1>Consult Now today!</h1>
+                                <p>consult now summary here ...!</p>
+                                <div class="star-rating">
+                                    <div class="starts">
+                                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.5 14.0938L4.08594 17.375L5.52148 11.2227L0.763672 7.08008L7.03906 6.54688L9.5 0.763672L11.9609 6.54688L18.2363 7.08008L13.4785 11.2227L14.9141 17.375L9.5 14.0938Z" fill="#FFC20F" />
+                                        </svg>
+                                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.5 14.0938L4.08594 17.375L5.52148 11.2227L0.763672 7.08008L7.03906 6.54688L9.5 0.763672L11.9609 6.54688L18.2363 7.08008L13.4785 11.2227L14.9141 17.375L9.5 14.0938Z" fill="#FFC20F" />
+                                        </svg>
+                                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.5 14.0938L4.08594 17.375L5.52148 11.2227L0.763672 7.08008L7.03906 6.54688L9.5 0.763672L11.9609 6.54688L18.2363 7.08008L13.4785 11.2227L14.9141 17.375L9.5 14.0938Z" fill="#FFC20F" />
+                                        </svg>
+                                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.5 14.0938L4.08594 17.375L5.52148 11.2227L0.763672 7.08008L7.03906 6.54688L9.5 0.763672L11.9609 6.54688L18.2363 7.08008L13.4785 11.2227L14.9141 17.375L9.5 14.0938Z" fill="#FFC20F" />
+                                        </svg>
+                                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.5 12.4941L12.7812 14.4629L11.9199 10.7305L14.832 8.1875L10.9766 7.85938L9.5 4.33203V12.4941ZM18.2363 7.08008L13.4785 11.2227L14.9141 17.375L9.5 14.0938L4.08594 17.375L5.52148 11.2227L0.763672 7.08008L7.03906 6.54688L9.5 0.763672L11.9609 6.54688L18.2363 7.08008Z" fill="#FFC20F" />
+                                        </svg>
+                                    </div>
+                                    <small>[Rated 4.5 stars by customers like you]</small>
+                                </div>
+                            </header>
+
+                            <span class="triangle">
+                                <svg width="147" height="141" viewBox="0 0 147 141" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path opacity="0.5" d="M98.5247 32.7666L95.2258 140.341L0.270416 76.69L98.5247 32.7666Z" fill="#C4C4C4" fill-opacity="0.5" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="call-back-sec">
+                            <div class="card phone">
+                                <div class="head">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 2H2V0H0V2ZM2 6H0V4H2V6ZM2 10H0V8H2V10ZM16 14H18V12H16V14ZM16 16H18V18H16V16ZM0 14H2V12H0V14ZM6 2H4V0H6V2ZM10 18H8V16H10V18ZM6 18H4V16H6V18ZM0 18H2V16H0V18ZM13 0C15.76 0 18 2.24 18 5V10H16V5C16 3.35 14.65 2 13 2H8V0H13Z" fill="black" fill-opacity="0.54"/>
+                                    </svg>
+                                    <span> Why wait. Start now! </span>
+                                </div>
+                                <div class="c-body">
+                                    <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6.34417 10.3404C7.72417 13.0525 9.9475 15.2662 12.6596 16.6558L14.7679 14.5475C15.0267 14.2887 15.41 14.2025 15.7454 14.3175C16.8188 14.6721 17.9783 14.8637 19.1667 14.8637C19.6938 14.8637 20.125 15.295 20.125 15.8221V19.1667C20.125 19.6938 19.6938 20.125 19.1667 20.125C10.1679 20.125 2.875 12.8321 2.875 3.83333C2.875 3.30625 3.30625 2.875 3.83333 2.875H7.1875C7.71458 2.875 8.14583 3.30625 8.14583 3.83333C8.14583 5.03125 8.3375 6.18125 8.69208 7.25458C8.7975 7.59 8.72083 7.96375 8.4525 8.23208L6.34417 10.3404Z" fill="black"/>
+                                    </svg>
+                                    <a href="tel:+917558640644" class="t-primary">Call 7558-640-644 - Shalini Micheal</a>
+                                </div>
+                                <p class="text-muted">
+                                    We’re available 24/7
+                                </p>
+                            </div>
+                            <div class="card call-back">
+                                <div class="form-head">
+                                    <h3>Schedule a call back</h3>
+                                </div>
+                                <!---- form starts here -->
+                                <form action="#" id="CallBackSubmit">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="mobile" class="mobile-num">
+                                            <input type="tel" name="mobile" id="mobile" oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" maxlength="14" placeholder="Phone Number" 
+                                            autocomplete="false" required="required"/>
+                                            <span class="focus-bg"></span>
+                                        </label>
+                                            <input type="hidden" name="page" id="page" value="Services"/>
+                                            <button class="btn submit position-absolute" type="submit">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <g opacity="0.7">
+                                                        <path
+                                                            d="M15.54 11.29L9.87998 5.64001C9.78702 5.54628 9.67642 5.47188 9.55456 5.42111C9.4327 5.37035 9.30199 5.34421 9.16998 5.34421C9.03797 5.34421 8.90726 5.37035 8.78541 5.42111C8.66355 5.47188 8.55294 5.54628 8.45998 5.64001C8.27373 5.82737 8.16919 6.08082 8.16919 6.34501C8.16919 6.60919 8.27373 6.86264 8.45998 7.05001L13.41 12.05L8.45998 17C8.27373 17.1874 8.16919 17.4408 8.16919 17.705C8.16919 17.9692 8.27373 18.2226 8.45998 18.41C8.5526 18.5045 8.66304 18.5797 8.78492 18.6312C8.90679 18.6827 9.03767 18.7095 9.16998 18.71C9.30229 18.7095 9.43317 18.6827 9.55505 18.6312C9.67692 18.5797 9.78737 18.5045 9.87998 18.41L15.54 12.76C15.6415 12.6664 15.7225 12.5527 15.7779 12.4262C15.8333 12.2997 15.8619 12.1631 15.8619 12.025C15.8619 11.8869 15.8333 11.7503 15.7779 11.6238C15.7225 11.4973 15.6415 11.3836 15.54 11.29Z"
+                                                            fill="black" />
+                                                    </g>
+                                                </svg>
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <span class="bg-dots d-none d-md-block"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="slider-reg py-5 my-5">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div th:replace="users/includes/footer :: footer"></div>
+    <div id="messageBar"></div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/validate.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script th:src="@{/assets/js/intlTelInput.js}"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        const enq_mobile = document.querySelector("#enquiryMobile");
+        window.intlTelInput(enq_mobile, {
+            separateDialCode:true,
+            initialCountry:"in",
+            excludeCountries: ['ba'],
+            hiddenInput: "full",
+            utilsScript: "/assets/js/utils.js"
+        });
+        //Toggle fullscreen
+        $(".chat-bot-icon").click(function (e) {
+            $(this).children('img').toggleClass('hide');
+            $(this).children('svg').toggleClass('animate');
+            $('.chat-screen').toggleClass('show-chat');
+        });
+        $('.end-chat').click(function () {
+            $('.chat-body').addClass('hide');
+            $('.chat-input').addClass('hide');
+            $('.chat-session-end').removeClass('hide');
+            $('.chat-header-option').addClass('hide');
+        });
+    });
+
+</script>
+	<script type="text/javascript">
+	
+	$(document).ready(function(){
+		$("#PageUrl").val(location.href);
+		$("#mobile").intlTelInput({ });
+	});				
+		
+		$("#EnquiryCartValidation").validate({
+			rules:{
+			name: "required",
+			email:{required: true, email: true},
+			mobile:{required:!0,minlength:10,maxlength:15}},
+			city: "required",
+			messages:{
+				name: "Please enter your full name",
+			    email: {
+			      required: "Please enter your email id to contact you",
+			      email: "Your email address must be in the format of name@domain.com"
+			    },
+			    city: "Please search your city and select",
+			}		
+		});	
+		
+		function getFreeConcultation(){
+			 if($("#EnquiryCartValidation").valid()){				 
+				 $.ajax({
+						url:"/service/enquiry",
+						data:{
+							slug:$("#Slug").val(),
+							url:$("#PageUrl").val(),
+							name:$("#name").val(),
+							email:$("#email").val(),
+							mobile:$("#serEnqMobile").val(),				
+							city:$("#city").val(),
+							postDate:$("#postDate").val(),
+							modifyDate:$("#modifyDate").val()
+						},
+						type:"GET",
+						success:function(e){
+							if(e=="pass"){
+								$("#EnquiryCartValidation")[0].reset(),
+								$("button[name=submit]").removeAttr("disabled");
+								$("#messageBar").html("Thanks for enquiry, our advisory team will contact you soon");
+								$("#messageBar").attr("style", "display:block");
+								setTimeout(function(){ 
+									$("#messageBar").attr("style", "display:none");
+								}, 5000);
+							}
+						}
+					});		 
+			 }
+		}
+		
+	</script>
+</body>
+</html>

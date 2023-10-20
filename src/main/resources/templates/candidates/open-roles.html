@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="candidates/base::layout(~{::corpseedBodyContent})">
+
+<body>     
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <!-- info row-->
+                <div class="row">
+                    <div class="col-lg-12 grid-margin card-stretch">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h3 class="mb-0 card-title">Open Roles</h3>                                    
+                                </div>
+                <div class="career">                
+                  <div class="row job-cat">                    
+                    <div class="col-12">
+                        <div class="pb-3 pt-3 border-bottom mb-4">
+                            <nav class="nav job-cat-links nav-pills nav-justified">
+                                <button class="nav-link btn rounded-pill active" data-filter="*">All</button>
+                                <button class="nav-link btn rounded-pill" data-filter=".sales">Sales</button>
+                                <button class="nav-link btn rounded-pill" data-filter=".delivery">Delivery</button>
+                                <button class="nav-link btn rounded-pill" data-filter=".hr">HR</button>
+                                <button class="nav-link btn rounded-pill" data-filter=".marketing">Marketing</button>
+                                <button class="nav-link btn rounded-pill" data-filter=".it">IT</button>
+                                <button class="nav-link btn rounded-pill" data-filter=".legal">Legal</button>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div id="job-filter" class="row grid">
+                    <div th:each="job : ${jobs}" th:class="@{col-lg-6 grid-item mb-4}+' '+${job.jobTitle}" >
+                        <div class="card rounded-lg job-card">
+                            <div class="card-body">
+                                <h4 class="text-dark text-uppercase mb-3" th:text="${job.title}"> PHP DEVELOPER</h4>
+                                <div class="career-details card-text4" th:utext="${job.description}">Summary</div>
+                            </div>
+                            <div class="card-footer bg-white border-0 rounded-lg">
+                                <div class="d-flex justify-content-between">
+                                    <a href="#" class="btn btn-light rounded"></a>
+                                    <a th:href="@{|/candidate/open-role/${job.slug}/${job.uuid}|}" class="btn btn-primary rounded"> Apply</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+               </div>                 
+                                
+                                                               
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <div th:replace="candidates/includes/javascript :: javascript"></div>
+                <script th:src="@{/js/isotope.js}"></script>
+                 <script type="text/javascript">
+				    $(document).ready(function () {
+				        $('.job-cat-links').on('click', 'button', function () {
+				            var filterValue = $(this).attr('data-filter');
+				            $grid.isotope({ filter: filterValue });
+				        });
+				        // init Isotope
+				        var $grid = $('.grid').isotope({
+				            itemSelector: '.grid-item',
+				            percentPosition: true,
+				            masonry: {
+				                columnWidth: '.grid-item',
+				            }
+				        });
+				        $('.job-cat-links .nav-link').click(function () {
+				            $(this).addClass('active').siblings().removeClass('active');
+				        });
+				    });
+    			</script>
+            </div>           
+</body>
+</html>

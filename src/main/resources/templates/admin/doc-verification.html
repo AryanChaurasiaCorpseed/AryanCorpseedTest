@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+<body>
+              <div class="container-fluid" th:fragment="corpseedBodyContent">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                	<form th:action="${docVerification.roundStatus==2}?@{/hrm/track-application/document-verification/update}:'javascript:void(0)'" method="post" id="add_doc_verification" 
+                	th:object="${docVerification}">
+                    <div class="col-lg-9">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">DOCUMENT VERIFICATION</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>	
+                                <div class="table-responsive">							  
+					             <table id="dataTable" class="table table-striped table-hover mb-0"> 
+					             <thead>
+						        <tr>
+						            <th>Date</th>
+						            <th>Type</th>
+						            <th>Document</th>
+						            <th>Action</th>
+						        </tr>
+						    </thead>					             
+					             <tbody>
+					             <tr th:each="doc,sn:${documents}">
+						             <td th:text="${doc.date}">Date</td>
+						             <td th:text="${doc.type}">Type</td>
+						             <td th:id="|doc${sn.index+1}|" th:text="${#strings.abbreviate(doc.name,25)}">Document Name</td>
+						             <td th:id="|action${sn.index+1}|" th:if="${doc.name!='NA'}">
+						             <a th:href="${@environment.getProperty('azure_path')+doc.name}" target="_blank"><i class="las la-eye" data-toggle="tooltip" data-placement="top" title="View"></i></a>
+						             <a href="javascript:void(0)" th:attr="onclick='rejectDocument(\''+${sn.index+1}+'\',\''+${doc.uuid}+'\')'" class="text-danger"> | <i class="las la-times" data-toggle="tooltip" data-placement="top" title="Reject"></i></a>
+						             </td>
+					             </tr>
+					             </tbody>
+					             </table>   
+					             </div>                          
+                                <label class="form-group mt-4">
+                                    Status
+                                    <select class="form-control" th:field="*{status}">
+                                    	<option value="">Select Status</option>
+                                    	<option value="1">Selected</option>
+                                    	<option value="2">Rejected</option>                                    	                                    	
+                                    </select>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('status')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Feedback
+                                    <textarea th:rows="6" th:field="*{comment}" class="form-control" 
+                                    placeholder="Feedback here..." th:classappend="${#fields.hasErrors('comment') ? 'is-invalid':''}" 
+                                    aria-describedby="emailHelp"></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('comment')}" th:text="${e}"></span>
+                                </label>
+                                <input type="hidden" th:field="*{id}">
+                                <input type="hidden" th:field="*{uuid}">
+                                <input type="hidden" th:field="*{trackApplication}">
+							</div>
+						</div> 
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">State Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <a th:href="@{/hrm/track-application/}">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">Discard</button></a>
+                                    <button class="btn d-none btn-outline-secondary btn-sm"> Save as draft</button>
+                                    <button th:if="${docVerification.roundStatus==2}" type="submit" class="btn btn-primary btn-sm disableMePlease"><i class="las la-upload mr-1"></i>  Publish</button>
+                                    <button th:unless="${docVerification.roundStatus==2}" type="button" disabled class="btn btn-primary btn-sm"><i class="las la-upload mr-1"></i>  Publish</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                </div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(function() { 
+              	   $("#add_doc_verification").validate({
+              	      // Specify validation rules
+              	      rules: {
+              	    	status: "required",
+              	    	comment: "required"},
+              	      // Specify validation error messages
+              	      messages: {
+              	    	status: "Please select status !!",
+              	    	comment: "Please enter feedback !!"},
+              	     submitHandler: function(form) {
+              	    	 $(".disableMePlease").attr("disabled","disabled");
+              	        form.submit();
+              	      }
+              	    });
+              	  });
+                </script>				               
+            </div>            
+</body>
+</html>

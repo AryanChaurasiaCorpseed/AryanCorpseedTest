@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+ <title th:text="${metaTitle}"></title>
+ <meta name="description" th:content="${metaDescription}">
+ <meta name="keywords" th:content="${metaKeyword}">
+<style type="text/css">
+body{background: #c3c3c32b;}
+@media print {
+   body{margin:0;padding:0;font-size:12px;}
+   header, footer{display:none;}
+   p{margin-bottom:10px;font-size:12px;margin-top:0;}
+   #invoicecontent{width: 100% !important;margin-left: 0px !important;}
+   img{width: 35%;}
+   #printData{display: none;}
+}
+</style>
+ <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="wrap">
+<div class="container">
+<div class="clearfix menuDv pad_box3 pad05 mb10" style="min-height: 150px;margin-top: 16px;width: 50%;margin-left: 25%;" id="invoicecontent">
+<div class="clearfix invoice_div">
+
+<div class="clearfix" style="width:100%;padding-top:0px;display: flex;">
+<div style="width:50%;">
+<div style="margin-bottom:1px;">
+<img th:src="@{/assets/img/cropseed_logo.png}" alt="Cropseed Logo" style="width: 30%"/>
+</div>
+<div class="clearfix">
+<p>
+<span style="font-weight:600;color:#888;">Corpseed Ites Private Limited</span><br>
+<span>CN U74999UP2018PTC101873</span><br>
+<span>E-57, Sector 63, Gautam Budh Nagar</span><br>
+<span>Uttar Pradesh 201301</span><br>
+<!-- <span>GSTIN 09AAHCC4539J1ZC</span> -->
+<br>
+</p>
+</div>
+</div>
+<div style="width:50%;">
+<div style="margin-bottom:10px;text-align:right;">
+<h2 style="font-size:18px;margin:0 0 5px;color:#48bd44;font-weight: 500;">ORDER NO.</h2>
+<p style="font-weight:600;"># <span th:text="${order.orderNo}"></span></p>
+</div>
+</div>
+</div>
+<div class="clear"></div>
+<div class="clearfix" style="width: 100%">
+<div style="width:50%;">
+<p style="margin:0px;">Bill To : </p>
+<p style="font-weight: 600;margin-bottom: 5px;" th:text="${order.name}">BillToNAME</p>
+</div>
+<div style="width:50%;">
+<p><span style="font-weight:600;color:#888;">Date :</span> <span style="padding-left:20px;" th:text="${order.postDate}">10-04-2021</span></p>
+</div>
+</div>
+<div class="clear"></div>
+<div class="clearfix" style="width:100%;display: flex;">
+<!-- <div style="width:50%;">
+<p style="margin:0px;"></p>
+<p style="margin-bottom:5px;">Ship To : <br>
+<span id="ShipToId">SHIP TO</span>
+<span id="ShipToAddressId">SHIPPING ADDRESS</span></p>
+<p>Place Of Supply: <span id="ShipToStateCode">PLACE OF SUPPLY</span></p>
+</div> -->
+
+
+</div>
+<div class="clear"></div>
+<div class="clearfix" style="width:100%;">
+<div class="clearfix" style="width:100%;background:#48bd44 !important;padding-bottom:8px;padding-top:8px;border-radius: 3px;display: flex;">
+<div style="width:4%;">
+<p style="margin:0;color:#fff !important;font-size:11px;">#</p>
+</div>
+<div style="width:45%;" id="ItemDescriptionId">
+<p style="margin:0;font-size:11px;color:#fff">Service &amp; Packages </p>
+</div>
+<div style="width:25%;">
+<p style="margin:0;font-size:11px;text-align: right;color:#fff;">Rate</p>
+</div>
+<div style="width:26%;">
+<p style="margin:0;font-size:11px;text-align: right;padding-right: 10px;color:#fff;">Amount</p>
+</div>
+<div class="clear"></div>
+</div>
+
+<div class="clearfix" style="width:100%;">
+<div class="clearfix" style="font-weight: 600;width:100%;display: flex;padding: 4px 0px 4px 0px;">
+<div style="width:4%;"><p style="margin: 0; font-size: 11px;">1</p></div>
+<div style="width:96%;">
+<p style="margin: 0; font-size: 11px;" th:text="${order.services.serviceName}"> (NBFC SERVICE)</p>
+</div>
+</div>
+
+<div class="clearfix" style="border-top: 1px solid #ccc;padding: 4px 0px 4px 0px;width:100%;display: flex;font-size: 10px;"
+th:each="pkg : ${order.orderPackage}">
+<div style="margin-bottom: 0;padding-left: 16px; width: 49%;">
+<i style="padding-right: 10px;color: #999;"></i><span th:text="${pkg.servicePackage.packageName}">ACV</span></div>
+<div style="width:25%;"><p style="margin:0;text-align: right;" th:text="${pkg.servicePackage.packagePrice}">0.0</p></div>
+<div style="width:26%;"><p style="margin:0;text-align: right;" th:text="${pkg.servicePackage.packagePrice}">0.0</p></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<div class="clearfix" style="font-weight: 600;border-top: 1px dotted black;border-bottom: 1px dotted black;padding: 5px 0px 5px 0px;display: flex;">
+	<div style="padding-left: 16px; width: 49%;">
+	<p style="margin:0;font-size: 11px;">Total  : &nbsp;</p></div>
+	<div style="width:25%;"><p style="margin:0;text-align: right;font-size: 11px;" th:text="${order.orderAmount}">0</p></div>
+	<div style="width:26%;"><p style="margin:0;text-align: right;font-size: 11px;" id="TotalPaymentData" th:text="${order.orderAmount}">0</p>
+	</div>	
+</div>
+<div class="clearfix" style="width:100%;padding: 10px 0 0 0;">
+<p style="margin:0;font-size:11px;padding-left:10px;padding-right:10px;text-align:right;">Note : <span style="font-weight:600;padding-left:10px;color:#666;">GST Included.</span></p>
+</div>
+<div class="clearfix" style="width:100%;padding: 10px 0 0 0;">
+<p style="margin:0;font-size:11px;padding-left:10px;padding-right:10px;text-align:right;">Total In Words: <span style="font-weight:600;padding-left:10px;color:#666;" id="EstimateRupeesInWord"></span></p>
+</div>
+
+<div class="clearfix" style="width: 100%" id="DisplayTaxData">
+Transaction Details
+<div class="clearfix" style="width:100%;border: 1px dotted black;margin-top: 10px;" id="DisplayTaxData">
+    <div class="clearfix" style="width: 100%;font-weight: 600;text-align: center;border-bottom: 1px dotted black;padding: 5px 0 5px 0px;display: flex;font-size: 10px;">
+    	<div style="width: 25%">Date</div>
+    	<div style="width: 25%">Amount</div>
+    	<div style="width: 25%">TXID</div>
+    	<div style="width: 25%">BANKTXNID</div>
+    </div>
+	   <div class="clearfix taxRemoveBox" style="width: 100%;text-align: center;padding: 5px 0 5px 0px;font-size: 10px;display: flex; border-top: 1px dotted #ccc;"
+	   th:each="txs : ${transactions}">
+		   <div style="width: 25%" th:text="${txs.txDate}">10-04-2021</div>
+		   <div style="width: 25%" th:text="${txs.txnAmount}">0.0</div>
+		   <div style="width: 25%" th:text="${txs.txnId}">###</div>
+		   <div style="width: 25%" th:text="${txs.bankTaxnId}">####</div>
+	   </div>
+	   <div class="clearfix" style="width: 100%;font-weight: 600;justify-content: center;border-bottom: 1px dotted black;padding: 5px 0 5px 0px;display: flex;font-size: 10px;">No transaction found !!</div>
+ 
+</div>
+</div>
+</div>
+<div class="clear"></div>
+
+<div class="clearfix" style="width:100%;margin-top:5px;margin-bottom:5px;">  
+<p style="margin-bottom:5px;color:#555;"><span style="font-weight: 600;">Notes :</span> <span></span></p>
+<p style="font-size: 11px;color:#888;">This Estimates &amp; price quotation is valid for 7 calendar days from the date of issue.</p>
+</div>
+<div class="clearfix" style="width:100%;">
+<p style="color:#888;">
+<span style="display:block;font-weight:600;font-size: 11px;">Payment Options:</span>
+<span style="display:block;">
+<span style="font-weight:600;">IMPS/RTGS/NEFT:</span> Account Number: 158005001555 || IFS Code: ICIC0001580 || Beneficiary Name: Corpseed ITES
+Private Limited || Bank Name: ICICI Bank, Noida, Sector 62 Branch</span>
+<span style="display:block;"><span style="font-weight:600;">Direct Pay:</span> https://www.corpseed.com/payment || <span style="font-weight:600;">Pay via UPI:</span> corpseed@icici</span>
+</p>
+</div>
+<div class="clearfix" style="width:100%;margin-top:5px;border-top:1px solid #ddd;padding-top:5px;margin-bottom:10px;">
+<p style="color:#999;font-size: 11px;">Note: Government fee and corpseed professional fee may differ depending on any additional changes advised the client in the application  or any changes in the government policies</p>
+</div>
+<div class="clearfix" id="printData" style="font-size: 20px;text-align: center;"><button onclick="window.print()"><i class="fa fa-print">Print</i></button></div>
+</div>
+</div>
+
+</div>
+</div>
+<div th:replace="users/includes/javascript :: javascript"></div>
+<script type="text/javascript">
+$( document ).ready(function() {
+	var totalAmount=$("#TotalPaymentData").html();
+	numberToWords("EstimateRupeesInWord",Number(totalAmount));
+});
+
+function numberToWords(RupeesId,number) {  
+    var digit = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];  
+    var elevenSeries = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];  
+    var countingByTens = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];  
+    var shortScale = ['', 'thousand', 'million', 'billion', 'trillion'];  
+
+    number = number.toString();
+    number = number.replace(/[\, ]/g, '');
+    if (number != parseFloat(number)) return 'not a number';
+    var x = number.indexOf('.');
+    if (x == -1) x = number.length; if (x > 15) return 'too big';
+    var n = number.split(''); 
+    var str = ''; 
+    var sk = 0;
+    for (var i = 0; i < x; i++) { 
+    	if ((x - i) % 3 == 2) { 
+    		if (n[i] == '1') { 
+    			str += elevenSeries[Number(n[i + 1])] + ' '; 
+    			i++; sk = 1; 
+    			} else if (n[i] != 0) { 
+    				str += countingByTens[n[i] - 2] + ' ';
+    				sk = 1;
+    				} } else if (n[i] != 0) { 
+    					str += digit[n[i]] + ' ';
+    					if ((x - i) % 3 == 0) str += 'hundred ';
+    					sk = 1; 
+    					} if ((x - i) % 3 == 1) { 
+    						if (sk) str += shortScale[(x - i - 1) / 3] + ' ';
+    						sk = 0; 
+    						} 
+    					} if (x != number.length) {
+    							var y = number.length;
+    							str += 'point ';
+    							for (var i = x + 1; i < y; i++) str += digit[n[i]] + ' '; 
+    							} 
+    						str = str.replace(/\number+/g, ' ');    						 
+ document.getElementById(RupeesId).innerHTML="INR "+str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})+" only.";
+}
+</script>
+</body>
+</html>

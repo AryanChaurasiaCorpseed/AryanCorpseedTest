@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+	<main th:fragment="corpseedBodyContent">
+        <div class="business-registration">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4">
+                        <div class="side-bar pt-4">
+                            <div class="form-search px-3 px-md-0">
+                                    <form action="#">
+                                        <div class="search-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M14.965 14.2549H15.755L20.745 19.2549L19.255 20.7449L14.255 15.7549V14.9649L13.985 14.6849C12.845 15.6649 11.365 16.2549 9.755 16.2549C6.165 16.2549 3.255 13.3449 3.255 9.75488C3.255 6.16488 6.165 3.25488 9.755 3.25488C13.345 3.25488 16.255 6.16488 16.255 9.75488C16.255 11.3649 15.665 12.8449 14.685 13.9849L14.965 14.2549ZM5.255 9.75488C5.255 12.2449 7.265 14.2549 9.755 14.2549C12.245 14.2549 14.255 12.2449 14.255 9.75488C14.255 7.26488 12.245 5.25488 9.755 5.25488C7.265 5.25488 5.255 7.26488 5.255 9.75488Z"
+                                                    fill="black" fill-opacity="0.54" />
+                                            </svg>
+                                            <input type="search" th:autocomplete="off" onsearch="$('#homesearch').html('');" id="home-search" name="search" class="form-control w-100 rounded-pill"
+                                                placeholder=""/>
+                                        </div>
+                                        <input type="submit" value="search" class="invisible"/>
+                                    </form>
+									<span id="homesearch"></span>
+                                </div>
+                            <!-- service menu -->
+                            <div class="service-menu">
+                                <div class="menu-item" th:each="showCatData, state : ${categoryDt}" th:classappend="${activeService==showCatData.slug}? active:''">
+                                    <a th:href="@{|/category/${showCatData.slug}|}">
+                                    <div class="icon">
+                                        <img th:src="${showCatData.icon!=null}?${@environment.getProperty('azure_path')+showCatData.icon}" th:alt="${showCatData.subCategoryName}"/>
+                                    </div>
+                                    <div class="line">
+                                        <span th:text="${showCatData.subCategoryName}">Business Registration</span>
+                                    </div></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-8">
+                        <div class="service-wrapper pt-4">
+                           <div class="clearfix">
+                                <h2 class="mt-0" th:text="${catName}">Business Registration</h2>
+                                <p class="text-muted">Select service from our catalogue.</p>
+                           </div>
+                           <div class="inner">
+                                <div class="row  row-cols-1  row-cols-md-2 row-cols-lg-4">
+                                    <div class="col mb-4">
+                                        <div class="card blue">
+                                            <div class="card-body">
+                                                <span class="badge">NEW</span>
+                                                <h4 class="card-title text-white">GET NOW</h4>
+                                                <div class="card-text"><p>
+                                                Get a free 30 minutes consultation with our experts. We will guide you with the solutions to drive positive outcomes for better results.                                                    
+                                                </p></div>
+                                            </div>
+                                            <div class="card-footer border-0 ">
+                                                <a th:attr="onclick='consultNow(\''+${categoryId}+'\')'" class="btn btn-light">Consult Now!</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col mb-4" th:each="catShow : ${serviceDt}">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title h5-limit line-2" th:text="${catShow.title}"> Sales</h5>
+                                                <div class="card-text"><p th:utext="${catShow.summary}">Summary</p></div>
+                                            </div>
+                                            <div class="card-footer  bg-white border-0 ">
+                                                <a th:href="@{|/service/${catShow.slug}|}" class="btn btn-default">Explore
+                                                    more
+                                                    <svg width="15" height="15" viewBox="0 0 10 11" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1.5 7.5L4.5 4.5L1.5 1.5" stroke="#2b63f9"
+                                                              stroke-linecap="square"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div> <!--./inner -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="ConsultNowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog  modal-lg modal-dialog-centered">
+               	<div class="modal-content rounded border-0 shadow-lg">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="exampleModalLabel">Consult Now</h5>
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                </div>
+                    <div class="modal-body px-md-3 px-lg-5">
+                    	<p class="mb-3 text-body" id="pmsgBar">Please Fill in the form and send us, we'll get back to you as soon as possible.</p>
+                        <form action="#" id="consultNowEnquiry" class="valid-check">
+                            <div class="form-row">
+                                <label for="consultname" class="col-md-6 form-group">
+                                    Full Name *
+                                    <input type="text" name="consultname" id="consultname" placeholder="Enter your name" class="form-control"/>
+                                </label>
+                                <label for="consultemail" class="col-md-6 form-group">
+                                    Email Address
+                                    <input type="email" name="consultemail" id="consultemail" placeholder="Enter your email" class="form-control"/>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label for="consultobile" class="col-md-6 form-group">Mobile No *
+                                	<div class="form-group">
+                                    	<input type="tel" name="consultobile" id="consultobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" maxlength="15" placeholder="Phone Number" autocomplete="false" required="required"/>
+                                	</div> 
+                                </label>
+                                <label for="consultcity" class="col-md-6 form-group">City *
+		                             <div class="form-group">
+		                                <input type="city" id="consultcity" name="consultcity" class="form-control" placeholder="Entry city " required="required"/>
+	                               	</div> 
+                            	</label>
+                            </div>
+                            
+                            <div class="form-row">
+                                <label for="consultmessage" class="form-group col-12">
+                                    Message
+                                    <textarea name="consultmessage" id="consultmessage" rows="3" class="form-control"></textarea>
+                                </label>
+                            </div>                         
+                            <div class="modal-footer">
+	                            <button class="btn btn-primary btn-submit rounded" name="consultsubmit">Submit</button>
+	                        </div>
+	                        	<input type="hidden" id="CategoryId"/>
+                                <input type="hidden" id="consultpostDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+								<input type="hidden" id="consultmodifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+	                    </form>    
+					</div>
+				</div> 
+            </div>
+        </div> 
+        <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+        <div th:replace="users/includes/javascript :: javascript"></div>
+        <script type="text/javascript">
+/////////// auto completer 
+ $(document).ready(function () {
+        let i = 0;
+        let j = 0;
+        let txt = [
+          "Try FSSAI Registration",
+          "Try NBFC Registration",
+          "Try EPR Authorization",
+          "Try General Accounting",
+        ];
+        let speed = 250;
+        waitFornext = 450;
+        var auin = document.getElementById("home-search");
+        function typeWriter() {
+          var cword = txt[j];
+          if (j == txt.length) {
+            // console.log("Text string ended");
+            j = 0;
+            i = 0;
+            setTimeout(typeWriter, waitFornext);
+          } else if (i < cword.length) {
+            auin.placeholder += cword.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+          } else {
+            auin.placeholder = "";
+            i = 0;
+            j++;
+            typeWriter();
+          }
+        }
+        $(function() {
+          typeWriter();
+        })
+        }); 
+        </script>
+    </main>    
+</body>
+</html>

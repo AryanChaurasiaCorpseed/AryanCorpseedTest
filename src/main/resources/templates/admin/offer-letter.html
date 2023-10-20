@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+<body>
+              <div class="container-fluid" th:fragment="corpseedBodyContent">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                	<form th:action="${offerLetter.roundStatus==2}?@{/hrm/track-application/offer-letter/update}:'javascript:void(0)'" method="post" id="add_offer_letter"
+                	enctype="multipart/form-data" th:object="${offerLetter}">
+                    <div class="col-lg-9">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">OFFER LETTER</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+								 <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>                                
+                                <label class="form-group">
+                                    Name
+                                    <input type="text" th:field="*{name}" class="form-control" placeholder="Applicant Name.."
+                                    th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}" 
+                                    aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Job Position
+                                    <input type="text" th:field="*{jobPosition}" class="form-control" placeholder="Job Position.."
+                                    th:classappend="${#fields.hasErrors('jobPosition') ? 'is-invalid':''}" 
+                                    aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('jobPosition')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    H.O.Reporting
+                                    <input type="text" th:field="*{hOReporting}" class="form-control" placeholder="Please enter H.O.Reporting name.."
+                                    th:classappend="${#fields.hasErrors('hOReporting') ? 'is-invalid':''}" 
+                                    aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('hOReporting')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Salary
+                                    <input type="text" th:field="*{salary}" class="form-control" placeholder="Salary.."
+                                    th:classappend="${#fields.hasErrors('salary') ? 'is-invalid':''}" 
+                                    aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('salary')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Joining Date
+                                    <input type="date" th:field="*{joiningDate}" class="form-control" placeholder="Salary.."
+                                    th:classappend="${#fields.hasErrors('joiningDate') ? 'is-invalid':''}" 
+                                    aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('joiningDate')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Offer Letter                                      
+                                    <div th:if="${offerLetter.offerLetterAttachment!='NA'}" id="ChoosedOldFile" class="uploaded"><a th:href="${@environment.getProperty('azure_path')+offerLetter.offerLetterAttachment}" target="_blank"><b th:text="${offerLetter.offerLetterAttachment}"></b>
+                                    <i class="las la-eye mr-4 mt-1" data-toggle="tooltip" data-placement="top" title="View"></i></a>
+                                    <button type="button" onclick="uploadNewDocument('ChooseNewFile','ChoosedOldFile')"><i class="las la-times text-danger"  data-toggle="tooltip" data-placement="top" title="Remove"></i></button>
+                                    </div>                                     
+									<input type="file" id="ChooseNewFile" name="file" class="form-control" th:classappend="${offerLetter.offerLetterAttachment=='NA'}?'':'d-none'">                                 
+                                </label>
+                                <input type="hidden" th:field="*{id}">
+                                <input type="hidden" th:field="*{uuid}">
+                                <input type="hidden" th:field="*{trackApplication}">
+                                <input type="hidden" th:field="*{status}">
+                                <input type="hidden" th:field="*{jobReport}">
+                                <input type="hidden" th:field="*{offerLetterAttachment}">
+							</div>
+						</div> 
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">State Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <a th:href="@{/hrm/track-application/}">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">Discard</button></a>
+                                    <button class="btn d-none btn-outline-secondary btn-sm"> Save as draft</button>
+                                    <button th:if="${offerLetter.roundStatus==2}" type="submit" class="btn btn-primary btn-sm disableMePlease"><i class="las la-upload mr-1"></i>  Publish</button>
+                                    <button th:unless="${offerLetter.roundStatus==2}" type="button" disabled class="btn btn-primary btn-sm"><i class="las la-upload mr-1"></i>  Publish</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div></div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(function() {      
+               	   $("#add_offer_letter").validate({
+               	      // Specify validation rules
+               	      rules: {
+               	    	name: "required",
+               	    	jobPosition: "required",
+               	    	hOReporting: "required",
+               	    	salary: "required",
+               	    	joiningDate: "required"},
+               	      // Specify validation error messages
+               	      messages: {
+               	    	name: "Please enter name !!",
+               	    	jobPosition: "Please enter job position !!",
+               	    	hOReporting: "Please enter H.O.Reporting !!",
+               	    	salary: "Please enter salary !!",
+               	    	joiningDate: "Please enter joining date !!"},
+               	     submitHandler: function(form) {
+               	    	 $(".disableMePlease").attr("disabled","disabled");
+               	        form.submit();
+               	      }
+               	    });
+               	  });
+                </script>				               
+            </div>            
+</body>
+</html>

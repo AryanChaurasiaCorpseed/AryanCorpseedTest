@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+	<main th:fragment="corpseedBodyContent">
+
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-md-12 p-0">
+					<div class="banner_opacity">
+						<div class="life_bannersec">
+							<img th:src="@{/assets/images/life-at-corpseed-banner.webp}" alt="life-at-corpseed-banner"/>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="life_vision">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-4">
+					<div class="vision_content text-center">
+						<a href="#" data-toggle="modal" data-target="#vedioshow" >OUR CULTURE<img th:src="@{/assets/images/play-video.png}"/></a>
+					</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="vision_content">
+						<h2 class="text-white">Life at Corpseed</h2>
+							<p>Corpseed is the place where your ideas matters more than your title. Corpseed opens your mind to so many cultures at the same time. #CorpseedLife</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container life">
+		    <div class="row justify-content-center annual-meet">
+			  <div class="clearfix">
+			  <h2 class="text-center mb-3 mt-5">
+						Corpseed <span class="border_bottom">Annual</span> Meet 2022
+					</h2>
+			  <div class="video_banner">
+				<div class="text-center">
+				<div class="vediosec" id="corpseedAnnualMeetFrame">
+				<img alt="Corpseed" class="img-fluid" src="https://corpseeds.blob.core.windows.net/corpseed/corpseed-annual-meet-2022.webp" width="923" height="519"/>
+				<div class="playbtn ">
+				<a href="javascript:void(0)"><svg fill="none" height="103" viewBox="0 0 103 103" width="103" xmlns="http://www.w3.org/2000/svg"><g filter="url('#filter0_d')"><ellipse cx="51.3134" cy="47.5" fill="white" rx="26.3134" ry="26.5"></ellipse></g><path d="M48 40L58.68 47.1808L48 54.3617V40Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><defs><filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="103" id="filter0_d" width="102.627" x="0" y="0"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"></feColorMatrix><feOffset dy="4"></feOffset><feGaussianBlur stdDeviation="12.5"></feGaussianBlur><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"></feColorMatrix><feBlend in2="BackgroundImageFix" mode="normal" result="effect1_dropShadow"></feBlend><feBlend in="SourceGraphic" in2="effect1_dropShadow" mode="normal" result="shape"></feBlend></filter></defs></svg></a>
+				</div>
+				</div>
+				</div>				
+				<div id="corpseedAnnualMeetUrl" style="display:none"></div>
+			</div>
+		   </div>
+		  </div>
+		 	<!-- employee review -->
+
+			<div class=" row employee_review my-5 justify-content-center">
+				<div class="col-xl-10">
+					<h2 class="text-center mb-5">
+						What our <span class="border_bottom">team</span> says
+					</h2>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="left_review">
+								<img th:src="@{/assets/img/image1.webp}" alt="slider two" />
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="right_review">
+								<ul>
+									<li class="bg_blue leftmargin" th:if="${empReview1!=null}">[[${empReview1.comment}]]<span class="naming">
+											[[${empReview1.user.firstName+' '+empReview1.user.lastName}]],<br>[[${empReview1.user.jobTitle}]]
+									</span>
+									</li>
+									<li th:if="${empReview1!=null}"><img th:src="${@environment.getProperty('azure_path')+empReview1.reviewImage}" alt="Corpseed"></li>
+									<li class="leftmargin" th:if="${empReview2!=null}"><img th:src="${@environment.getProperty('azure_path')+empReview2.reviewImage}" alt="Corpseed"></li>										
+									<li class="bg_blue" th:if="${empReview2!=null}">[[${empReview2.comment}]]<span class="naming">[[${empReview2.user.firstName+' '+empReview2.user.lastName}]],<br>
+									[[${empReview2.user.jobTitle}]]
+									</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="left_review">
+								<img th:src="@{/assets/img/imgg.webp}" alt="slider two">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="right_review">
+								<ul>
+									<li class="bg_blue leftmargin" th:if="${empReview3!=null}">[[${empReview3.comment}]]<span class="naming">
+									[[${empReview3.user.firstName+' '+empReview3.user.lastName}]],<br>[[${empReview3.user.jobTitle}]]
+									</span>
+									</li>
+									<li th:if="${empReview3!=null}"><img th:src="${@environment.getProperty('azure_path')+empReview3.reviewImage}" alt="Corpseed"></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!--- culture slider -->
+		<div class="blue_background my-5" th:each="c,sn:${culture}">
+			<div class="container-fluid">
+				<div class="container life">
+					<div class="row life_diversity justify-content-center">
+						<div class="col-xl-10 ">
+							<h2 class="text-center mb-5" th:if="${sn.index==0}">
+								Dig Deeper into our <span class="border_bottom">Culture</span>
+							</h2>
+							<div class="row" th:if="${(sn.index+1)%2==1}">
+								<div class="col-sm-6">
+									<div class="owl-carousel owl-theme commit-slider">
+									<div class="item" th:each="d:${c.cultureGallery}">
+										<img th:src="${@environment.getProperty('azure_path')+d.name}" th:alt="${d.name}" />
+									</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="life_culture">
+										<h3 class="title" th:text="${c.title}">Diversity & Inclusion</h3>
+										<p th:text="${c.description}"></p>
+									</div>
+								</div>
+							</div>
+							<div class="row" th:unless="${(sn.index+1)%2==1}">								
+								<div class="col-sm-6">
+									<div class="life_culture">
+										<h3 class="title" th:text="${c.title}">Diversity & Inclusion</h3>
+										<p th:text="${c.description}"></p>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="owl-carousel owl-theme commit-slider">
+									<div class="item" th:each="d:${c.cultureGallery}">
+										<img th:src="${@environment.getProperty('azure_path')+d.name}" th:alt="${d.name}" />
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- end here -->
+
+		<!--  awardsec start here -->
+		<div class="container life">
+			<div class=" row life_award my-5 justify-content-center ">
+				<div class="col-xl-10">
+					<h2 class="mb-5">
+						<span class="border_bottom">We are building</span> culture
+						<img th:src="@{/assets/img/party.png}" alt="Corpseed" width="32">
+					</h2>
+					<div class="row">
+						<div class="col-sm-5 pr-0">
+							<div class="awardsec">
+<!-- 								<img th:src="@{/assets/img/party.png}" alt="Corpseed"> -->
+								<h2>
+									Moment of <span class="border_bottom white">Joy</span>
+								</h2>
+								<p>Creating the best culture which helps an individual to grow professionally and personally. At Corpseed we hustle, brainstorm, Cheer, Enjoy  and celebrate.</p>
+							</div>
+						</div>
+						<div class="col-sm-7 p-0 weblife_award"><!-- gallery cf  -->
+							<div class="owl-carousel owl-theme commit-slider1">
+																
+								<div class="item" th:each="a,sn:${awardWinners}"> <!-- th:classappend="${sn.index!=0}?'leftgo':''" -->
+									<img th:src="${@environment.getProperty('azure_path')+a.imageName}">										
+								</div>
+								
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--  awardsec end here -->
+			<!-- mobileview awardsec start here -->
+			<div class="row mobilelife_award my-5 justify-content-center ">
+				<div class="col-xl-10">
+					<h2 class="mb-5">
+						<span class="border_bottom">We</span> are building culture
+					</h2>
+					<div class="row">
+						<div class="col-sm-6 col-md-4">
+							<div class="awardsec">
+								<img th:src="@{/assets/img/party.png}" alt="Corpseed">
+								<h2>
+									Moment of <span class="border_bottom white">Joy</span>
+								</h2>
+								<p>Creating the best culture which helps an individual to grow professionally and personally. At Corpseed we hustle, brainstorm, Cheer, Enjoy  and celebrate.</p>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-8  ">
+									<div class="owl-carousel owl-theme commit-slider">										
+										<div class="item" th:each="a:${awardWinners}">
+											<img th:src="${@environment.getProperty('azure_path')+a.imageName}"/>
+										</div>
+									</div>
+								</div>
+					</div>
+				</div>
+			</div>
+			<!-- mobileview awardsec end here -->
+			
+
+			<div class="row">
+				<div class="col-md-10 mt-5 offset-md-1">
+					<h2>
+						<span class="border_bottom">Meet</span> the People
+					</h2>
+
+					<p class="people_meet pt-2">
+						Corpseed and all its brands are proudly equal opportunity<br>
+						employers.
+
+					</p>
+				</div>
+			</div>
+
+			<div class="row making-changes my-5 justify-content-center">
+				<div class="col-xl-10">
+					<div class="row">
+						<div class="col-lg-3 col-md-6 ">
+							<div class="card bg-white life_leader">
+								<div class="card-body p-3 py-5 p-md-3">
+									<h3 class="card-title h1">Making Change</h3>
+									<p class="text-body pb-0">We are proud of the impact
+										diversity is having on</p>
+								</div>
+							</div>
+						</div>
+												
+						<div class="col-lg-3 col-md-6  col-sm-6" th:each="pos, index : ${position}">
+                            <div class="card card-jobs border-0">
+                                <img th:src="${@environment.getProperty('azure_path')+pos.user.profilePicture}" th:alt="${pos.user.firstName}+' '+${pos.user.lastName}" class="img-fluid card-img-top"/>
+                                <span class="caption" th:text="${pos.user.firstName}+' '+${pos.user.lastName}+', '+${pos.user.jobTitle}">Ayushi, Sales manager</span>
+                            </div>
+                        </div>
+						
+						
+						
+						<div class="col-lg-3 col-md-6">
+							<div class="card bg-white life_leader">
+								<div class="card-body p-3 py-5 p-md-3">
+									<h3 class="card-title h1">Learn more</h3>
+									<p class="text-body mb-3">Our efforts to find, grow and
+										keep diverse talent diverse talent</p>
+									<a th:href="@{/join-our-team}" class="text-primary h5"> View all
+										jobs</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="life_blog">
+				<div class="row justify-content-center">
+					<div class="col-xl-10">
+						<div class="clearfix m-width mb-4">
+							<h2 class="mb-4 mb-md-4 s-title">
+								<span class="border_bottom">Life</span> At Corpseed
+							</h2>
+						</div>
+						<!-- slider start -->
+						 <div class="owl-carousel owl-theme commit-slider owl-loaded owl-drag">
+		                <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(-2760px, 0px, 0px); transition: all 0.25s ease 0s; width: 5520px;">
+		                <div class="owl-item" th:each="b:${blogs}">
+		                <div class="s-item">
+                        <div class="thumb">
+                            <img th:src="${@environment.getProperty('azure_path')+b.image}" th:alt="${b.image}">
+                        </div>
+                        <div class="caption">
+                            <h4 class=" text-dark text-capitalize mb-2">
+                                <a th:href="@{|/life-at-corpseed/${b.slug}|}">[[${b.title}]]</a>
+                            </h4>
+                            <p class="lead" th:text="${b.summary}">
+                                At Corpseed, we tailor our solutions for targeted audiance, creating innovative business model.  Ensuring a strong and meaningful developent while preserving your financial independece. 
+                            </p>
+                             <div class="byadmin mt-3">
+                        <span><a th:href="@{|/life-at-corpseed/${b.slug}|}">Read More</a></span>
+                         <span class="float-right">By [[${b.user.firstName}+' '+${b.user.lastName}]]</span>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div></div>
+                    <div class="owl-nav"><button type="button" role="presentation" class="owl-prev">
+                    <span aria-label="Previous">�</span></button><button type="button" role="presentation" class="owl-next">
+                    <span aria-label="Next">�</span></button></div>
+                    <div class="owl-dots"><button role="button" class="owl-dot">
+                    <span></span></button><button role="button" class="owl-dot active"><span></span></button>
+                    </div></div>
+						<!-- slider end -->
+					</div>
+				</div>
+			</div>
+			<div class="life_blogmobile">
+				<div class="row justify-content-center">
+					<div class="col-xl-10">
+						<div class="clearfix m-width mb-4">
+							<h2 class="mb-4 mb-md-4 s-title">
+								<span class="border_bottom">Life</span> At Corpseed
+							</h2>
+						</div>
+						<!-- slider start -->
+						 <div class="owl-carousel owl-theme commit-slider owl-loaded owl-drag">
+		                <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(-2760px, 0px, 0px); transition: all 0.25s ease 0s; width: 5520px;">
+		                <div class="owl-item" th:each="b:${blogs}"><div class="s-item">
+                            <img th:src="${@environment.getProperty('azure_path')+b.image}" th:alt="${b.image}">
+                        </div>
+                        <div class="caption">
+                            <h3 class=" text-dark text-capitalize my-4">
+                               <a th:href="@{|/life-at-corpseed/${b.slug}|}">[[${b.title}]]</a>
+                            </h3>
+                            <p th:text="${b.summary}">
+                                At Corpseed, we tailor our solutions for targeted audiance, creating innovative business model.  Ensuring a strong and meaningful developent while preserving your financial independece. 
+                            </p>
+                             <div class="byadmin mt-5">
+                        <span><a th:href="@{|/life-at-corpseed/${b.slug}|}">Read More</a></span>
+                         <span class="float-right" th:text="${b.postDate}">By [[${b.user.firstName}+' '+${b.user.lastName}]]</span>
+                        </div>
+                        </div>
+                    </div>
+                    </div></div>
+                   
+                   </div>
+						<!-- slider end -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- vedio model -->
+		<div class="modal fade" id="vedioshow" tabindex="-1"
+			aria-labelledby="exampleStartUpModal" aria-hidden="true">
+			<div class="modal-dialog  modal-lg modal-dialog-centered">
+				<div class="modal-content rounded border-0 shadow-lg">
+					<div class="modal-header">
+
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body px-0 px-md-3 px-lg-12">
+						<iframe width="840" height="360" class="note-video-clip"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- vedio model end here-->
+		<div th:replace="users/includes/footer :: footer"></div>
+		<div id="messageBar"></div>
+		<div th:replace="users/includes/javascript :: javascript"></div>
+		<script type="text/javascript">
+        $(document).ready(function(){
+        $("#corpseedAnnualMeetFrame").click(function(e){
+			$(".video_banner").removeClass("video_banner");
+			$("#corpseedAnnualMeetFrame").hide();
+			$("#corpseedAnnualMeetUrl").show();
+			$('#corpseedAnnualMeetUrl').html('<iframe src="//www.youtube.com/embed/5tYgchCk3ME?autoplay=1&amp;mute=1&amp;enablejsapi=1" width="923" height="523" title="Corpseed Annual Meet - 2022" allowfullscreen></iframe>');
+		})
+        	$("#imageUploadForm").modal("show");
+	        $('#blog-slider').owlCarousel({
+			    loop:true,
+		        margin:10,
+		        nav:false,
+		        autoplay:3000,
+		        autoHeight: false,
+		        dots: true,
+			    responsive:{
+			        0:{
+			            items:1,
+			            stagePadding:35,
+			        },
+			        576:{
+			            items:2
+			        },
+			        768:{
+			            items:3
+			        },
+			        991:{
+			            items:3
+			        }
+			    }
+			})
+        });
+        $('.commit-slider').owlCarousel({
+        	  loop:true,
+        	  autoplay:3000,
+        	  margin:0,
+        	  responsiveClass:true,
+        	  stagePadding: 0,
+        	  nav:true,
+        	  responsive:{
+        	      0:{
+        	          items:1
+        	      },        	      
+        	      768:{
+        	          items:1
+        	      },
+        	      991:{
+        	          items:1
+        	      }
+        	  }
+        	})
+        	 $('.commit-slider1').owlCarousel({
+        	  loop:true,
+        	  autoplay:3000,
+        	  margin:0,
+        	  responsiveClass:true,
+        	  stagePadding: 0,
+        	  autoplayHoverPause:true,
+        	  nav:true,
+        	  responsive:{
+        	      0:{
+        	          items:1
+        	      },        	      
+        	      768:{
+        	          items:1
+        	      },
+        	      991:{
+        	          items:1
+        	      }
+        	  }
+        	})
+$('#vedioshow').on('show.bs.modal', function (e) {
+      var idVideo = $(e.relatedTarget).data('id');
+      $('#vedioshow .modal-body').html('<iframe src="//www.youtube.com/embed/hhs7iQYnWgs?autoplay=1&amp;mute=1&amp;enablejsapi=1" width="840" height="360" class="note-video-clip" allowfullscreen></iframe>');
+    });
+    //on close remove
+    $('#vedioshow').on('hidden.bs.modal', function () {
+       $('#vedioshow .modal-body').empty();
+    });
+        </script>
+	</main>
+</body>
+</html>

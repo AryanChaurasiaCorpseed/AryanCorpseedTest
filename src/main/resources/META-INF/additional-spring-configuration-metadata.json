@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "paytm.payment.sandbox.callbackUrl",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.callbackUrl'"
+  },
+  {
+    "name": "Bitrix24",
+    "type": "java.lang.String",
+    "description": "A description for 'Bitrix24'"
+  }
+]}

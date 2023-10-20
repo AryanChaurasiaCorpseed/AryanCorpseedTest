@@ -1,0 +1,208 @@
+<aside  th:fragment="sidebar">
+	<nav class="sidebar" id="sidebar">
+	<a href="javascript:void(0)" class="closebar" onclick="closebtn()"><i class="las la-window-close"></i></a>
+    	<div class="logo text-center d-flex justify-content-center">
+        	<div class="logo text-center d-flex justify-content-center">
+            	<a th:if="${session.role=='ROLE_ADMIN'}" th:href="@{/admin/}" class="d-block">
+                	<img th:src="@{/admin/assets/logo-white.svg}" alt='logo' class="img-fluid logo-full mt-3">
+                    <img th:src="@{/admin/assets/logo-small.svg}" alt="logo" class="img-fluid logo-small px-1 mt-4 mb-2">
+                </a>
+                <a th:unless="${session.role=='ROLE_ADMIN'}" href="javascript:void(0)" class="d-block">
+                	<img th:src="@{/admin/assets/logo-white.svg}" alt='logo' class="img-fluid logo-full mt-3">
+                    <img th:src="@{/admin/assets/logo-small.svg}" alt="logo" class="img-fluid logo-small px-1 mt-4 mb-2">
+                </a>
+            </div>
+        </div>
+        <div class="nav-bar mt-3 sss-scroll">
+        	<ul class="nav flex-column">
+            	<li th:if="${session.role=='ROLE_ADMIN' }" class="nav-item" th:classappend="${appendClass=='dashboard'} ? 'active' :''"><a th:href="@{/admin/}" class="nav-link"><i class="las la-tachometer-alt"></i><span>Overview</span></a></li>
+                <li th:if="${session.role=='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='category'} ? 'active' :''"><a th:href="@{/admin/category/}" class="nav-link collapse-toggle" th:classappend="${appendClass=='category'} ? 'show' :''"> <i class="las la-comment"></i> <span>Category</span></a>
+                	<div class="collapse-menu" th:classappend="${appendClass=='category'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                        	<li class="nav-item"><a th:href="@{/admin/category/add}" class="nav-link">Add New</a></li>
+                        	<li class="nav-item"><a th:href="@{/admin/category/}" class="nav-link">View All</a></li>
+                       	</ul>
+                   	</div>
+                </li> 
+                <li th:if="${session.role =='ROLE_ADMIN' or session.role == 'ROLE_MARKETING'}" class="nav-item" th:classappend="${appendClass=='services'} ? 'active' :''"><a th:href="@{/admin/services/}" class="nav-link collapse-toggle"  th:classappend="${appendClass=='services'} ? 'show' :''"><i class="las la-sliders-h"></i> <span>Services</span></a>
+                	<div class="collapse-menu" th:classappend="${appendClass=='services'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                        	<li class="nav-item"><a th:href="@{/admin/services/add}" class="nav-link">Add New</a></li>
+                        	<li class="nav-item"><a th:href="@{/admin/services/}" class="nav-link">View All</a></li>
+                       	</ul>
+                   	</div>
+                </li>
+				<li th:if="${session.role =='ROLE_ADMIN' or session.role == 'ROLE_MARKETING'}" class="nav-item" th:classappend="${appendClass=='product'} ? 'active' :''"><a th:href="@{/admin/services/}" class="nav-link collapse-toggle"  th:classappend="${appendClass=='services'} ? 'show' :''"><i class="las la-sliders-h"></i> <span>Product</span></a>
+					<div class="collapse-menu" th:classappend="${appendClass=='product'} ? 'show' :''">
+						<ul class="nav flex-column">
+							<li class="nav-item"><a th:href="@{/admin/product/add}" class="nav-link">Add New</a></li>
+							<li class="nav-item"><a th:href="@{/admin/product}" class="nav-link">View All</a></li>
+						</ul>
+					</div>
+				</li>
+                <li th:if="${session.role == 'ROLE_ADMIN' or session.role == 'ROLE_MARKETING'}" class="nav-item" th:classappend="${appendClass=='industry'} ? 'active' :''"><a th:href="@{/admin/industry/}" class="nav-link collapse-toggle"  th:classappend="${appendClass=='industry'} ? 'show' :''"><i class="las la-sliders-h"></i> <span>Industry</span></a>
+                	<div class="collapse-menu" th:classappend="${appendClass=='industry'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                        	<li class="nav-item"><a th:href="@{/admin/industry/add}" class="nav-link">Add New</a></li>
+                        	<li class="nav-item"><a th:href="@{/admin/industry/}" class="nav-link">View All</a></li>
+                       	</ul>
+                   	</div>
+                </li>
+                <li th:if="${session.role == 'ROLE_MARKETING' or session.role =='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='blogs'} ? 'active' :''"><a th:href="@{/admin/blogs/}" class="nav-link collapse-toggle" th:classappend="${appendClass=='blogs'} ? 'show' :''"><i class="las la-lightbulb"></i> <span>Blogs</span></a>
+               		<div class="collapse-menu" th:classappend="${appendClass=='blogs'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                        	<li class="nav-item"><a th:href="@{/admin/blogs/add}" class="nav-link">Add New</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/blogs/}" id="ManageAllBlogs" class="nav-link">View All</a></li>
+                        </ul>
+                    </div>
+               	</li>
+               	<li th:if="${session.role == 'ROLE_MARKETING' or session.role =='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='news'} ? 'active' :''"><a th:href="@{/admin/news/}" class="nav-link collapse-toggle" th:classappend="${appendClass=='news'} ? 'show' :''"><i class="las la-newspaper"></i> <span>News</span></a>
+               		<div class="collapse-menu" th:classappend="${appendClass=='news'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                            <li class="nav-item"><a th:href="@{/admin/news/category/}" id="ManageAllNewsCategory" class="nav-link">Categories</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/news/}" id="ManageAllNews" class="nav-link">News</a></li>
+                        </ul>
+                    </div>
+               	</li>
+				<li th:if="${session.role == 'ROLE_MARKETING' or session.role =='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='press'} ? 'active' :''"><a th:href="@{/press}" class="nav-link collapse-toggle" th:classappend="${appendClass=='press'} ? 'show' :''"><i class="las la-newspaper"></i> <span>Press</span></a>
+					<div class="collapse-menu" th:classappend="${appendClass=='press'} ? 'show' :''">
+						<ul class="nav flex-column">
+							<li class="nav-item"><a th:href="@{/press/category}" id="ManageAllPressCategory" class="nav-link">Categories</a></li>
+							<li class="nav-item"><a th:href="@{/press}" id="ManageAllPress" class="nav-link">Press Releases</a></li>
+						</ul>
+					</div>
+				</li>
+               	<li th:if="${session.role=='ROLE_ADMIN' or session.role =='ROLE_QUALITY'}" class="nav-item" th:classappend="${appendClass=='meeting'} ? 'active' :''"><a th:href="@{/admin/meeting/}" class="nav-link collapse-toggle" th:classappend="${appendClass=='meeting'} ? 'show' :''"><i class="las la-handshake"></i> <span>Meetings</span></a>
+               		<div class="collapse-menu" th:classappend="${appendClass=='meeting'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                        	<li class="nav-item"><a th:href="@{/admin/meeting/add}" class="nav-link">Add New</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/meeting/}" class="nav-link">View All</a></li>
+                        </ul>
+                    </div>
+               	</li>
+               	<li th:if="${session.role=='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='order'} ? 'active' :''"><a th:href="@{/admin/orders/}" class="nav-link collapse-toggle" th:classappend="${appendClass=='order'} ? 'show' :''"><i class="las la-thumbs-up"></i> <span>Orders</span></a>
+               		<div class="collapse-menu" th:classappend="${appendClass=='order'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+<!--                         	<li class="nav-item"><a th:href="@{/admin/order/add}" class="nav-link">Add New</a></li> -->
+                            <li class="nav-item"><a th:href="@{/admin/order/}" class="nav-link">View All</a></li>
+                        </ul>
+                    </div>
+               	</li>
+               	 <li th:if="${session.role == 'ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='transaction'} ? 'active' :''"><a th:href="@{/admin/transactions/}" class="nav-link collapse-toggle"  th:classappend="${appendClass=='transaction'} ? 'show' :''"><i class="las la-hand-holding-usd"></i><span>Transactions</span></a>
+                	<div class="collapse-menu" th:classappend="${appendClass=='transaction'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+<!--                         	<li class="nav-item"><a th:href="@{/admin/industry/add}" class="nav-link">Add New</a></li> -->
+                        	<li class="nav-item"><a th:href="@{/admin/transactions/}" class="nav-link">View All</a></li>
+                       	</ul>
+                   	</div>
+                </li>
+                <li th:if="${session.role=='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='coupons'} ? 'active' :''"><a th:href="@{/admin/coupons/}" class="nav-link collapse-toggle" th:classappend="${appendClass=='coupons'} ? 'show' :''"><i class="las la-tags"></i><span>Coupons</span></a>
+                    <div class="collapse-menu" th:classappend="${appendClass=='coupons'} ? 'show' :''">
+                        <ul class="nav flex-column">
+                            <li class="nav-item"><a th:href="@{/admin/coupons/add}" class="nav-link">Add New</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/coupons/}" class="nav-link">View All</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li th:if="${session.role=='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='document'} ? 'active' :''"><a th:href="@{/admin/document/}" class="nav-link collapse-toggle" th:classappend="${appendClass=='document'} ? 'show' :''"><i class="las la-address-book"></i><span>Document</span></a>
+       	        	<div class="collapse-menu" th:classappend="${appendClass=='document'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                        	<li class="nav-item"><a th:href="@{/admin/document/add}" class="nav-link">Add New</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/document/}" class="nav-link">View All</a></li>
+                       	</ul>
+                    </div>
+               	</li>
+               	<li th:if="${session.role == 'ROLE_HR_EXECUTIVE' or session.role =='ROLE_HR_MANAGER' or session.role =='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='hrm'} ? 'active' :''"><a href="javascript:void(0);" class="nav-link collapse-toggle" th:classappend="${appendClass=='hrm'} ? 'show' :''"><i class="las la-tools"></i><span>HRM</span></a>
+       	        	<div class="collapse-menu" th:classappend="${appendClass=='hrm'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                    		<li class="nav-item"><a th:href="@{/hrm/blogs/}" class="nav-link">Blogs</a></li>
+                            <li class="nav-item"><a th:href="@{/hrm/jobs/}" class="nav-link">Post Jobs</a></li>
+                            <li th:if="${session.role =='ROLE_HR_MANAGER' or session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/hrm/jobs/history/}" class="nav-link">Jobs History</a></li>
+                            <li class="nav-item"><a th:href="@{/hrm/job-application/}" class="nav-link">Job Applications</a></li>
+                            <li class="nav-item"><a th:href="@{/hrm/job-application/selected/}" class="nav-link">Selected Application</a></li>
+                            <li class="nav-item"><a th:href="@{/hrm/job-application/rejected/}" class="nav-link">Rejected Application</a></li>
+                            <li class="nav-item"><a th:href="@{/hrm/job-application/hold/}" class="nav-link">Hold Application</a></li>
+                            <li class="nav-item"><a th:href="@{/hrm/track-application/}" class="nav-link">Track Application</a></li>
+                            <li th:if="${session.role =='ROLE_HR_MANAGER' or session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/hrm/reports/}" class="nav-link">Reports</a></li>
+                       	</ul>
+                    </div>
+               	</li>  
+                <li th:if="${session.role!='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='interviews'} ? 'active' :''">
+                <a th:href="@{/admin/interviews/new}" class="nav-link collapse-toggle" th:classappend="${appendClass=='interviews'} ? 'show' :''">
+                <i class="las la-user"></i><span>Interviews</span></a>
+       	        	<div class="collapse-menu" th:classappend="${appendClass=='interviews'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                    	<li class="nav-item"><a th:href="@{/admin/interviews/new}" class="nav-link">New</a></li>
+                    	<li class="nav-item"><a th:href="@{/admin/interviews/selected}" class="nav-link">Selected</a></li>
+                        	<li class="nav-item"><a th:href="@{/admin/interviews/hold}" class="nav-link">On-Hold</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/interviews/rejected}" class="nav-link">Rejected</a></li>
+                       	</ul>
+                    </div>
+               	</li>       	                                   
+               	<li th:if="${session.role =='ROLE_ADMIN' or session.role =='ROLE_QUALITY'}" class="nav-item" th:classappend="${appendClass=='master'} ? 'active' :''"><a href="javascript:void(0);" class="nav-link collapse-toggle" th:classappend="${appendClass=='master'} ? 'show' :''"><i class="las la-tools"></i><span>Master</span></a>
+       	        	<div class="collapse-menu" th:classappend="${appendClass=='master'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/master/pages}" class="nav-link">CMS Pages</a></li>     
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/master/static-seo}" class="nav-link">Static SEO</a></li>   
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/master/footer}" class="nav-link">Footer</a></li>                      
+                            <li th:if="${session.role =='ROLE_ADMIN' or session.role =='ROLE_QUALITY'}" class="nav-item"><a th:href="@{/admin/master/enquiry}" class="nav-link">Enquiry</a></li>
+                            <li th:if="${session.role =='ROLE_ADMIN' or session.role =='ROLE_QUALITY'}" class="nav-item"><a th:href="@{/admin/master/address}" class="nav-link">Address</a></li>
+							<li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/master/country}" class="nav-link">Country</a></li>
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/master/state}" class="nav-link">State</a></li>
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/master/city}" class="nav-link">City</a></li>
+                            <li th:if="${session.role =='ROLE_ADMIN' or session.role =='ROLE_QUALITY'}" class="nav-item"><a th:href="@{/admin/master/contact}" class="nav-link">Contact</a></li>
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/master/reviews}" class="nav-link">Reviews</a></li>
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/master/hot-tags}" class="nav-link">Hot Tags</a></li>
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/master/visitors}" class="nav-link">Visitors</a></li>
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/trash/}" class="nav-link">Trash</a></li>
+                            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item"><a th:href="@{/admin/feedback/}" class="nav-link">Feedback</a></li>
+                       	</ul>
+                    </div>
+               	</li>
+               	<li th:if="${session.role == 'ROLE_DELIVERY' or session.role == 'ROLE_MARKETING' or  session.role =='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='law'} ? 'active' :''"><a th:href="@{/admin/lawupdate}" class="nav-link collapse-toggle" th:classappend="${appendClass=='law'} ? 'show' :''"><i class="las la-address-book"></i><span>Law Update</span></a>
+	                <div class="collapse-menu" th:classappend="${appendClass=='law'} ? 'show' :''">
+	                    <ul class="nav flex-column">
+	                        <li class="nav-item"><a th:href="@{/admin/lawupdate/add}" class="nav-link">Add New</a></li>
+	                        <li class="nav-item"><a th:href="@{/admin/lawupdate/}" class="nav-link">View All</a></li>
+	                    </ul>
+	                </div>
+	            </li>
+	            
+	            <li th:if="${session.role =='ROLE_HR_MANAGER' or session.role =='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='life'} ? 'active' :''"><a href="javascript:void(0);" class="nav-link collapse-toggle" th:classappend="${appendClass=='life'} ? 'show' :''"><i class="las la-life-ring"></i><span>Life At Corpseed</span></a>
+       	        	<div class="collapse-menu" th:classappend="${appendClass=='life'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+							<li class="nav-item"><a th:href="@{/admin/life/tag}" class="nav-link">Tags</a></li>
+							<li class="nav-item"><a th:href="@{/admin/life/user}" class="nav-link">Users</a></li>
+							<li class="nav-item"><a th:href="@{/admin/life/video}" class="nav-link">Video</a></li>
+                            <!--<li class="nav-item"><a th:href="@{/admin/life-at-corpseed/slideshow}" class="nav-link">SlideShow</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/life-at-corpseed/gallery}" class="nav-link">Gallery</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/life-at-corpseed/position}" class="nav-link">Position</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/life-at-corpseed/award-winners}" class="nav-link">Moments Of Joy</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/life-at-corpseed/our-culture}" class="nav-link">Our Culture</a></li>
+                            <li class="nav-item"><a th:href="@{/admin/life-at-corpseed/review}" class="nav-link">Review</a></li>-->
+                       	</ul>
+                    </div>
+               	</li>
+               	 <li th:if="${session.role =='ROLE_ADMIN' or session.role =='ROLE_QUALITY'}" class="nav-item" th:classappend="${appendClass=='subscriber'} ? 'active' :''"><a href="javascript:void(0);" class="nav-link collapse-toggle" th:classappend="${appendClass=='subscriber'} ? 'show' :''"><i class="las la-bell"></i> <span>Subscribers</span></a>
+       	        	<div class="collapse-menu" th:classappend="${appendClass=='subscriber'} ? 'show' :''">
+                    	<ul class="nav flex-column">
+	                        <li class="nav-item"><a th:href="@{/admin/subscriber/add}" class="nav-link">Add New</a></li>
+	                        <li class="nav-item"><a th:href="@{/admin/subscriber/}" class="nav-link">View All</a></li>
+	                        <li class="nav-item"><a th:href="@{/admin/subscriber/triggers/}" class="nav-link">Triggers</a></li>
+	                    </ul>
+                    </div>
+               	</li>
+               	<li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='users'} ? 'active' :''"><a th:href="@{/admin/users/}" class="nav-link collapse-toggle" th:classappend="${appendClass=='users'} ? 'show' :''"><i class="las la-user-circle"></i><span>Users</span></a>
+	                <div class="collapse-menu" th:classappend="${appendClass=='users'} ? 'show' :''">
+	                    <ul class="nav flex-column">
+	                        <li class="nav-item"><a th:href="@{/admin/users/add}" class="nav-link">Add New</a></li>
+	                        <li class="nav-item"><a th:href="@{/admin/users/}" class="nav-link">View All</a></li>
+	                    </ul>
+	                </div>
+	            </li>	
+	            <li th:if="${session.role =='ROLE_ADMIN'}" class="nav-item" th:classappend="${appendClass=='candidates'} ? 'active' :''"><a th:href="@{/admin/candidates/}" class="nav-link" th:classappend="${appendClass=='candidates'} ? 'show' :''"><i class="las la-user-circle"></i><span>Candidates</span></a>
+	            </li>         
+			</ul>
+		</div>
+	</nav>
+</aside>

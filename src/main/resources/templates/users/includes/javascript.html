@@ -1,0 +1,55 @@
+<div  th:fragment="javascript">
+ <div th:if="${cookies=='2'}" id="cookie-consent" class="alert cookie fade anim-up shadow alert-secondary">
+            <div class="container d-flex flex-column flex-md-row px-2 px-md-5 align-items-center">
+                <p class="mr-4 mb-0"> Corpseed uses cookies to provide necessary site functionality and improve your
+                    experience. By using our website, you agree to our <a th:href="@{/pages/privacy-policy}">privacy
+                        policy</a>.
+                </p>
+                <button type="button" class="btn btn-sm px-3 rounded-lg shadow-sm btn-primary" data-dismiss="alert"
+                    aria-label="Close">
+                    <span aria-hidden="true">Accept</span>
+                </button>
+            </div>
+        </div>
+        
+    <script th:src="@{/assets/js/jquery-3.5.1.min.js}"></script>
+<!--     <script th:src="@{/js/jquery-ui.js}"></script> -->
+    <script th:src="@{/assets/js/popper.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/validate.js}"></script>
+    <script th:src="@{/assets/js/isotope.js}"></script>
+    <script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/assets/js/main.js}"></script>
+    <script th:src="@{/assets/js/wow.js}"></script>
+    <script th:src="@{/assets/js/rocket-loader.min.js}" data-cf-settings="257be86a981729866f2fa61c-|49" defer=""></script>
+<!-- Time line Html Ends -->
+<!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+    <script th:src="@{/assets/js/intlTelInput.js}"></script>
+    <script th:src="@{/chat_boat/js/select2.min.js}"></script>
+
+<script type="text/javascript">
+    const enq_mobile = document.querySelector("#enquiryMobile");
+    window.intlTelInput(enq_mobile, {
+        separateDialCode:true,
+        initialCountry:"in",
+        excludeCountries: ['ba'],
+        hiddenInput: "full",
+        utilsScript: "/assets/js/utils.js"
+    });
+    $(document).ready(function () {
+    	    $(function () {
+    	  	  $('[data-toggle="tooltip"]').tooltip()
+    	  	});
+        //Toggle fullscreen
+        $(".chat-bot-icon").click(function (e) {
+            $(this).children('img').toggleClass('hide');
+            $(this).children('svg').toggleClass('animate');
+            $('.chat-screen').toggleClass('show-chat');
+        });
+        $('.end-chat').click(function () {
+        	$(".chat-bot-icon").click();
+        });
+    });
+
+</script>
+</div>

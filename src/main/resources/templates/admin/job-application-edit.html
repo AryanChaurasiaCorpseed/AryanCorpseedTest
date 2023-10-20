@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>       <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/hrm/job-application/update/}" method="post" id="edit_job_app" enctype="multipart/form-data">
+                    <div class="col-lg-9 " th:object="${jobApplication}">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Edit Applied job</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+                                <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>                                
+                                <label class="form-group">
+                                    Choose Job:
+                                    <select class="form-control" th:field="*{jobs}" id="jobId">
+                                    	<option th:if="${jobApplication.jobs}" th:value="${jobApplication.jobs.id}" th:text="${jobApplication.jobs.title}">---- Choose job profile ----</option>
+                                    	<option value="">---- Choose job profile ----</option>
+                                    	<option th:each="job : ${jobs}" th:value="${job.id}" th:text="${job.title}"/>
+                                    </select>
+                                </label>
+                                <label class="form-group">
+                                    Name
+                                    <input type="text" name="name" id="name" class="form-control" 
+                                    placeholder="Enter name..." th:value="${jobApplication.name}"
+                                     th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Email
+                                    <input type="email" name="email" id="email" class="form-control" 
+                                    placeholder="Enter email..." th:value="${jobApplication.email}"
+                                     th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Mobile
+                                    <input type="text" name="mobile" id="mobile" th:maxlength="15" class="form-control"
+                                     placeholder="Enter mobile number..." th:value="${jobApplication.mobile}"
+                                     th:classappend="${#fields.hasErrors('mobile') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('mobile')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    What is your motivation to join Corpseed ?
+                                    <textarea th:field="*{motivation}" class="form-control" rows="2" placeholder="Write here..."
+                                     th:classappend="${#fields.hasErrors('motivation') ? 'is-invalid':''}" aria-describedby="emailHelp"></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('motivation')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Address
+                                    <textarea name="address" id="address" class="form-control" rows="2" placeholder="Enter address..."
+                                     th:classappend="${#fields.hasErrors('address') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     th:text="${jobApplication.address}"></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('address')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Current Ctc
+                                    <input type="text" id="currentCTC" name="currentCTC" class="form-control" 
+                                    placeholder="Enter current Ctc..." th:value="${jobApplication.currentCTC}"
+                                     th:classappend="${#fields.hasErrors('currentCTC') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('currentCTC')}" th:text="${e}"></span>
+                                </label>
+                               
+                                <label for="#" class="form-group">
+                                    Experience
+                                    <input type="text" id="experience" name="experience" class="form-control" 
+                                    placeholder="Enter total experience" th:value="${jobApplication.experience}"
+                                     th:classappend="${#fields.hasErrors('experience') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('experience')}" th:text="${e}"></span>
+                                </label>
+                                
+                                <label for="#" class="form-group">
+                                    Qualification
+                                    <input type="text" id="qualification" name="qualification" class="form-control" 
+                                    placeholder="Enter highest qualification" th:value="${jobApplication.qualification}"
+                                     th:classappend="${#fields.hasErrors('qualification') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('qualification')}" th:text="${e}"></span>
+                                </label>
+                                
+                                <label for="#" class="form-group">
+                                    Location
+                                    <input type="text" id="location" name="location" class="form-control" 
+                                    placeholder="Enter location like Noida, Delhi..." th:value="${jobApplication.location}"
+                                     th:classappend="${#fields.hasErrors('location') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('location')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Best Goal
+                                    <input type="text" id="bestGoal" name="bestGoal" class="form-control" 
+                                    placeholder="Enter Best Goal..." th:value="${jobApplication.bestGoal}"
+                                     th:classappend="${#fields.hasErrors('bestGoal') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('bestGoal')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Attach Resume:-
+                                    <div id="ChoosedOldFile" class="uploaded"><a th:href="${@environment.getProperty('azure_path')+jobApplication.attachedFile}" target="_blank"><b th:text="${jobApplication.attachedFile}"></b>
+                                    <i class="las la-eye mr-4 mt-1" data-toggle="tooltip" data-placement="top" title="View"></i></a>
+                                    <button type="button" onclick="uploadNewDocument('ChooseNewFile','ChoosedOldFile')"><i class="las la-times text-danger"  data-toggle="tooltip" data-placement="top" title="Remove"></i></button>
+                                    </div>                                    
+                                    <input type="file" name="file" id="ChooseNewFile" class="form-control d-none">                                    
+                                </label>
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								    <span class="invalid-feedback" th:each="e : ${#fields.errors('displayStatus')}" th:text="${e}"></span>
+								</label>
+								<input type="hidden" th:field="*{id}">
+								<input type="hidden" th:field="*{uuid}">
+								<input type="hidden" th:field="*{attachedFile}">
+								<input type="hidden" th:field="*{applicationStatus}">
+								<input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+							</div>
+						</div> 
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Job Applicant Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2020 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="goBack()">
+                                        Discard
+                                    </button>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease" onclick="return isFormValid()">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(function() {        
+               	   $("#edit_job_app").validate({
+               	      // Specify validation rules
+               	      rules: {
+               	    	jobs: "required",
+               	    	name: "required",
+               	    	email: "required",
+               	    	mobile: "required",
+               	    	address: "required",
+               	    	currentCTC: "required",
+               	    	experience: "required",
+               	    	qualification: "required",
+               	    	location: "required",
+               	    	bestGoal: "required"},
+               	      // Specify validation error messages
+               	      messages: {
+               	    	jobs: "Please select job profile !!",
+               	    	name: "Please enter name !!",
+               	    	email: "Please enter email !!",
+               	    	mobile: "Please enter mobile no. !!",
+               	    	address:"Please enter address !!",
+               	    	currentCTC:"Please enter current CTC !!",
+               	    	experience:"Please enter experience !!",
+               	    	qualification:"Please enter qualification !!",
+               	    	location:"Please enter location !!",
+               	    	bestGoal: "Please enter best goal !!"
+               	      },
+               	     submitHandler: function(form) {
+               	    	 $(".disableMePlease").attr("disabled","disabled");
+               	        form.submit();
+               	      }
+               	    });
+               	  });
+                </script>
+            </div>            
+</body>
+</html>

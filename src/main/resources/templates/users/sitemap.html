@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+<main th:fragment="corpseedBodyContent">
+    <div class="sitemap mt-4">
+        <div class="head">
+            <div class="container">
+                <h1 class="mb-3 font-weight-bold"><span class="text-primary font-weight-bold">Corpseed</span> Services
+                </h1>
+                <div class="row">
+                    <div class="col-md-10 mb-3">
+                        <input type="search" class="form-control" id="findService" placeholder="Find a service">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-outline-primary btn-block rounded">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="sitemap-service">
+            <div class="container">
+                <div class="sitemap-category">
+                    <p>Start Company</p>
+                </div>
+                <div class="row" th:if="${startCompany!=null}">
+                    <div class="col-md-4" th:each="c:${startCompany}">
+                        <ul>
+                            <li class="title"><a th:href="@{|/category/${c.slug}|}">
+                                <img th:src="${c.icon!=null}?${@environment.getProperty('azure_path')+c.icon}" th:alt="${c.subCategoryName}">
+                                <b class="ml-1 data" th:text="${c.subCategoryName}">Consult an Expert</b></a>
+                            </li>
+                            <li th:each="s:${c.services}"><a class="data" th:href="@{|/service/${s.slug}|}" th:text="${s.title}">Talk to a Lawyer</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sitemap-category">
+                    <p>Financial Services</p>
+                </div>
+                <div class="row" th:if="${financial!=null}">
+                    <div class="col-md-4" th:each="c:${financial}">
+                        <ul>
+                            <li class="title"><a th:href="@{|/category/${c.slug}|}">
+                                <img th:src="${c.icon!=null}?${@environment.getProperty('azure_path')+c.icon}" th:alt="${c.subCategoryName}">
+                                <b class="ml-1 data" th:text="${c.subCategoryName}">Consult an Expert</b></a>
+                            </li>
+                            <li th:each="s:${c.services}"><a class="data" th:href="@{|/service/${s.slug}|}" th:text="${s.title}">Talk to a Lawyer</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sitemap-category">
+                    <p>Pollution Advisory</p>
+                </div>
+                <div class="row" th:if="${pollution!=null}">
+                    <div class="col-md-4" th:each="c:${pollution}">
+                        <ul>
+                            <li class="title"><a th:href="@{|/category/${c.slug}|}">
+                                <img th:src="${c.icon!=null}?${@environment.getProperty('azure_path')+c.icon}" th:alt="${c.subCategoryName}">
+                                <b class="ml-1 data" th:text="${c.subCategoryName}">Consult an Expert</b></a>
+                            </li>
+                            <li th:each="s:${c.services}"><a class="data" th:href="@{|/service/${s.slug}|}" th:text="${s.title}">Talk to a Lawyer</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sitemap-category">
+                    <p>License & Certification</p>
+                </div>
+                <div class="row" th:if="${license!=null}">
+                    <div class="col-md-4" th:each="c:${license}">
+                        <ul>
+                            <li class="title"><a th:href="@{|/category/${c.slug}|}">
+                                <img th:src="${c.icon!=null}?${@environment.getProperty('azure_path')+c.icon}" th:alt="${c.subCategoryName}">
+                                <b class="ml-1 data" th:text="${c.subCategoryName}">Consult an Expert</b></a>
+                            </li>
+                            <li th:each="s:${c.services}"><a class="data" th:href="@{|/service/${s.slug}|}" th:text="${s.title}">Talk to a Lawyer</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sitemap-category">
+                    <p>Changes In Business</p>
+                </div>
+                <div class="row" th:if="${changesBusiness!=null}">
+                    <div class="col-md-4" th:each="c:${changesBusiness}">
+                        <ul>
+                            <li class="title"><a th:href="@{|/category/${c.slug}|}">
+                                <img th:src="${c.icon!=null}?${@environment.getProperty('azure_path')+c.icon}" th:alt="${c.subCategoryName}">
+                                <b class="ml-1 data" th:text="${c.subCategoryName}">Consult an Expert</b></a>
+                            </li>
+                            <li th:each="s:${c.services}"><a class="data" th:href="@{|/service/${s.slug}|}" th:text="${s.title}">Talk to a Lawyer</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sitemap-category">
+                    <p>Business Compliance</p>
+                </div>
+                <div class="row" th:if="${compliance!=null}">
+                    <div class="col-md-4" th:each="c:${compliance}">
+                        <ul>
+                            <li class="title"><a th:href="@{|/category/${c.slug}|}">
+                                <img th:src="${c.icon!=null}?${@environment.getProperty('azure_path')+c.icon}" th:alt="${c.subCategoryName}">
+                                <b class="ml-1 data" th:text="${c.subCategoryName}">Consult an Expert</b></a>
+                            </li>
+                            <li th:each="s:${c.services}"><a class="data" th:href="@{|/service/${s.slug}|}" th:text="${s.title}">Talk to a Lawyer</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+    <div th:replace="users/includes/footer :: footer"></div>
+    <div id="messageBar"></div>
+    <div th:replace="users/includes/javascript :: javascript"></div>
+</main>
+</body>
+
+</html>

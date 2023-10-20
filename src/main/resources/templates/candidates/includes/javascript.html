@@ -1,0 +1,30 @@
+<div  th:fragment="javascript">
+<script th:src="@{/admin/js/jquery-3.5.1.min.js}"></script>
+	<script th:src="@{/admin/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/admin/js/waves.js}"></script>
+	<script th:src="@{/admin/js/quill.js}"></script>	
+	<script th:src="@{/admin/js/summernote.js}"></script>
+	<script th:src="@{/admin/js/select2.min.js}"></script>
+	<script th:src="@{/admin/js/main.js}"></script>
+	
+	<script th:src="@{/admin/js/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/admin/js/dataTables.buttons.min.js}"></script>
+	<script th:src="@{/admin/js/jszip.min.js}"></script>
+	<script th:src="@{/admin/js/pdfmake.min.js}"></script>
+	<script th:src="@{/admin/js/vfs_fonts.js}"></script>
+	<script th:src="@{/admin/js/buttons.html5.min.js}"></script>
+	<script th:src="@{/admin/js/buttons.print.min.js}"></script>
+	<script th:src="@{/admin/js/buttons.colVis.min.js}"></script>	
+	<script th:src="@{/admin/js/dataTables.select.min.js}"></script>	
+	<script type="text/javascript">
+	  /* $(document).ready(function() {
+		    $('.select2-search').select2();
+		}); */
+	    $(document).ready(function() {
+	        $('#dataTable').DataTable();
+	    });
+		 $(function () {
+	    	  $('[data-toggle="tooltip"]').tooltip()
+	    });
+	</script>
+</div>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="users/base::layout(~{::corpseedBodyContent})">
+
+<body>
+    <main th:fragment="corpseedBodyContent">
+    <input type="hidden" id="type" value="3"/>
+	<input type="hidden" id="type_id" value="0"/>
+	<input type="hidden" id="ip"/>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 mx-auto">
+                    <div class="partner">
+                        <div class="header py-4 mt-4 mb-5 text-center  border-bottom ">
+                            <h1 class=" text-dark font-weight-bold mb-4">
+                                PARTNER WITH US
+                            </h1>
+                            <p class="text-center lead mb-3 pb-3">
+                                Are you an attorney with a zeal to help people with legal services and a strong statistic to prove it? Let's talk. We're looking for attorneys across India to provide our customers/Partners with a sound legal advice, consulting, representation and other related legal services.
+                            </p>
+                            <a href="#exampleModal" class="btn btn-outline-primary rounded btn-lg"  data-toggle="modal" data-target="#exampleModal">
+                                Register Now
+                            </a>
+                        </div>
+                        <div class="title py-4">
+                            <h2 class="text-center text-dark text-capitalize">
+                                Advantages of being part of our community 
+                            </h2>
+                        </div>
+                        <div class="row row-cols-2 row-cols-sm-2  row-cols-md-2 row-cols-lg-4 text-center">
+                            <div class="col mb-4">
+                                <div class="card rounded-lg shad ow-sm m-1">
+                                    <div class="d-flex">
+                                        <img th:src="@{/assets/svg/Group 1006.svg}" alt="icon-bar" width="80" class="mx-auto mt-4"/>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title text-center">
+                                            Earning Money
+                                        </h4>
+                                        <p class="card-text">
+                                            Earn upto 20% commission for every job you outsource to other partners.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-4"> 
+                                <div class="card rounded-lg sha dow-sm m-1">
+                                    <div class="d-flex">
+                                        <img th:src="@{/assets/svg/Group 1007.svg}" alt="icon-bar" width="80" class="mx-auto mt-4"/>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title text-center">
+                                            Intelligent Reporting
+                                        </h4>
+                                        <p class="card-text">
+                                           Learn about new time-saving reporting at your fingertips.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-4">
+                                <div class="card rounded-lg sh adow-sm m-1">
+                                    <div class="d-flex">
+                                        <img th:src="@{/assets/svg/Group 1008.svg}" alt="icon-bar" width="80" class="mx-auto mt-4"/>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title text-center">
+                                            Growth Potential
+                                        </h4>
+                                        <p class="card-text">
+                                            Become part of the network of one of the fastest growing companies.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-4">
+                                <div class="card rounded-lg sha dow-sm m-1">
+                                    <div class="d-flex">
+                                        <img th:src="@{/assets/svg/Group 1009.svg}" alt="icon-bar" width="80" class="mx-auto mt-4"/>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title text-center">
+                                            Easy Registration
+                                        </h4>
+                                        <p class="card-text">
+                                            Register in less than 10 minutes, All you need is to have a business of your own.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="title pt-10">
+                            <h2 class="text-center text-dark text-capitalize">
+                                Joining Corpseed is really easy 
+                            </h2>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card border-0 mb-4">
+                                        <div class="card-body p-4 p-lg-5">
+                                            <h5 class="card-title text-dark">Outsource A Service</h5>
+                                            <p class="text-body">
+                                                List your service on our portal and you are done. Our Help Team will always be there if anything goes wrong.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-0 mb-4">
+                                        <div class="card-body p-4 p-lg-5">
+                                            <h5 class="card-title text-dark">
+                                                Easy Delivery of Service
+                                            </h5>
+                                            <p class="text-body">
+                                                Enjoy hassle free delivery of service. Let another expert partner of CorpSeed handle it end to end and you will be paid up to 15%. Isn't that simple ?                                            
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog  modal-lg modal-dialog-centered">
+               	<div class="modal-content rounded border-0 shadow-lg">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="exampleModalLabel">PARTNER WITH CORPSEED</h5>
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                </div>
+                    <div class="modal-body px-md-3 px-lg-5">
+                    	<p class="mb-3 text-body" id="pmsgBar">Please Fill in the form and send us, we'll get back to you as soon as possible.</p>
+                        <form action="javascript:void(0)" id="partnerEnquiry" class="valid-check">
+                            <div class="form-row">
+                                <label for="pname" class="col-md-6 form-group">
+                                    Full Name *
+                                    <input type="text" name="pname" id="pname" placeholder="Enter your name" class="form-control" required="required"/>
+                                </label>
+                                <label for="pemail" class="col-md-6 form-group">
+                                    Email Address *
+                                    <input type="email" name="pemail" id="pemail" onchange="validateEmail('pemail','')" placeholder="Enter your email" class="form-control" required="required"/>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label for="mobile" class="col-md-6 form-group">Mobile No *
+                                	<div class="form-group">
+                                    	<input type="tel" name="pmobile" id="mobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9.+ ]/g, '').replace(/(\..*)\./g, '$1');" 
+                                    	minlength="10" maxlength="15" placeholder="Phone Number" autocomplete="false" required="required"/>
+                                	</div> 
+                                </label>
+                                <label for="poccupation" class="col-md-6 form-group">
+                                    Select your occupation *  
+                                    <select name="poccupation" id="poccupation" class="custom-select" required="required">
+                                        <option value="" disabled selected>Occupation</option>
+                                        <option value="Advocate">Advocate</option>
+                                        <option value="Angel Investor">Angel Investor</option>
+                                        <option value="Chartered Accountant">Chartered Accountant</option>
+                                        <option value="Company Secretory">Company Secretory</option>
+                                        <option value="Cost Accountant">Cost Accountant</option>
+                                        <option value="Ex Tax Officer">Ex Tax Officer </option>
+                                        <option value="Retired Judge">Retired Judge</option>
+                                        <option value="Tax Expert">Tax Expert</option>
+                                        <option value="Technology Expert">Retired Banker</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label for="pmessage" class="form-group col-12">
+                                    Message *
+                                    <textarea name="pmessage" id="pmessage" rows="3" class="form-control" required="required"></textarea>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <div  class="form-group col-md-6 d-flex align-items-end">
+                                    <div class="custom-control custom-checkbox mb-2">
+                                        <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck1" required="required"/>
+                                        <label class="custom-control-label" for="customCheck1">Please agree to terms and services</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+	                            <button class="btn btn-primary btn-submit rounded" name="psubmit" type="submit">Submit</button>
+	                        </div>
+                                <input type="hidden" id="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+								<input type="hidden" id="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}"/>
+	                    </form>    
+					</div>
+				</div> 
+            </div>
+        </div>  
+        
+<div class="modal fade" id="otpModal" tabindex="-1" role="dialog" 
+aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content rounded">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalOtp"></h6>        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="javascript:void(0)" method="post" id="verifyOtpInput" 
+      class="digit-group" data-group-name="digits" data-autosubmit="false" 
+      autocomplete="off">
+      <div class="modal-body text-center">      
+       <input type="text" name="OTP1" id="OTP1" data-next="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP2" id="OTP2" data-next="OTP3" data-previous="OTP1" class="form-input" required="required">
+       <input type="text" name="OTP3" id="OTP3" data-next="OTP4" data-previous="OTP2" class="form-input" required="required">
+       <input type="text" name="OTP4" id="OTP4" data-previous="OTP3" class="form-input" required="required">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" id="buttonVerifyOtpPartner">Verify OTP</button>
+        <p class="col-12 text-right flex-column justify-content-end align-items-end d-none" id="resendOTP">
+           Didn't receive code?<br>
+           <a href="javascript:void(0)" class="text-decoration-none" onclick="sendOtp('resendOTP','resendOTPTime')">Resend OTP</a>
+         </p>
+         <span id="resendOTPTime" class="col-12 text-center">&nbsp;</span>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.152360514324!2d77.38384951508247!3d28.625195382420646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cefc58be6481f%3A0x41b86a729f5fde99!2sCorpseed%20%7C%20Pollution%20Advisory%20%7C%20Virtual%20CFO%20%7C%20Audit%20%7C%20Risk%20%26%20Assurance%20%7C%20Legal%20Advisory%20%7C%20Fin-tech%20Advisory!5e0!3m2!1sen!2sin!4v1613712492275!5m2!1sen!2sin" frameborder="0" style="width:100%; height:450px; border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    <div th:replace="users/includes/footer :: footer"></div>
+    	<div id="messageBar"></div>
+    <div th:replace="users/includes/javascript :: javascript"></div>
+        <!--<script th:src="@{/assets/js/intlTelInput.js}"></script>
+        <script type="text/javascript">
+            const mobile_intel = document.querySelector("#mobile");
+            window.intlTelInput(mobile_intel, {
+                separateDialCode: true,
+                initialCountry: "in",
+                excludeCountries: ['ba'],
+                hiddenInput: "full",
+                utilsScript: "/assets/js/utils.js"
+            });
+        </script>-->
+	</main>
+</body>
+</html>

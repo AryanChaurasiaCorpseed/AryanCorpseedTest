@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+              <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/admin/users/add}" method="post" id="add_user" enctype="multipart/form-data"
+                	 th:object="${user}">
+                    <div class="col-lg-9 ">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Create User</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+								 <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>                                 
+<!--                                 <input type="hidden" name="serviceId" th:value="${serviceid}"> -->
+                                <label class="form-group">
+                                    First Name
+                                    <input type="text" name="firstName" id="firstName" class="form-control"
+                                     th:classappend="${#fields.hasErrors('firstName') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter first name..." th:value="${user.firstName}" onkeyup="convertToUserSlug()">
+                                    <div class="invalid-feedback" th:each="e : ${#fields.errors('firstName')}" th:text="${e}"></div>
+                                </label>
+                                <label class="form-group">
+                                    Last Name
+                                    <input type="text" name="lastName" id="lastName" class="form-control"
+                                      th:classappend="${#fields.hasErrors('lastName') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter last name..." th:value="${user.lastName}" onkeyup="convertToUserSlug()">
+                                    <div class="invalid-feedback" th:each="e : ${#fields.errors('lastName')}" th:text="${e}"></div>
+                                </label>
+                                <label class="form-group">
+                                    Slug
+                                    <input type="text" th:field="*{slug}" class="form-control"
+                                           th:classappend="${#fields.hasErrors('slug') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                           placeholder="Enter slug..." th:value="${user.slug}">
+                                    <div class="invalid-feedback" th:each="e : ${#fields.errors('slug')}" th:text="${e}"></div>
+                                </label>
+                                <label class="form-group">
+                                    Email
+                                    <input type="email" name="email" id="email" class="form-control"
+                                      th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter email id..." th:value="${user.email}">
+                                    <div class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></div>
+                                </label>
+                                <label class="form-group">
+                                    Mobile
+                                    <input type="text" th:field="*{mobile}" class="form-control"
+                                      th:classappend="${#fields.hasErrors('mobile') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter 10 digit mobile..." maxlength="14" minlength="10">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('mobile')}" th:text="${e}"></span>
+                                </label> 
+                                <label class="form-group">
+                                    Password
+                                    <input type="password" name="password" id="password" class="form-control"
+                                      th:classappend="${#fields.hasErrors('password') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter password..." th:value="${user.password}">
+                                    <div class="invalid-feedback" th:each="e : ${#fields.errors('password')}" th:text="${e}"></div>
+                                </label>  
+                                <label for="#" class="form-group" id="Department">
+                                    Department
+                                    <select class="form-control select2-search" th:field="*{department}"
+                                      aria-describedby="emailHelp">
+                                      	<option value="">Select Department</option>                                      
+                                        <option value="it">IT</option>
+                                        <option value="sales">Sales</option>
+                                        <option value="delivery">Delivery</option>
+                                        <option value="hr">HR</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="legal">Legal</option>                                    	                                   	
+                                    </select>
+                                </label>  
+                                <label for="#" class="form-group">
+                                    Interview Permissions
+                                    <select class="form-control select2-search select" name="interviewPermission"
+                                      aria-describedby="emailHelp" multiple="multiple">
+                                      	<option value="">Select Department</option>                                      
+                                        <option value="it">IT</option>
+                                        <option value="sales">Sales</option>
+                                        <option value="delivery">Delivery</option>
+                                        <option value="hr">HR</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="legal">Legal</option>                                    	                                   	
+                                    </select>
+                                </label>                            
+                                <label class="form-group">
+                                    Job Title
+                                    <input type="text" name="jobTitle" id="jobTitle" class="form-control"
+                                     th:classappend="${#fields.hasErrors('jobTitle') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter job title..." th:value="${user.jobTitle}">
+                                    <div class="invalid-feedback" th:each="e : ${#fields.errors('jobTitle')}" th:text="${e}"></div>
+                                </label>
+                                <label class="form-group">
+                                    Display Profile
+                                    <input type="file" name="profileImage" id="profilePicture" class="form-control">                                    
+<!--                                     <div class="invalid-feedback" th:each="e : ${#fields.errors('profilePicture')}" th:text="${e}"></div> -->
+                                </label>
+                                <label class="form-group">
+                                    Address
+                                    <textarea th:field="*{address}" class="form-control" th:rows="2"
+                                      th:classappend="${#fields.hasErrors('address') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter your address..."></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('address')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group profile">
+                                    About Me
+                                    <textarea name="aboutMe" id="aboutMe" class="form-control"
+                                      th:classappend="${#fields.hasErrors('aboutMe') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter about yourself..."  th:text="${user.aboutMe}"></textarea>
+                                    <div class="invalid-feedback" th:each="e : ${#fields.errors('aboutMe')}" th:text="${e}"></div>
+                                </label>
+                                <label class="form-group">
+                                    Select Role
+                                    <select class="form-control" name="role" th:field="*{role}"
+                                    th:classappend="${#fields.hasErrors('role') ? 'is-invalid':''}" 
+                                    aria-describedby="emailHelp" onchange="showPermissions(this.value)">
+                                    	<option value="">Select Role</option>
+                                    	<option value="ROLE_DELIVERY">Delivery</option>
+                                    	<option value="ROLE_MARKETING">Digital Marketing</option>
+                                    	<option value="ROLE_HR_MANAGER">HR Manager</option>
+                                    	<option value="ROLE_HR_EXECUTIVE">HR Executive</option>
+                                    	<option value="ROLE_QUALITY">QUALITY</option>
+                                    </select>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('role')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group no-display" id="ShowPermissions">
+                                    Job Access Permissions
+                                    <select class="form-control select2-search" name="permissions" id="PermissionId" multiple="multiple"
+                                      aria-describedby="emailHelp">                                      
+                                        <option value="it">IT</option>
+                                        <option value="sales">Sales</option>
+                                        <option value="delivery">Delivery</option>
+                                        <option value="hr">HR</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="legal">Legal</option>                                    	                                   	
+                                    </select>
+                                </label>
+                                <label class="form-group">
+                                    Facebook Link
+                                    <input type="text" th:field="*{facebook}" class="form-control"
+                                           th:classappend="${#fields.hasErrors('facebook') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                           placeholder="Enter facebook profile link...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('facebook')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Linkedin Link
+                                    <input type="text" th:field="*{linkedin}" class="form-control"
+                                           th:classappend="${#fields.hasErrors('linkedin') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                           placeholder="Enter linkedin profile link...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('linkedin')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Twitter Link
+                                    <input type="text" th:field="*{twitter}" class="form-control"
+                                           th:classappend="${#fields.hasErrors('twitter') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                           placeholder="Enter twitter profile link...">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('twitter')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" name="displayStatus" class="custom-control-input" value="1" checked>
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" name="displayStatus" class="custom-control-input" value="2">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								    <div class="invalid-feedback" th:each="e : ${#fields.errors('displayStatus')}" th:text="${e}"></div>
+								</label>
+                                <div class="mb-3">
+                                    <h4 class="card-title">SEO</h4>
+                                    <label for="#" class="form-group">
+                                        Meta Title
+                                        <input type="text" th:field="*{metaTitle}" placeholder="Enter meta title..."
+                                               th:classappend="${#fields.hasErrors('metaTitle') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                               class="form-control">
+                                        <span class="invalid-feedback" th:each="e : ${#fields.errors('metaTitle')}" th:text="${e}"></span>
+                                    </label>
+
+                                    <label for="#" class="form-group">
+                                        Meta Keyword
+                                        <input type="text" th:field="*{metaKeyword}" placeholder="Enter meta keyword..."
+                                               th:classappend="${#fields.hasErrors('metaKeyword') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                               class="form-control">
+                                        <span class="invalid-feedback" th:each="e : ${#fields.errors('metaKeyword')}" th:text="${e}"></span>
+                                    </label>
+                                    <label for="#" class="form-group">
+                                        Meta Description
+                                        <textarea th:field="*{metaDescription}" class="form-control" placeholder="Enter meta description..."
+                                                  th:classappend="${#fields.hasErrors('metaDescription') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                                  cols="30" rows="5"></textarea>
+                                        <span class="invalid-feedback" th:each="e : ${#fields.errors('metaDescription')}" th:text="${e}"></span>
+                                    </label>
+                                </div>
+								<input type="hidden" name="regDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+							</div>
+						</div> 
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Employee Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured employee</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" onclick="goBack()" class="btn btn-outline-danger btn-sm">
+                                        Discard
+                                    </button>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <div class="col-lg-4  ml-auto">
+                        
+                    </div>
+                </div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $(document).ready(function(){
+                	$('#PermissionId').select2({
+  		    		  placeholder: 'Select job type',
+  		    		  allowClear: true
+      				});
+                	$('.select').select2({
+						placeholder: 'Select department',
+		    		  allowClear: true
+    				});
+                    CKEDITOR.replace('aboutMe',{					     
+						 filebrowserImageUploadUrl: '/ckeditor/upload',
+						 height: 200
+					 }); 
+                });
+                function showPermissions(data){
+                	if(data=="ROLE_HR_EXECUTIVE"){
+                		$("#ShowPermissions").slideDown();
+                	}else{
+                		$("#ShowPermissions").slideUp();
+                	}
+                }
+                $(function() {              
+               	   $("#add_user").validate({
+               	      // Specify validation rules
+               	      rules: {
+               	    	firstName: "required",
+               	    	lastName: "required",
+               	    	email: "required",
+               	    	password: "required",
+               	    	department: "required",
+               	    	jobTitle: "required",
+               	    	aboutMe: "required",
+               	    	role: "required",
+               	    	interviewPermission: "required"},
+               	      // Specify validation error messages
+               	      messages: {
+               	    	firstName: "Please first name !!",
+               	    	lastName: "Please last name !!",
+               	    	email: "Please enter email !!",
+               	    	password: "Please enter password !!",
+               	    	department: "Please select department !!",
+               	    	jobTitle: "Please enter job title !!",
+               	    	aboutMe: "Please write about you !!",
+               	    	role: "Please select role !!",
+               	    	interviewPermission: "Please select interview department"},
+               	     submitHandler: function(form) {
+               	    	 $(".disableMePlease").attr("disabled","disabled");
+               	        form.submit();
+               	      }
+               	    });
+               	  });
+                </script>
+            </div>
+  </body>
+</html>

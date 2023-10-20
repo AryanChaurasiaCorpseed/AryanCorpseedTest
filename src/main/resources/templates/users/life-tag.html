@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="users/base::layout(~{::corpseedBodyContent})">
+<body>
+<main th:fragment="corpseedBodyContent">
+    <div th:replace="~{users/includes/life-nav}"></div>
+    <!-- culture area -->
+    <section class="culture-area-bg">
+        <div class="culture-area padding-xy" th:each="lu,sn:${lifeUsers}">
+            <div class="card-grid">
+                <div th:if="${(sn.index+1)%2!=0}">
+                    <div class="culture-image-box">
+                        <img th:src="${@environment.getProperty('azure_path')+lu.pictureName}" th:alt="Picture">
+                    </div>
+                </div>
+
+                <div class="culture-text ml-0">
+                    <h2 th:text="${lu.title}"></h2>
+                    <p th:utext="${lu.summary}"></p>
+                    <a th:href="@{|/life-at-corpseed/${lu.slug}|}" class="learn-more-btn">Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                             class="bi bi-chevron-right" viewBox="0 0 16 19">
+                            <path fill-rule="evenodd"
+                                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </a>
+                    <div class="culture-tags">
+                        <a th:each="tag:${lu.lifeCategories}"
+                           th:href="@{|/life-at-corpseed/tag/${tag.slug}|}" th:text="${'#'+tag.title}">#new</a>
+                    </div>
+                </div>
+                <div th:if="${(sn.index+1)%2==0}">
+                    <div class="culture-image-box">
+                        <img th:src="${@environment.getProperty('azure_path')+lu.pictureName}" th:alt="Picture">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- culture- area end -->
+
+    <div class="load-btn-center p-5">
+        <button class="load-more-button">Load More</button>
+    </div>
+
+    <div th:replace="users/includes/footer :: footer"></div>
+    <div id="messageBar"></div>
+    <div th:replace="users/includes/javascript :: javascript"></div>
+</main>
+</body>
+</html>

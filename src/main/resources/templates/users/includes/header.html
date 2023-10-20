@@ -1,0 +1,225 @@
+<header th:fragment="header">
+	<nav class="navbar nav-mobile navbar-expand-md navbar-light fixed-top">
+		<div class="container px-0 px-md-3 position-relative">
+			<a class="navbar-brand logo" th:href="@{/}">
+				<img th:src="@{/assets/img/brands/CORPSEED.webp}" class="img-fluid" alt="Corpseed" width="151" height="28"/>
+			</a>
+			<button class="navbar-toggler collapsed" onclick="hideAllTab()" type="button" data-target="#main-nav" aria-controls="main-nav">
+				<span class="icon-bar top-bar mt-0"></span>
+				<span class="icon-bar middle-bar"></span>
+				<span class="icon-bar bottom-bar"></span>
+			</button>
+			<div class=" navbar-collapse bg-white" id="main-nav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item d-block d-md-none"><a th:href="@{/}" class="nav-link"><span class="glyphicon glyphicon-adjust"></span> Home</a></li>
+					<li class="nav-item dropper"><a class="nav-link arrow drop-downtoggle" href="javascript:void(0);" data-toggle="dropdown" aria-hidden="false">Industry</a>
+						<div class="dropdown-menu wider">
+							<div class="menu-wrapper">
+								<div class="mega-tab-menu">
+									<div class="container px-0">
+										<nav class="mega-dropdown industry-drop">
+											<ul class="nav nav-pills nav-fill pl-0">
+												<li class="nav-item dropdown active">
+													<div class="dropdown-menu dropdown-mega-nav ">
+														<div class="row w-100">
+															<div class="col-md-3 mb-2 d_block" th:each="ind:${industries}">
+																<h6><a th:href="@{|/industry/${ind.slug}|}" th:title="${ind.industryName}" th:text="${ind.industryName}">Industry page</a></h6>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</nav>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="nav-item dropper"><a class="nav-link arrow drop-downtoggle" href="javascript:void(0);"  aria-hidden="false" data-toggle="dropdown" onmouseover="showFirst('ServiceFirstList')" onclick="showFirst('ServiceFirstList')">Services</a>
+						<div class="dropdown-menu wider">
+							<div class="menu-wrapper">
+								<div class="mega-tab-menu">
+									<div class="container px-0">
+										<nav class="mega-dropdown mega-dropdown-service" th:fragment="submenu">
+											<ul class="nav nav-pills nav-fill pl-0">
+												<li class="nav-item dropdown active">
+													<a class="nav-link dropdown-mega" href="javascript:void(0);" role="button" >Start Company</a>
+													<div class="dropdown-menu dropdown-mega-nav" th:with="count1=0">
+														<div class="row w-100">
+															<div class="col-md-3 mb-4 d_block" th:each="sCompany : ${startCompany}">
+																<h6><a th:href="@{|/category/${sCompany.slug}|}" th:text="${sCompany.subCategoryName}">Start Financial Business In India</a></h6>
+																<div class="nav flex-column">
+																	<a class="mega-link" th:each="serivce , sn : ${sCompany.services}" th:if="${serivce.showMenuStatus=='1' && serivce.deleteStatus==2}" th:href="@{|/service/${serivce.slug}|}" th:text="${serivce.serviceName}"></a>
+																</div>
+																<a th:if="${sCompany.services.size>5}" th:href="@{|/category/${sCompany.slug}|}">More &gt;&gt;</a>
+															</div>
+														</div>
+
+													</div>
+												</li>
+												<li class="nav-item dropdown"><a class="nav-link dropdown-mega" href="javascript:void(0);" role="button" >Financial Services</a>
+													<div class="dropdown-menu dropdown-mega-nav ">
+														<div class="row w-100">
+															<div class="col-md-3 mb-4 d_block" th:each="hfinancial : ${financial}">
+																<h6><a th:href="@{|/category/${hfinancial.slug}|}" th:text="${hfinancial.subCategoryName}">sub category name</a></h6>
+																<div class="nav flex-column">
+																	<a class="mega-link" th:each="serivce : ${hfinancial.services}" th:if="${serivce.showMenuStatus=='1' && serivce.deleteStatus==2}" th:href="@{|/service/${serivce.slug}|}" th:text="${serivce.serviceName}"></a>
+																</div>
+																<a th:if="${hfinancial.services.size>5}" th:href="@{|/category/${hfinancial.slug}|}">More &gt;&gt;</a>
+															</div>
+														</div>
+													</div>
+												</li>
+												<li class="nav-item dropdown"><a class="nav-link dropdown-mega" href="javascript:void(0);" role="button" >Pollution Advisory</a>
+													<div class="dropdown-menu dropdown-mega-nav ">
+														<div class="row w-100">
+															<div class="col-md-3 mb-4 d_block" th:each="hpollution : ${pollution}">
+																<h6><a th:href="@{|/category/${hpollution.slug}|}" th:text="${hpollution.subCategoryName}">sub category name</a></h6>
+																<div class="nav flex-column">
+																	<a class="mega-link" th:each="serivce : ${hpollution.services}" th:if="${serivce.showMenuStatus=='1' && serivce.deleteStatus==2}" th:href="@{|/service/${serivce.slug}|}" th:text="${serivce.serviceName}"></a>
+																</div>
+																<a th:if="${hpollution.services.size>5}" th:href="@{|/category/${hpollution.slug}|}">More &gt;&gt;</a>
+															</div>
+														</div>
+													</div>
+												</li>
+												<li class="nav-item dropdown"><a class="nav-link dropdown-mega" href="javascript:void(0);" role="button" >License & Certification</a>
+													<div class="dropdown-menu dropdown-mega-nav ">
+														<div class="row w-100">
+															<div class="col-md-3 mb-4 d_block" th:each="hlicense : ${license}">
+																<h6><a th:href="@{|/category/${hlicense.slug}|}" th:text="${hlicense.subCategoryName}">sub category name</a></h6>
+																<div class="nav flex-column">
+																	<a class="mega-link" th:each="serivce : ${hlicense.services}" th:if="${serivce.showMenuStatus=='1' && serivce.deleteStatus==2}" th:href="@{|/service/${serivce.slug}|}" th:text="${serivce.serviceName}"></a>
+																</div>
+																<a th:if="${hlicense.services.size>5}" th:href="@{|/category/${hlicense.slug}|}">More &gt;&gt;</a>
+															</div>
+														</div>
+													</div>
+												</li>
+												<li class="nav-item dropdown"><a class="nav-link dropdown-mega" href="javascript:void(0);" role="button" >Changes In Business</a>
+													<div class="dropdown-menu dropdown-mega-nav ">
+														<div class="row w-100">
+															<div class="col-md-3 mb-4 d_block" th:each="hchangesBusiness : ${changesBusiness}">
+																<h6><a th:href="@{|/category/${hchangesBusiness.slug}|}" th:text="${hchangesBusiness.subCategoryName}">sub category name</a></h6>
+																<div class="nav flex-column">
+																	<a class="mega-link" th:each="serivce : ${hchangesBusiness.services}" th:if="${serivce.showMenuStatus=='1' && serivce.deleteStatus==2}" th:href="@{|/service/${serivce.slug}|}" th:text="${serivce.serviceName}"></a>
+																</div>
+																<a th:if="${hchangesBusiness.services.size>5}" th:href="@{|/category/${hchangesBusiness.slug}|}">More &gt;&gt;</a>
+															</div>
+														</div>
+													</div>
+												</li>
+												<li class="nav-item dropdown"><a class="nav-link dropdown-mega" href="javascript:void(0);" role="button" >Business Compliance</a>
+													<div class="dropdown-menu dropdown-mega-nav ">
+														<div class="row w-100">
+															<div class="col-md-3 mb-4 d_block" th:each="hcompliance : ${compliance}">
+																<h6><a th:href="@{|/category/${hcompliance.slug}|}" th:text="${hcompliance.subCategoryName}">sub category name</a></h6>
+																<div class="nav flex-column">
+																	<a class="mega-link" th:each="serivce : ${hcompliance.services}" th:if="${serivce.showMenuStatus=='1' && serivce.deleteStatus==2}" th:href="@{|/service/${serivce.slug}|}" th:text="${serivce.serviceName}"></a>
+																</div>
+																<a th:if="${hcompliance.services.size>5}" th:href="@{|/category/${hcompliance.slug}|}">More &gt;&gt;</a>
+															</div>
+														</div>
+													</div>
+												</li>
+
+											</ul>
+										</nav>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="nav-item dropper"><a class="nav-link arrow drop-downtoggle" href="javascript:void(0);"  aria-hidden="false" data-toggle="dropdown" onmouseover="showFirst('AboutUsActiveList')" onclick="showFirst('AboutUsActiveList')">About Us</a>
+						<div class="dropdown-menu wider">
+							<div class="menu-wrapper">
+								<div class="mega-tab-menu">
+									<div class="container px-0">
+										<nav class="mega-dropdown">
+											<ul class="nav nav-pills nav-fill pl-0">
+												<li id="AboutUsActiveList" class="nav-item dropdown">
+													<div class="dropdown-menu dropdown-mega-nav ">
+														<div class="row w-100">
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/about-us}">About us</a></h6>
+															</div>
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/contact-us}">Contact us</a></h6>
+															</div>
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/knowledge-centre}">Knowledge center</a></h6>
+															</div>
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/law-update}">Law update</a></h6>
+															</div>
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/partner}">Become a partner</a></h6>
+															</div>
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/join-our-team}">Careers</a></h6>
+															</div>
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/life-at-corpseed}">Life At Corpseed</a></h6>
+															</div>
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/news}">News</a></h6>
+															</div>
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/press-release}">Press Release</a></h6>
+															</div>
+															<div class="col-md-3 mb-2 d_block">
+																<h6><a th:href="@{/product/all}">Products</a></h6>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</nav>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" target="_blank" th:href="@{/login}">
+							Login
+						</a>
+					</li>
+				</ul>
+			</div>
+			<a href="javascript:void(0)" onclick="mySearch();" class="ml-2">
+				<svg width="20" height="20" viewBox="0 0 15 15" fill="none">
+					<path d="M14.5 14.5L10.5 10.5M6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5Z" stroke="#555" />
+				</svg>
+			</a>
+			<div id="search-cont" class="search-cont search-icon">
+				<form action="#" class="w-100">
+					<svg width="22" height="22" viewBox="0 0 15 15" fill="none">
+						<path d="M14.5 14.5L10.5 10.5M6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5Z" stroke="#999" />
+					</svg>
+					<input type="text" th:autocomplete="off" id="ServiceBlogSearch" name="search" class="search-input" placeholder="Are you looking for another service" autocomplete="false"/>
+				</form>
+				<a href="javascript:void(0)" onclick="mySearch();" class="search-close">
+					<svg width="22" height="22" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M1.5 1.5L13.5 13.5M1.5 13.5L13.5 1.5" stroke="#767676" />
+					</svg>
+				</a>
+				<div class="col-md-12" id="homeServiceBlogSearch">
+
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!--<div class="mobilecontact">
+        <a th:if="${contact}" th:href="|tel:${contact.mobile}|"><span class="mr-1">Call us</span>
+        <svg width="15" height="15" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.34417 10.3404C7.72417 13.0525 9.9475 15.2662 12.6596 16.6558L14.7679 14.5475C15.0267 14.2887 15.41 14.2025 15.7454 14.3175C16.8188 14.6721 17.9783 14.8637 19.1667 14.8637C19.6938 14.8637 20.125 15.295 20.125 15.8221V19.1667C20.125 19.6938 19.6938 20.125 19.1667 20.125C10.1679 20.125 2.875 12.8321 2.875 3.83333C2.875 3.30625 3.30625 2.875 3.83333 2.875H7.1875C7.71458 2.875 8.14583 3.30625 8.14583 3.83333C8.14583 5.03125 8.3375 6.18125 8.69208 7.25458C8.7975 7.59 8.72083 7.96375 8.4525 8.23208L6.34417 10.3404Z" fill="black"></path>
+        </svg>
+        </a>
+        <a th:unless="${contact}" href="tel:9999008018"><span class="mr-1">Call us</span>
+        <svg width="15" height="15" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.34417 10.3404C7.72417 13.0525 9.9475 15.2662 12.6596 16.6558L14.7679 14.5475C15.0267 14.2887 15.41 14.2025 15.7454 14.3175C16.8188 14.6721 17.9783 14.8637 19.1667 14.8637C19.6938 14.8637 20.125 15.295 20.125 15.8221V19.1667C20.125 19.6938 19.6938 20.125 19.1667 20.125C10.1679 20.125 2.875 12.8321 2.875 3.83333C2.875 3.30625 3.30625 2.875 3.83333 2.875H7.1875C7.71458 2.875 8.14583 3.30625 8.14583 3.83333C8.14583 5.03125 8.3375 6.18125 8.69208 7.25458C8.7975 7.59 8.72083 7.96375 8.4525 8.23208L6.34417 10.3404Z" fill="black"></path>
+        </svg>
+        </a>
+    </div>-->
+</header>

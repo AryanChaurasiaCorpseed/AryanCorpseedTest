@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{/admin/master/static-seo/add}" method="post" id="add_static_seo" th:object="${staticSeo}">
+                    <div class="col-lg-9 ">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">New Static SEO</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()"> Back</a>
+                                </div>
+								 <div th:if="${message}" th:classappend="${message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${message.content}"></p>  	            
+					             </div>                                
+                                <label for="#" class="form-group">
+                                    Page
+                                    <select th:field="*{page}" class="form-control select2-search"
+                                     th:classappend="${#fields.hasErrors('page') ? 'is-invalid':''}" aria-describedby="emailHelp" required="required">
+                                    	<option value="">Select Page</option>
+                                    	<option value="home">Home</option>
+                                    	<option value="about-us">About Us</option>
+                                    	<option value="contact-us">Contact Us</option>
+                                    	<option value="book-meeting">Book Meeting</option>
+                                    	<option value="knowledge-centre">Knowledge Centre</option>
+                                    	<option value="news">News</option>
+                                    	<option value="law-update">Law Update</option>
+                                    	<option value="partner">Partner</option>
+                                    	<option value="change-your-ca">Change Your CA</option>
+                                    	<option value="join-our-team">Career</option>
+                                    	<option value="life-at-corpseed">Life At Corpseed</option>
+                                    	<option value="life-at-corpseed-blog">Life At Corpseed Blog</option>
+                                    	<option value="mca-fee-calculator">MCA Calculator</option>
+                                    	<option value="payment">Payment</option>
+                                    	<option value="privacy-policy">Privacy policy</option>
+                                    	<option value="category-all">All Category</option>
+                                    	<option value="cart-pay">Cart Pay</option>
+                                    	<option value="payment-invoice">Payment Invoice</option>
+                                    	<option value="subscribe-thanks">Subscribe Thanks</option>
+                                    	<option value="login">Login</option>
+                                    	<option value="forget-password">Forget password</option>
+                                    	<option value="reset-password">Reset password</option>
+                                    	<option value="faq">FAQ</option>
+                                    </select>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('page')}" th:text="${e}"></span>
+                                </label>                                 
+                                <label class="form-group">
+                                    Meta Title
+                                    <input type="text" th:field="*{metaTitle}" class="form-control"
+                                    th:classappend="${#fields.hasErrors('metaTitle') ? 'is-invalid':''}" aria-describedby="emailHelp" 
+                                    placeholder="Enter meta title..." required="required">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('metaTitle')}" th:text="${e}"></span>
+                                </label>                               
+                                <label class="form-group">
+                                    Meta Keyword
+                                    <input type="text" th:field="*{metaKeyword}" class="form-control" 
+                                    th:classappend="${#fields.hasErrors('metaKeyword') ? 'is-invalid':''}" aria-describedby="emailHelp"
+                                     placeholder="Enter meta keyword..." required="required">
+                                     <span class="invalid-feedback" th:each="e : ${#fields.errors('metaKeyword')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                                    Meta Description
+                                   <textarea th:field="*{metaDescription}" id="metaSummary" class="form-control" rows="4" placeholder="Enter meta description..."
+                                   th:classappend="${#fields.hasErrors('metaDescription') ? 'is-invalid':''}" aria-describedby="emailHelp" required="required"></textarea>
+                                   <span class="invalid-feedback" th:each="e : ${#fields.errors('metaDescription')}" th:text="${e}"></span>
+                                </label>
+                                <input type="hidden" name="postDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+                            </div>
+                        </div>                  
+                        
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Post Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="goBack()">
+                                    Discard</button>
+                                    <button class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+       <div th:replace="admin/includes/javascript :: javascript"></div>
+	   <script type="text/javascript">
+	   $(document).ready(function(){
+       	$('#page').select2({
+    		  placeholder: 'Select page..',
+    		  allowClear: true
+			}); 
+	   });
+	   $(function() {
+      	   $("#add_static_seo").validate({
+      	      // Specify validation rules
+      	      rules: { 
+      	    	 page: "required",
+      	  	  	 metaTitle: "required",
+      	  	  	 metaKeyword: "required",
+      	  		 metaDescription: "required"},
+      	      // Specify validation error messages
+      	      messages: {
+      	    	 page: "Please select page!!",
+      	         metaTitle:"Please enter meta title !!",
+      	  	     metaKeyword:"Please enter meta keyword !!",
+      	  		 metaDescription:"Please enter meta Description !!"},
+      	     submitHandler: function(form) {
+      	    	 $(".disableMePlease").attr("disabled","disabled");
+      	        form.submit();
+      	      }
+      	    });
+      	  });
+	   </script>
+	 </div>
+
+</body>
+</html>

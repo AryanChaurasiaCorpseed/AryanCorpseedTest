@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+              	<div class="row">
+                	<div class="col-xl-12">
+                    	<div class="card">
+                        	<div class="card-body">
+                            	<div class="d-flex align-items center justify-content-between mb-3">
+                                	<h4 class="mb-0 card-title">Contact Address</h4>
+                                 	<a th:href="@{/admin/master/address/add}" class="btn btn-sm btn-info">Add Address</a>
+                            	</div>
+                            	<h5 class="card-subtitle"></h5>
+                            	<div class="table-responsive">
+									<table id="dataTable" class="table table-striped table-hover mb-0">
+                                		<thead>
+                                        	<th>#</th>
+                                        	<th>Title</th>
+                                        	<th>Contact</th>
+                                        	<th>Status</th>
+                                        	<th>Posted on</th>
+                                        	<th>Action</th>
+                                    	</thead>
+                                    	<tbody>
+                                        	<tr th:each="addData, sn : ${contactAddress}">
+                                        		<td th:text="${sn.index+1}"></td>
+                                        		<td th:text="${addData.title}"></td>
+                                        		<td>
+                                                    Mobile: <span th:text="${addData.mobile}">...</span><br>
+                                                    Email: <span th:text="${addData.email}">...</span>
+                                                </td>
+												<td th:text="${addData.displayStatus=='1'} ? 'Enable' : 'Disbale'"></td>
+												<td th:text="${addData.postDate}"></td>
+												<td><a th:href="@{/admin/master/address/edit/} + ${addData.uuid}"><i class="las la-edit"  data-toggle="tooltip" data-placement="left" title="Edit"></i></a><span th:if="${session.role=='ROLE_ADMIN'}"><a class="pointer" th:attr="onclick='deleteAddress(\''+${addData.uuid}+'\')'"> | <i class="las la-trash"  data-toggle="tooltip" data-placement="left" title="Delete"></i></a></span></td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                            </div>                            
+                        	</div>
+                    	</div>
+                	</div>
+              	</div>
+              	<!-- Modal -->
+				<div class="modal fade-in" id="WarningDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">
+				        Are you sure want to delete this address ?</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>				     
+				      <input type="hidden" id="AddressUuid">
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+				        <button type="button" class="btn btn-primary" onclick="return deleteAddress('NA')">Yes</button>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+              	<div th:replace="admin/includes/javascript :: javascript"></div>
+              	<script type="text/javascript">
+                function deleteAddress(uuid){
+               	 if(uuid!="NA"){
+               		 $("#AddressUuid").val(uuid);
+               		 $("#WarningDelete").modal("show");
+               	 }else{               		 
+               		 $("#WarningDelete").modal("hide");
+               		 var addressUuid=$("#AddressUuid").val();
+               		 location.href="/admin/master/address/delete/"+addressUuid;
+               	 }
+                }
+                </script>
+            </div>            
+</body>
+</html>

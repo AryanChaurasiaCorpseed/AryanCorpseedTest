@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::corpseedBodyContent})">
+
+<body>    
+            <div class="container-fluid" th:fragment="corpseedBodyContent">
+                <div class="row">
+                	<form th:action="@{|/admin/master/enquiry/update/${enquiryUuid}|}" th:object="${enquiry}" method="post">
+                    <div class="col-lg-9 ">
+                        <div class="card grid-margin stretch-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="card-title">Edit Enquiry</h4>
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" onclick="goBack()">Back</a>
+                                </div>
+                                <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  	               	     <p class="text-center" th:text="${session.message.content}"></p>  	               	     
+			  	               	     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					             </div>
+                                <label class="form-group">
+                                    Search Service
+                                    <select th:field="*{serviceId}" id="choices-multiple-remove-button" class="form-control">
+							            <option th:each="services : ${service}" th:value="${services.id}" th:text="${services.title}"/>
+							        </select>
+							        <span class="invalid-feedback" th:each="e : ${#fields.errors('serviceId')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Name
+                                    <input type="text" th:field="*{name}" class="form-control" placeholder="Enter full name..."
+                                     th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                	<span class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Email
+                                    <input type="email" th:field="*{email}" class="form-control" placeholder="Enter your email id..."
+                                     th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Mobile Number
+                                    <input type="text" th:field="*{mobile}" minlength="10" class="form-control" placeholder="Enter mobile number..."
+                                     th:classappend="${#fields.hasErrors('mobile') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('mobile')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    City
+                                    <input type="text" th:field="*{city}" class="form-control" placeholder="Enter city name..."
+                                     th:classappend="${#fields.hasErrors('city') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('city')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Message
+                                    <textarea th:field="*{message}" class="form-control" rows="3" placeholder="Enter your message..."
+                                     th:classappend="${#fields.hasErrors('message') ? 'is-invalid':''}" aria-describedby="emailHelp"></textarea>
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('message')}" th:text="${e}"></span>
+                                </label>
+                                <label class="form-group">
+                                    Location
+                                    <input type="text" th:field="*{url}" class="form-control" placeholder="Enter your url location..." 
+                                    th:classappend="${#fields.hasErrors('url') ? 'is-invalid':''}" aria-describedby="emailHelp">
+                                    <span class="invalid-feedback" th:each="e : ${#fields.errors('url')}" th:text="${e}"></span>
+                                </label>
+                                <label for="#" class="form-group">
+                               		Display Status
+	                                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status1" th:field="*{displayStatus}" class="custom-control-input" value="1">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status1">Yes</label>
+								    </div>
+								    <div class="custom-control custom-radio pmd-radio custom-control-inline">
+								      	<input type="radio" id="status0" th:field="*{displayStatus}" class="custom-control-input" value="2">
+								      	<label class="custom-control-label pmd-radio-ripple-effect" for="status0">No</label>
+								    </div>
+								</label>
+								<input type="hidden" th:field="*{type}">
+								<input type="hidden" th:field="*{ipAddress}">
+								<input type="hidden" th:field="*{postDate}">
+								<input type="hidden" name="modifyDate" th:value="${#dates.format(#dates.createNow(), 'YYYY-MM-dd')}">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mx-auto ">
+                        <div class="card grid-margin stret ch-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Enquiry Status</h4>
+                                <div class="alert alert-info">
+                                    <i class="las la-sign"></i> Status: <span class="text-info">Published</span>
+                                </div>
+                                <div class="alert bg-light alert-secondary">
+                                    Revisions: <span class="text-secondary">4 Revisions</span>
+                                </div>
+                                <div class="custom-control custom-checkbox mx-1 mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck4651">
+                                    <label class="custom-control-label" for="customCheck4651">Add to featured posts</label>
+                                </div>
+                                <p class="text-muted mb-2 px-1">
+                                    <i class="las la-calendar"></i>Last updated on <span class="date text-dark">Dec 28, 2020 at 15:13</span>
+                                </p>
+                                <p class="text-muted px-1 mb-0">
+                                    <i class="las la-calendar"></i>Published on <span class="date text-dark">Feb 13, 2019 at 17:13</span>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between"><a th:href="@{/admin/master/enquiry}">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                        Discard
+                                    </button></a>
+                                    <button type="button" class="btn d-none btn-outline-secondary btn-sm">
+                                        Save as draft
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-sm disableMePlease">
+                                        <i class="las la-upload mr-1"></i>  Publish
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <div class="col-lg-4  ml-auto">
+                        
+                    </div>
+                </div>
+                <div th:replace="admin/includes/javascript :: javascript"></div>
+                <script type="text/javascript">
+                $("#choices-multiple-remove-button").select2({placeholder:"Select service",allowClear: true});
+                </script>
+            </div>            
+</body>
+</html>
