@@ -701,7 +701,7 @@ public class HomeController {
 
     @PostMapping("/enquiry/contact-us")
     @ResponseBody
-    public String saveContactUsEnquiry(@RequestParam("otp") String otp, @RequestParam("name") String name, @RequestParam("email") String email, @RequestParam("mobile") String mobile,
+    public String saveContactUsEnquiry(@RequestParam("̥") String otp, @RequestParam("name") String name, @RequestParam("email") String email, @RequestParam("mobile") String mobile,
                                        @RequestParam("city") String city, @RequestParam("message") String message, @RequestParam("postDate") String postdate,
                                        @RequestParam("modifyDate") String modifydate, @RequestParam("location") String location
             , HttpServletRequest req) {
@@ -1464,7 +1464,9 @@ public class HomeController {
             , HttpServletRequest req) {
 
     	System.out.println("aaaaaaaa");
-    	restTemplateService.getProductListsu();
+//    	restTemplateService.getProductListsu();
+    	restTemplateService.getProductListLead(name,message,mobile
+				 , email,url,city,city,this.commonService.getIpAddress(req));
     	System.out.println("bbbbbbbbb");
 
         boolean matches = mobile.substring(mobile.length() - 10).matches("[6-9][0-9]{9}");
@@ -2422,9 +2424,9 @@ public class HomeController {
                 return "fail";
 
             String otp = new DecimalFormat("0000").format(new Random().nextInt(9999));
-
-            int otpResponseCode = this.commonService.callGetUrl("https://2factor.in/API/V1/14d7ca52-ed39-11ec-9c12-0200cd936042/SMS/" + mobile + "/" + otp);
-
+            System.out.println("Otp is  ... .."+otp);
+//            int otpResponseCode = this.commonService.callGetUrl("https://2factor.in/API/V1/14d7ca52-ed39-11ec-9c12-0200cd936042/SMS/" + mobile + "/" + otp);
+            int otpResponseCode =200;
             if (otpResponseCode == 200) {
                 OTP findOtp = this.otpService.findOtpByMobile(mobile);
                 if (findOtp == null)

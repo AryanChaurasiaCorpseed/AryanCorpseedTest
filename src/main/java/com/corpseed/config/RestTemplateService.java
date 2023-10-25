@@ -20,6 +20,7 @@ public class RestTemplateService {
 	   RestTemplate restTemplate;
 
 	 public ResponseEntity<String> getProductListsu() {
+		 System.out.println("insert in this");
 		   LeadDto lead = new LeadDto();
 			lead.setName("aryan");
 //			lead.setLeadName(leadDTO.getLeadName());
@@ -57,5 +58,42 @@ public class RestTemplateService {
 		   return null;
 		   
 	   }
+	   
+		 public void getProductListLead(String leadName,String description,String mobileNo
+				 ,String email,String urls,String primaryAddress,String city,String ip) {
+
+			 LeadDto lead = new LeadDto();
+				lead.setName(leadName);
+				lead.setLeadName(description);
+				lead.setLeadDescription(description);
+				lead.setMobileNo(mobileNo);
+				lead.setEmail(email);
+				lead.setUrls(urls);
+				lead.setCreateDate(new Date());		
+				lead.setLastUpdated(new Date());
+				lead.setLatestStatusChangeDate(new Date());
+//				lead.setClients(cList);
+				lead.setSource("whatsapp");
+				lead.setPrimaryAddress("gurugram ");
+				lead.setDeleted(false);
+				lead.setCity(city);
+				lead.setPrimaryAddress("gurugram");
+
+				lead.setCategoryId("1");
+				lead.setServiceId("2");
+				lead.setIndustryId("3");
+				lead.setIpAddress(ip);
+				lead.setDisplayStatus("1");
+				lead.setUuid("1234567");
+			   
+			   HttpHeaders headers = new HttpHeaders();
+			   headers.setContentType(MediaType.APPLICATION_JSON);
+			   String url = "http://localhost:9001/leadService/api/v1/lead/createLead";
+			   HttpEntity<LeadDto> request = new HttpEntity<LeadDto>(lead, headers);
+
+			   restTemplate.postForEntity( url, request , String.class );
+//			   return response;
+			   
+		   }
 	
 }
